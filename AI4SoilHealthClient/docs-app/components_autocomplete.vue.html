@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/autocomplete.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/autocomplete.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+    &lt;q-select ref="select" class="q-ma-none q-pa-none" :options="filteredOptions" v-model="selectedItem"
+        :option-label="optionLabel" :option-value="optionValue" :clearable="clearable" :emit-value="emitValue"
+        :map-options="mapOptions" :dense="dense" :options-dense="optionsDense" :outlined="outlined" input-debounce="0"
+        @focus="focus" :filled="filled" :label="label" :bg-color="bgColor" options-html display-value-html
+        @popup-show="startEditing" :disable="disable">
+        &lt;template v-slot:before-options v-if="searchable">
+            &lt;q-icon name="search" />
+            &lt;input ref="inputFilter" v-model="filter" style="outline: none; border:0" />
+        &lt;/template>
+    &lt;/q-select>
+&lt;/template>
+&lt;script>
+/**
+ * Autocomplete component for selecting options from a dropdown list.
+ *
+ * @component Autocomplete
+ *
+ */
+export default {
+    name: "Autocomplete",
+    props: {
+        disable: { type: Boolean, default: false },
+        searchable: { type: Boolean, default: true },
+        clearable: { type: Boolean, default: true },
+        emitValue: { type: Boolean, default: false },
+        mapOptions: { type: Boolean, default: false },
+        optionsDense: { type: Boolean, default: true },
+        outlined: { type: Boolean, default: true },
+        options: { type: Array, default: () => [] },
+        optionLabel: { type: String, default: "label" },
+        optionValue: { type: String, default: "value" },
+        filled: { type: Boolean, default: true },
+        dense: { type: Boolean, default: true },
+        label: { type: String, default: undefined },
+        bgColor: { type: String, default: "white" },
+        value: { type: [String, Number, Array, Object, Boolean], default: null }
+    },
+    data() {
+        return {
+            selectedItem: this.value,
+            filter: '',
+        }
+    },
+    computed: {
+        /**
+         * Returns the filtered options based on the input value.
+         * @returns {Array} The filtered options.
+         */
+        filteredOptions() {
+            let f = this.options.filter(option =>
+                option[this.optionLabel].toLowerCase().includes(this.filter.toLowerCase())
+            );
+            if (f.length == 0) {
+                return this.options;
+            } else {
+                return f;
+            }
+        },
+    },
+    methods: {
+        /**
+         * Starts the editing process.
+         */
+        async startEditing() {
+            if (this.searchable) {
+                this.$nextTick(() => {
+                    this.filter = "";
+                    this.$refs.inputFilter.focus();
+                });
+            }
+        },
+        async focus() {
+            this.$refs.select.focus();
+        },
+    },
+}
+&lt;/script>
+&lt;style scoped>
+input:focus {
+    outline: none;
+}
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="PWAPrompt.html">PWAPrompt</a></li><li><a href="chart-popup.html">chart-popup</a></li><li><a href="chat-toolbar.html">chat-toolbar</a></li><li><a href="file-uploader.html">file-uploader</a></li><li><a href="file-uploader-obsolete.html">file-uploader-obsolete</a></li><li><a href="global-api.html">global-api</a></li><li><a href="global-table.html">global-table</a></li><li><a href="google-auth.html">google-auth</a></li><li><a href="header.html">header</a></li><li><a href="help-button.html">help-button</a></li><li><a href="help-dialog.html">help-dialog</a></li><li><a href="html-editor.html">html-editor</a></li><li><a href="html-input.html">html-input</a></li><li><a href="icon-picker.html">icon-picker</a></li><li><a href="image-viewer.html">image-viewer</a></li><li><a href="indexed-db.html">indexed-db</a></li><li><a href="json-editor.html">json-editor</a></li><li><a href="kc-auth.html">kc-auth</a></li><li><a href="lang-switcher.html">lang-switcher</a></li><li><a href="main.html">main</a></li><li><a href="observation-toolbar.html">observation-toolbar</a></li><li><a href="oedce-toolbar.html">oedce-toolbar</a></li><li><a href="ol-map.html">ol-map</a></li><li><a href="ol-map-chart-obsolete.html">ol-map-chart-obsolete</a></li><li><a href="ol-map-editing.html">ol-map-editing</a></li><li><a href="ol-map-events.html">ol-map-events</a></li><li><a href="ol-map-layers.html">ol-map-layers</a></li><li><a href="ol-map-legend.html">ol-map-legend</a></li><li><a href="ol-map-popup.html">ol-map-popup</a></li><li><a href="ol-map-popup-obsolete.html">ol-map-popup-obsolete</a></li><li><a href="ol-map-props.html">ol-map-props</a></li><li><a href="ol-map-styles.html">ol-map-styles</a></li><li><a href="popup.html">popup</a></li><li><a href="statistics.html">statistics</a></li><li><a href="table.html">table</a></li><li><a href="table-custom.html">table-custom</a></li><li><a href="table-details.html">table-details</a></li><li><a href="table-edit.html">table-edit</a></li><li><a href="table-export.html">table-export</a></li><li><a href="toolbar.html">toolbar</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jun 27 2024 12:04:37 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

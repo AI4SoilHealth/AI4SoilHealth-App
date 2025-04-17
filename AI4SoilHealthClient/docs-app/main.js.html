@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: main.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: main.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * The main JavaScript file for the AI4SoilHealthClient application.
+ * It imports necessary dependencies, sets up configurations, and initializes the Vue app.
+ * It also defines utility functions for handling Axios responses and errors,
+ * as well as a function for logging out the user.
+ * @module main
+ */
+import { createApp } from 'vue'
+
+import App from './App.vue'
+import axios from 'axios'
+
+
+import {
+  Quasar,
+  LocalStorage,
+  SessionStorage,
+  Dialog,
+  Notify
+} from 'quasar'
+//import iconSet from 'quasar/icon-set/material-symbols-outlined.js'
+//import '@quasar/extras/material-symbols-outlined/material-symbols-outlined.css'
+import '@quasar/extras/material-icons/material-icons.css'
+// additional icons
+import { symOutlinedDragPan, symOutlinedArrowSelectorTool, symOutlinedMyLocation }
+from '@quasar/extras/material-symbols-outlined'
+let icons = {
+  drag_pan: symOutlinedDragPan,
+  arrow_selector_tool: symOutlinedArrowSelectorTool,
+  my_location: symOutlinedMyLocation
+}
+
+import 'quasar/src/css/index.sass'
+import 'ol/ol.css'
+import './css/style.css'
+import { store } from "./store.js"
+import { GlobalMixin } from "./mixins/global.js"
+import { GlobalApiMixin } from "./mixins/global-api.js"
+import { GlobalTableMixin } from "./mixins/global-table.js"
+import router from './router.js'
+import Header from './components/header.vue'
+import Keycloak from 'keycloak-js'; 
+import CustomDialog from './components/custom-dialog.vue';
+
+// testing in local network:
+// .env:
+// VITE_ROOT_API=http://localIP:port/api
+// launchsettings.json:
+// "applicationUrl": "http://localhost:port"
+// applicationhost.config:
+// &lt;binding protocol="http" bindingInformation="*:port:*" />
+// run:
+// iisexpress-proxy port to port
+
+import { createI18n } from 'vue-i18n';
+
+/**
+ * Internationalization object for language translation.
+ * @type {object}
+ */
+const i18n = createI18n({
+    // locale: store.locale,
+  globalInjection: true,
+  silentTranslationWarn: true,
+  missingWarn: false,
+  silentFallbackWarn: true,
+  fallbackWarn: false,
+  messages: {} //langI.default
+});
+
+/**
+ * Logs out the user by removing the token from local storage and clearing user data.
+ * If Keycloak is available, it also performs a Keycloak logout.
+ */
+async function logout() {
+  app.config.globalProperties.$q.localStorage.remove("token");
+  store.userData = null;
+  app.config.globalProperties.$q.localStorage.remove('userData');
+
+  if (app.config.globalProperties.$keycloak)
+    app.config.globalProperties.$keycloak.logout(); 
+
+  router.push({ name: 'Home' });
+    
+}
+/**
+ * Handles the response from an Axios request.
+ * @param {object} response - The response object from Axios.
+ * @returns {object} - The modified response object.
+ */
+function handleAxiosResponse(response) {
+  store.working = false;
+  if (response.data) {
+    if (response.data.error) {
+      app.config.globalProperties.$q.dialog({
+        component: CustomDialog,
+        componentProps: {
+          error: true, title: i18n.global.t("Error"),
+          message: response.data.error, type: 'Ok'
+        }
+      });
+          return { data: null };
+    } else if (response.data.message) {
+      app.config.globalProperties.$q.dialog({
+        component: CustomDialog,
+        componentProps: {
+          error: true, title: i18n.global.t("Message"),
+          message: response.data.message, type: 'Ok',
+          persistent: true
+        }
+      });
+    }
+  }
+  return response;
+}
+function handleAxiosError(error) {
+  store.working = false;
+  let reason = "";
+  let expired = false;
+  if (error.response) {
+    let response = error.response;
+    reason = error.message;
+    if (response.status == 401) {
+      console.log("Error 401");
+      // extract www-authenticate header from response
+      let header = response.headers.get("WWW-Authenticate");
+      if (header &amp;&amp; header.indexOf("expired") > 0) {
+        expired = true;
+      } else {
+        reason = i18n.global.t("Unauthorized");
+        expired = true;
+      }
+    } else {
+      console.log("Error", response);
+      // get detailed error message from response.data.errors object
+      if (response.data.errors) {
+        reason += '&lt;br>' + Object.values(response.data.errors).join("&lt;br>");
+      }
+    }
+  } else if (error.request) {
+    if (error.request.status == 0) {
+      reason = i18n.global.t("No response from server");
+      store.serverDown = true;
+    } else {
+      console.log("Error request", error.request);
+      expired = true;
+    }
+  } 
+  if (expired) reason = i18n.global.t("Session expired - please login again");
+  app.config.globalProperties.$q.dialog({component: CustomDialog,
+    componentProps: {
+      error: true, title: i18n.global.t("Error"),
+      message: reason, type: 'Ok'
+    }
+    }).onDismiss(() => {
+      if (expired) logout();
+  });
+  return { data: null };
+}    
+        
+console.dir(import.meta.env);
+
+let errors = [];
+window.onerror = function (messageOrEvent, source, lineno, colno, error) {
+  let s = "Error:" + messageOrEvent + "\n" + 
+    "Source:" + source + " Line:" + lineno + " Col:" + colno;
+  errors.push(s);
+  return true;
+}
+
+/**
+ * Axios instance for making HTTP requests.
+ */
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_ROOT_API,
+});
+
+/**
+ * Axios instance for making generic API requests.
+ */
+const axiosInstanceGeneric = axios.create({
+  baseURL: "" //import.meta.env.VITE_STAC_API
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => handleAxiosResponse(response),
+  (error) => handleAxiosError(error)
+);
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    if (app.config.globalProperties.$keycloak.token) {
+      config.headers['Authorization'] = 'Bearer ' + app.config.globalProperties.$keycloak.token;
+    }
+    config.headers['LangId'] = store.langId;
+    return config;
+  },
+  (error) => handleAxiosError(error)
+);
+
+axiosInstanceGeneric.interceptors.response.use(
+  (response) => handleAxiosResponse(response),
+  (error) => handleAxiosError(error)
+);
+    
+const app = createApp(App);
+
+import mitt from 'mitt';
+const emitter = mitt();
+app.config.globalProperties.$mitt = emitter;
+
+app.config.globalProperties.axios = {
+  API: axiosInstance,
+  //APIAuth: axiosInstanceAuthorized,
+  APIGen: axiosInstanceGeneric
+};
+
+let authenticated = false;
+
+app.config.errorHandler = function (err, vm, info) {
+  console.error(`Error: ${err.toString()}\nInfo: ${info}`)
+  if (err.stack) {
+    const stack = err.stack.split('\n')[1].trim()
+    const [moduleName, lineNo, colNo] = stack.match(/at\s+(.+):(\d+):(\d+)/).slice(1)
+    let s = "Error:" + err.message + "\n" + 
+    "Source:" + moduleName + " Line:" + lineNo + " Col:" + colNo;
+    console.error(`Module: ${moduleName}, Line: ${lineNo}, Column: ${colNo}`)
+    errors.push(s);
+  }
+}
+app.config.globalProperties.$icons = icons;
+app.config.globalProperties.$logout = logout;
+app.config.globalProperties.$errors = errors;
+app.config.globalProperties.$store = store; 
+app.config.globalProperties.$store.version = GlobalMixin.methods.cleanDateTime(import.meta.env.VITE_BUILD);
+
+app.mixin(GlobalMixin);
+app.mixin(GlobalApiMixin);
+app.mixin(GlobalTableMixin);
+
+router.app = app;
+app.use(router);
+//import Vue3TouchEvents from 'vue3-touch-events'
+//app.use(Vue3TouchEvents);
+// import { GesturePlugin } from '@vueuse/gesture'
+// app.use(GesturePlugin);
+
+app.use(Quasar, {
+  plugins: {
+    LocalStorage,
+    SessionStorage,
+    Dialog,
+    Notify
+  }, // import Quasar plugins and add here
+  lang: {}, //langQ.default,
+  //iconSet: iconSet,
+  config: {
+    dark: false,
+    
+    brand: {
+      primary: '#315440',
+      
+      //background: 'rgba(49, 84, 64, 0.15)',
+      //background: rgb(224, 229, 226),
+      background: '#E0E5E2',
+      tooltip: 'rgba(49, 84, 64, 0.85)',
+
+      secondary: '#26A69A',
+      accent: '#9C27B0',
+
+      dark: '#1d1d1d',
+      'dark-page': '#121212',
+
+      positive: '#21BA45',
+      negative: '#C10015',
+      info: '#31CCEC',
+      warning: '#F2C037'
+    }
+  },
+  // extras: [
+  //   'material-symbols-outlined',
+  // ]
+})
+
+// Tell app to use the I18n instance
+app.use(i18n);
+app.component('Header', Header);
+
+// async function checkOnlineStatus() {
+//   try {
+//     const response = await fetch('https://www.google.com/', {
+//       method: 'HEAD',
+//       mode: 'no-cors'
+//     });
+//     return response &amp;&amp; (response.ok || response.type === 'opaque');
+//   } catch (error) {
+//     return false;
+//   }
+// }
+
+// if(navigator.isOnline){
+//   // checkOnlineStatus().then(isOnline => {
+//   //   store.isOnline = isOnline
+//   // });
+//   (async () => {
+//     store.isOnline = await checkOnlineStatus();
+//   })();
+// }
+
+function checkOnlineStatusSync() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', import.meta.env.VITE_ROOT_API + 'Home/Ping', false); // false za synchronous
+  try {
+    xhr.send();
+    return xhr.status >= 200 &amp;&amp; xhr.status &lt; 300;
+  } catch (error) {
+    return false;
+  }
+}
+
+if(navigator.onLine){
+  store.isOnline = checkOnlineStatusSync();
+}
+
+console.log(`Main: navigator.onLine: ${navigator.onLine}`);
+console.log(`Main: store.isOnline: ${store.isOnline}`);
+
+let keycloak = new Keycloak({
+  url: import.meta.env.VITE_KEYCLOAK_URL, 
+  realm: import.meta.env.VITE_KEYCLOAK_REALM,
+  clientId: import.meta.env.VITE_KEYCLOAK_CLIENTID
+});
+
+function saveTokens() {
+  app.config.globalProperties.$q.localStorage.setItem('accessToken', keycloak.token);
+  // localStorage.setItem('user-token', keycloak.token);
+  app.config.globalProperties.$q.localStorage.setItem('refreshToken', keycloak.refreshToken);
+  app.config.globalProperties.$q.localStorage.setItem('tokenExpiry', Date.now() + keycloak.tokenParsed.exp * 1000);
+}
+
+function getStoredTokens() {
+  return {
+    accessToken: app.config.globalProperties.$q.localStorage.getItem('accessToken'),
+    // accessToken: localStorage.getItem('user-token'),
+    refreshToken: app.config.globalProperties.$q.localStorage.getItem('refreshToken'),
+    tokenExpiry: app.config.globalProperties.$q.localStorage.getItem('tokenExpiry')
+  };
+}
+
+function startTokenRefresh() {
+  setInterval(() => {
+    if (navigator.onLine) {
+      keycloak.updateToken(60).then(refreshed => {
+        if (refreshed) {
+          saveTokens();
+          console.log('Token refreshed');
+        }
+      }).catch(() => {
+        console.log('Failed to refresh token, logging in');
+        // keycloak.login();
+      });
+    }
+  }, 60000);
+}
+
+let isKeycloakInitialized = false;
+let isAppInitialized = false;
+
+function initKeycloak() {
+
+  const tokens = getStoredTokens();
+  
+  if(store.isOnline){
+      if (tokens.accessToken &amp;&amp; Date.now() &lt; tokens.tokenExpiry) {
+        keycloak.init({
+          onLoad: 'check-sso',
+          // onLoad: store.isOnline ? 'check-sso' : undefined,
+          token: tokens.accessToken,
+          refreshToken: tokens.refreshToken,
+          enableLogging: true,
+          checkLoginIframe: true
+          // checkLoginIframe: store.isOnline
+        }).then(auth => {
+          isKeycloakInitialized = true;
+          if (auth) {
+            console.log('Authenticated with stored token');
+            saveTokens();
+          } else {
+            console.log('Not authenticated');
+            logout();
+          }
+          // Token refresh
+          startTokenRefresh();
+        }).catch(error => {
+          console.error('Failed to initialize Keycloak', error);
+          // keycloak.login();
+        }).finally(() => {  
+            app.config.globalProperties.$keycloak = keycloak;
+            if(!isAppInitialized){
+              app.mount("#app");
+              isAppInitialized = true;
+            }
+        });
+      } else {
+        keycloak.init({
+          // onLoad: 'check-sso',
+          onLoad: store.isOnline ? 'check-sso' : undefined,
+          enableLogging: true,
+          // checkLoginIframe: true
+          checkLoginIframe: store.isOnline
+        }).then(auth => {
+          isKeycloakInitialized = true;
+          if (auth) {
+            saveTokens();
+            startTokenRefresh();
+          } else {
+            console.log('Not authenticated');
+            logout();
+          }
+        }).catch(error => {
+          console.error('Failed to initialize Keycloak', error);
+        }).finally(() => {  
+          app.config.globalProperties.$keycloak = keycloak;
+          if(!isAppInitialized){
+            app.mount("#app");
+            isAppInitialized = true;
+          }
+      });
+      }
+  } else {
+    // Handle offline mode
+    console.log('Offline, skipping Keycloak initialization');
+    // if(pp.config.globalProperties.$q.localStorage.get('userData')){
+      app.config.globalProperties.$keycloak = keycloak;
+      if(!isAppInitialized){
+        app.mount("#app");
+        isAppInitialized = true;
+      }
+    // }
+  }
+  
+  // if(!isAppInitialized){
+  //   app.mount("#app");
+  //   app.config.globalProperties.$keycloak = keycloak;
+  //   isAppInitialized = true;
+  // }
+}
+
+initKeycloak();
+
+
+// function initKeycloak(online) {
+
+//   let keycloak = new Keycloak({
+//     url: import.meta.env.VITE_KEYCLOAK_URL, 
+//     realm: import.meta.env.VITE_KEYCLOAK_REALM,
+//     clientId: import.meta.env.VITE_KEYCLOAK_CLIENTID
+//   });
+
+
+//   keycloak.init({ 
+//     onLoad: 'check-sso', 
+//     // onLoad: online ? 'check-sso' : undefined,
+//     enableLogging: true,
+//     checkLoginIframe: true
+//     // checkLoginIframe: online
+//   }).then((auth) => {
+//     if (!auth) {
+//       authenticated = false;
+//       logout();
+//     } else {
+//       localStorage.setItem('user-token', keycloak.token);
+//       authenticated = true;
+//     }
+//     //Token Refresh
+//     setInterval(() => {
+//         keycloak.updateToken(60).then((refreshed) => {
+//           if (refreshed) {              
+//             localStorage.setItem('user-token', keycloak.token);
+//           }
+//         }).catch(() => {          
+//         });
+//     }, 6000);
+
+//   }).catch((error) => {  
+//   }).finally(() => {  
+//     app.config.globalProperties.$keycloak = keycloak;
+//     app.mount("#app");
+//   });
+// }
+
+// initKeycloak(navigator.online);
+
+
+// console.log(`Main: $store.isOnline: ${store.isOnline}`);
+// store.isOnline = navigator.onLine;
+
+// forced software updates check
+function checkForSWUpdates() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistration().then(registration => {
+      if (registration) {
+        registration.update();
+      }
+    });
+  }
+}
+setInterval(checkForSWUpdates, 60000); // check every 1min
+//
+
+window.addEventListener('online', () => {
+  store.isOnline = true;
+  // if(!isKeycloakInitialized){
+    initKeycloak();
+  // }
+  // initKeycloak(store.isOnline);
+});
+
+window.addEventListener('offline', () => {
+  store.isOnline = false;
+  // initKeycloak(store.isOnline);
+});
+
+
+
+//frame-src 'self'; frame-ancestors 'self' http://localhost:8080 http://161.53.18.28:8080 https://app.ai4soilhealth.eu; object-src 'none';</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="PWAPrompt.html">PWAPrompt</a></li><li><a href="chart-popup.html">chart-popup</a></li><li><a href="chat-toolbar.html">chat-toolbar</a></li><li><a href="file-uploader.html">file-uploader</a></li><li><a href="file-uploader-obsolete.html">file-uploader-obsolete</a></li><li><a href="global-api.html">global-api</a></li><li><a href="global-table.html">global-table</a></li><li><a href="google-auth.html">google-auth</a></li><li><a href="header.html">header</a></li><li><a href="help-button.html">help-button</a></li><li><a href="help-dialog.html">help-dialog</a></li><li><a href="html-editor.html">html-editor</a></li><li><a href="html-input.html">html-input</a></li><li><a href="icon-picker.html">icon-picker</a></li><li><a href="image-viewer.html">image-viewer</a></li><li><a href="indexed-db.html">indexed-db</a></li><li><a href="json-editor.html">json-editor</a></li><li><a href="kc-auth.html">kc-auth</a></li><li><a href="lang-switcher.html">lang-switcher</a></li><li><a href="main.html">main</a></li><li><a href="observation-toolbar.html">observation-toolbar</a></li><li><a href="oedce-toolbar.html">oedce-toolbar</a></li><li><a href="ol-map.html">ol-map</a></li><li><a href="ol-map-chart-obsolete.html">ol-map-chart-obsolete</a></li><li><a href="ol-map-editing.html">ol-map-editing</a></li><li><a href="ol-map-events.html">ol-map-events</a></li><li><a href="ol-map-layers.html">ol-map-layers</a></li><li><a href="ol-map-legend.html">ol-map-legend</a></li><li><a href="ol-map-popup.html">ol-map-popup</a></li><li><a href="ol-map-popup-obsolete.html">ol-map-popup-obsolete</a></li><li><a href="ol-map-props.html">ol-map-props</a></li><li><a href="ol-map-styles.html">ol-map-styles</a></li><li><a href="popup.html">popup</a></li><li><a href="statistics.html">statistics</a></li><li><a href="table.html">table</a></li><li><a href="table-custom.html">table-custom</a></li><li><a href="table-details.html">table-details</a></li><li><a href="table-edit.html">table-edit</a></li><li><a href="table-export.html">table-export</a></li><li><a href="toolbar.html">toolbar</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jun 27 2024 12:04:37 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

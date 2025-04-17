@@ -1,0 +1,3 @@
+- generate admin doc
+jsdoc -c jsdoc-backend.json
+

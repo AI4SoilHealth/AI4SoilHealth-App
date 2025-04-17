@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Services/Db.cs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Services/Db.cs</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>﻿using System.Data;
+using Npgsql;
+using Dapper;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Distributed;
+using Backend.Extensions;
+using Microsoft.Extensions.Options;
+using ExcelDataReader;
+
+namespace Backend.Services {
+
+/**
+    * Database related operations   
+    @module Db
+*/
+
+    public class Db {
+
+        private readonly ILogger&lt;Db> _logger;
+        private readonly IDistributedCache _cache;
+        private readonly CurrentUserInfo _currentUserInfo;
+        private readonly AppOptions _options;
+
+        public Db(ILogger&lt;Db> logger, IDistributedCache cache, CurrentUserInfo currentUserInfo, IOptions&lt;AppOptions> options) {
+            _logger = logger;
+            _cache = cache;
+            _currentUserInfo = currentUserInfo;
+            _options = options.Value;
+        }
+
+/**
+    * Create database context with current user and language
+    * @param {object} sender - Sender
+    * @param {StateChangeEventArgs} e - Event arguments
+*/
+        private void CreateContext(object sender, StateChangeEventArgs e) {
+            if (e.CurrentState == ConnectionState.Open) {
+                NpgsqlConnection conn = sender as NpgsqlConnection;
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = "auth.create_public_context";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("PersonId", _currentUserInfo.PersonId);
+                cmd.Parameters.AddWithValue("LangId", _currentUserInfo.LangId);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+/**
+    * Create database connection
+    * @param {string} connectionString - Connection string
+    * @param {bool} withContext - With context
+    * @return {IDbConnection} - Connection
+*/
+        public IDbConnection CreateConnection(string connectionString, bool withContext = false) {
+            var conn = new NpgsqlConnection(connectionString);
+            if (withContext) {
+                conn.StateChange += CreateContext;
+            }
+            return conn;
+        }
+
+/**
+    * Normalize procedure name
+    * @param {string} procName - Procedure name
+    * @return {string} - Normalized procedure name
+*/
+        public string NormalizeProcedureName(string procName) {
+            return procName;
+        }
+
+/**
+    * Query json asynchroneously 
+    * @param {string} cmd - Command returning json
+    * @param {object} paramObject - Parameters
+    * @param {string} connectionString - Connection string
+    * @param {bool} withContext - With context
+    * @param {CommandType} cmdType - Command type
+    * @return {Task&lt;string>} - Result of the operation
+*/
+        public async Task&lt;string> QueryJsonAsync(string cmd, object paramObject, string connectionString, bool withContext = false, CommandType cmdType = CommandType.StoredProcedure) {
+            string ret;
+            try {
+                using var connection = CreateConnection(connectionString, withContext);
+                using var reader = await connection.ExecuteReaderAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                ret = Helper.SerializeJsonReader(reader);
+            } catch (Exception ex) {
+                ret = Helper.HandleException(_logger, ex);
+            }
+            return ret;
+        }
+
+/**
+    * Query json asynchroneously with caching
+    * @param {string} cmd - Command returning json
+    * @param {object} paramObject - Parameters
+    * @param {string} connectionString - Connection string
+    * @param {string} cacheType - Cache type
+    * @param {bool} withContext - With context
+    * @param {CommandType} cmdType - Command type
+    * @return {Task&lt;string>} - Result of the operation
+*/
+        public async Task&lt;string> QueryJsonAsyncCached(string cmd, object paramObject, string connectionString, string cacheType, bool withContext = false, CommandType cmdType = CommandType.StoredProcedure) {
+            string key = $"{cmd}_{JsonConvert.SerializeObject(paramObject)}";
+            string ret = await _cache.GetAsync&lt;string>(key);
+            if (ret == null) {
+                try {
+                    using var connection = CreateConnection(connectionString, withContext);
+                    using var reader = await connection.ExecuteReaderAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                    ret = Helper.SerializeJsonReader(reader);
+                    await _cache.SetAsync(key, ret, cacheType);
+                } catch (Exception ex) {
+                    ret = Helper.HandleException(_logger, ex);
+                }
+            }
+            return ret;
+        }
+
+/**
+    * Execute asynchroneously
+    * @param {string} cmd - Command
+    * @param {object} paramObject - Parameters
+    * @param {string} connectionString - Connection string
+    * @param {bool} withContext - With context
+    * @param {CommandType} cmdType - Command type
+    * @return {Task&lt;string>} - Result of the operation
+*/
+        public async Task&lt;string> ExecuteAsync(string cmd, object paramObject, string connectionString, bool withContext = false, CommandType cmdType = CommandType.StoredProcedure) {
+            string ret = "";
+            try {
+                using var connection = CreateConnection(connectionString, withContext);
+                await connection.ExecuteAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+            } catch (Exception ex) {
+                ret = Helper.HandleException(_logger, ex);
+            }
+            return ret;
+        }
+
+/**
+    * Query asynchroneously
+    * @param {string} cmd - Command returning table
+    * @param {object} paramObject - Parameters
+    * @param {string} connectionString - Connection string
+    * @param {bool} withContext - With context
+    * @param {bool} multiple - Multiple
+    * @param {bool} camelCase - Camel case
+    * @param {HashSet&lt;string>} keys - Keys
+    * @param {string} keyExpr - Key expression
+    * @param {string[]} tableNames - Table names
+    * @param {CommandType} cmdType - Command type
+    * @return {Task&lt;string>} - Result of the operation
+*/
+        public async Task&lt;string> QueryAsync(string cmd, object paramObject, string connectionString, bool withContext = false, bool multiple = false, bool camelCase = false, HashSet&lt;string> keys = null, string keyExpr = null, string[] tableNames = null, CommandType cmdType = CommandType.StoredProcedure) {
+            string ret;
+            try {
+                using var connection = CreateConnection(connectionString, withContext);
+                using var reader = await connection.ExecuteReaderAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                ret = Helper.SerializeReader(reader, multiple, camelCase, keys, keyExpr, tableNames);
+            } catch (Exception ex) {
+                ret = Helper.HandleException(_logger, ex);
+            }
+            return ret;
+        }
+
+/**
+    * Query asynchroneously
+    * @param {string} cmd - Command returning frugal table (optimized for large tables)
+    * @param {object} paramObject - Parameters
+    * @param {string} connectionString - Connection string
+    * @param {bool} withContext - With context
+    * @param {bool} multiple - Multiple
+    * @param {bool} camelCase - Camel case
+    * @param {HashSet&lt;string>} keys - Keys
+    * @param {string} keyExpr - Key expression
+    * @param {string[]} tableNames - Table names
+    * @param {CommandType} cmdType - Command type
+    * @return {Task&lt;string>} - Result of the operation
+*/
+        public async Task&lt;string> QueryAsyncFrugal(string cmd, object paramObject, string connectionString, bool withContext = false, bool multiple = false, bool camelCase = false, HashSet&lt;string> keys = null, string keyExpr = null, string[] tableNames = null, CommandType cmdType = CommandType.StoredProcedure) {
+            string ret;
+            try {
+                using var connection = CreateConnection(connectionString, withContext);
+                using var reader = await connection.ExecuteReaderAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                ret = Helper.SerializeReaderFrugal(reader);
+            } catch (Exception ex) {
+                ret = Helper.HandleException(_logger, ex);
+            }
+            return ret;
+        }
+
+/**
+    * Query asynchroneously with caching
+    * @param {string} cmd - Command returning frugal table (optimized for large tables)
+    * @param {object} paramObject - Parameters
+    * @param {string} connectionString - Connection string
+    * @param {string} cacheType - Cache type
+    * @param {bool} withContext - With context
+    * @param {bool} multiple - Multiple
+    * @param {bool} camelCase - Camel case
+    * @param {HashSet&lt;string>} keys - Keys
+    * @param {string} keyExpr - Key expression
+    * @param {string[]} tableNames - Table names
+    * @param {CommandType} cmdType - Command type
+    * @return {Task&lt;string>} - Result of the operation
+*/
+        public async Task&lt;string> QueryAsyncFrugalCached(string cmd, object paramObject, string connectionString, string cacheType, bool withContext = false, bool multiple = false, bool camelCase = false, HashSet&lt;string> keys = null, string keyExpr = null, string[] tableNames = null, CommandType cmdType = CommandType.StoredProcedure) {
+            string key = $"{cmd}_{JsonConvert.SerializeObject(paramObject)}";
+            string ret = await _cache.GetAsync&lt;string>(key);
+            if (ret == null) {
+                try {
+                    using var connection = CreateConnection(connectionString, withContext);
+                    using var reader = await connection.ExecuteReaderAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                    ret = Helper.SerializeReaderFrugal(reader);
+                    await _cache.SetAsync(key, ret, cacheType);
+                } catch (Exception ex) {
+                    ret = Helper.HandleException(_logger, ex);
+                }
+            }
+            return ret;
+        }
+
+/**
+    * Query asynchroneously with caching
+    * @param {string} cmd - Command returning table
+    * @param {object} paramObject - Parameters
+    * @param {string} connectionString - Connection string
+    * @param {string} cacheType - Cache type
+    * @param {bool} withContext - With context
+    * @param {bool} multiple - Multiple
+    * @param {bool} camelCase - Camel case
+    * @param {HashSet&lt;string>} keys - Keys
+    * @param {string} keyExpr - Key expression
+    * @param {string[]} tableNames - Table names
+    * @param {CommandType} cmdType - Command type
+    * @return {Task&lt;string>} - Result of the operation
+*/
+        public async Task&lt;string> QueryAsyncCached(string cmd, object paramObject, string connectionString, string cacheType, bool withContext = false, bool multiple = false, bool camelCase = false, HashSet&lt;string> keys = null, string keyExpr = null, string[] tableNames = null, CommandType cmdType = CommandType.StoredProcedure) {
+            string key = $"{cmd}_{JsonConvert.SerializeObject(paramObject)}";
+            string ret = await _cache.GetAsync&lt;string>(key);
+            if (ret == null) {
+                try {
+                    using var connection = CreateConnection(connectionString, withContext);
+                    using var reader = await connection.ExecuteReaderAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                    ret = Helper.SerializeReader(reader, multiple, camelCase, keys, keyExpr, tableNames);
+                    await _cache.SetAsync(key, ret, cacheType);
+                } catch (Exception ex) {
+                    ret = Helper.HandleException(_logger, ex);
+                }
+            }
+            return ret;
+        }
+
+/**
+    * Query asynchroneously
+    * @param {string} cmd - Command returning byte array
+    * @param {object} paramObject - Parameters
+    * @param {string} connectionString - Connection string
+    * @param {bool} withContext - With context
+    * @param {CommandType} cmdType - Command type
+    * @return {Task&lt;byte[]>} - Result of the operation
+*/
+        public async Task&lt;byte[]> QueryByteAsync(string cmd, object paramObject, string connectionString, bool withContext = false, CommandType cmdType = CommandType.StoredProcedure) {
+            using var connection = CreateConnection(connectionString, withContext);
+            var scalar = await connection.ExecuteScalarAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+            return (Byte[])scalar;
+        }
+
+        public async Task&lt;DataTable> QueryTableAsync(string cmd, object paramObject, string connectionString, bool withContext = false, CommandType cmdType = CommandType.StoredProcedure) {
+            using var connection = CreateConnection(connectionString, withContext);
+            var reader = await connection.ExecuteReaderAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+            DataTable ret = new DataTable();
+            ret.Load(reader);
+            return ret;
+        }
+
+        public async Task&lt;string> QueryScalarAsyncCached(string cmd, object paramObject, string connectionString, string cacheType, bool withContext = false, CommandType cmdType = CommandType.StoredProcedure) {
+            string key = $"{cmd}_{JsonConvert.SerializeObject(paramObject)}";
+            string ret = await _cache.GetAsync&lt;string>(key);
+            if (ret == null) {
+                try {
+                    using var connection = CreateConnection(connectionString, withContext);
+                    var scalar = await connection.ExecuteScalarAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                    ret = (scalar ?? "").ToString(); // JsonConvert.SerializeObject(scalar);
+                    await _cache.SetAsync(key, ret, cacheType);
+                } catch (Exception ex) {
+                    ret = Helper.HandleException(_logger, ex);
+                }
+            }
+            return ret;
+        }
+
+        public async Task&lt;string> QueryScalarAsync(string cmd, object paramObject, string connectionString, bool withContext = false, CommandType cmdType = CommandType.StoredProcedure) {
+            string ret;
+            try {
+                using var connection = CreateConnection(connectionString, withContext);
+                var scalar = await connection.ExecuteScalarAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                ret = (scalar ?? "").ToString(); // JsonConvert.SerializeObject(scalar);
+            } catch (Exception ex) {
+                ret = Helper.HandleException(_logger, ex);
+            }
+            return ret;
+        }
+
+
+        public async Task&lt;string> QuerySingleAsync(string cmd, object paramObject, string connectionString, bool withContext = false, bool camelCase = false, CommandType cmdType = CommandType.StoredProcedure, bool returnAttributesIfEmpty = false) {
+            string ret;
+            try {
+                using var connection = CreateConnection(connectionString, withContext);
+                using var reader = await connection.ExecuteReaderAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                ret = Helper.SerializeSingle(reader, camelCase, returnAttributesIfEmpty);
+            } catch (Exception ex) {
+                ret = Helper.HandleException(_logger, ex);
+            }
+            return ret;
+        }
+
+        public async Task&lt;string> QuerySingleAsyncCached(string cmd, object paramObject, string connectionString, string cacheType, bool withContext = false, bool camelCase = false, CommandType cmdType = CommandType.StoredProcedure, bool returnAttributesIfEmpty = false) {
+            string key = $"{cmd}_{JsonConvert.SerializeObject(paramObject)}";
+            string ret = await _cache.GetAsync&lt;string>(key);
+            if (ret == null) {
+                try {
+                    using var connection = CreateConnection(connectionString, withContext);
+                    using var reader = await connection.ExecuteReaderAsync(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+                    ret = Helper.SerializeSingle(reader, camelCase, returnAttributesIfEmpty);
+                    await _cache.SetAsync(key, ret, cacheType);
+                } catch (Exception ex) {
+                    ret = Helper.HandleException(_logger, ex);
+                }
+            }
+            return ret;
+        }
+
+        public async Task&lt;T> QuerySingleAsync&lt;T>(string cmd, object paramObject, string connectionString, bool withContext = false, bool camelCase = false, CommandType cmdType = CommandType.StoredProcedure) {
+            using var connection = CreateConnection(connectionString, withContext);
+            connection.Open();
+            var ret = await connection.QuerySingleAsync&lt;T>(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+            return ret;
+        }
+
+        public async Task&lt;IEnumerable&lt;List&lt;T>>> QueryAsync&lt;T>(string cmd, object paramObject, string connectionString, bool withContext = false, bool camelCase = false, CommandType cmdType = CommandType.StoredProcedure) {
+            using var connection = CreateConnection(connectionString, withContext);
+            connection.Open();
+            var ret = await connection.QueryAsync&lt;List&lt;T>>(NormalizeProcedureName(cmd), paramObject, commandType: cmdType);
+            return ret;
+        }
+
+        public async Task&lt;string> IsFunctionSafe (string procName, string connectionString) {
+            using var connection = CreateConnection(connectionString);
+            var ret = await QueryScalarAsyncCached("meta.is_function_safe", new { Function = procName }, connectionString, "long");
+            return ret;
+        }
+
+        public async Task&lt;string> ImportExcel(string filename, string sheet, string preprocess, Stream file, string procName, string pars, string connectionString, bool withContext = false) {            
+            if (await IsFunctionSafe(procName, connectionString) != "True") return Helper.CreateError(_logger, "Unauthorized function " + procName);
+            try {
+                IExcelDataReader reader;
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                if (filename.EndsWith(".csv")) {
+                    reader = ExcelReaderFactory.CreateCsvReader(file);
+                } else {
+                    reader = ExcelReaderFactory.CreateReader(file);
+                }
+                var ds = reader.AsDataSet(new ExcelDataSetConfiguration()
+                {
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    {
+                        UseHeaderRow = true
+                    }
+                });
+                DataTable t = null;
+                if (sheet != "null" &amp;&amp; sheet != null) {
+                    t = ds.Tables[sheet];
+                }
+                if (t == null) {
+                    t = ds.Tables[0];
+                }
+                var r = t.CreateDataReader();
+                var jsonData = Helper.SerializeReader(r, excelReader: false);
+                PreprocessService.Preprocess(preprocess, ref jsonData);
+                using var connection = CreateConnection(connectionString, withContext);
+                jsonData = jsonData.Replace("[]", "");
+                return await connection.ExecuteScalarAsync&lt;string>(procName, new { Params = pars, Json = jsonData }, commandType: CommandType.StoredProcedure);
+            } catch (Exception ex) {
+                return Helper.CreateError(_logger, ex.Message);
+            }
+        }
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="AppOptions.html">AppOptions</a></li><li><a href="AuthController.html">AuthController</a></li><li><a href="AuthFilter.html">AuthFilter</a></li><li><a href="AuthorizationService.html">AuthorizationService</a></li><li><a href="ChatController.html">ChatController</a></li><li><a href="CurrentUserInfo.html">CurrentUserInfo</a></li><li><a href="Db.html">Db</a></li><li><a href="DevController.html">DevController</a></li><li><a href="FrugalModel.html">FrugalModel</a></li><li><a href="GdalController.html">GdalController</a></li><li><a href="GdalService.html">GdalService</a></li><li><a href="HeaderMiddleware.html">HeaderMiddleware</a></li><li><a href="HomeController.html">HomeController</a></li><li><a href="IAuthService.html">IAuthService</a></li><li><a href="Icons.html">Icons</a></li><li><a href="Misc.html">Misc</a></li><li><a href="MiscController.html">MiscController</a></li><li><a href="NewsModel.html">NewsModel</a></li><li><a href="PointModel.html">PointModel</a></li><li><a href="PreprocessService.html">PreprocessService</a></li><li><a href="TableController.html">TableController</a></li><li><a href="TestController.html">TestController</a></li><li><a href="UploadedFileModel.html">UploadedFileModel</a></li><li><a href="UserController.html">UserController</a></li></ul><h3>Classes</h3><ul><li><a href="module-AppOptions-AppOptions.html">AppOptions</a></li><li><a href="module-CurrentUserInfo-CurrentUserInfo.html">CurrentUserInfo</a></li><li><a href="module-FrugalModel-Frugal.html">Frugal</a></li><li><a href="module-HeaderMiddleware-MiddlewareExtensions.html">MiddlewareExtensions</a></li><li><a href="module-NewsModel-News.html">News</a></li><li><a href="module-Point-PointForHistory.html">PointForHistory</a></li><li><a href="module-Point-Source.html">Source</a></li><li><a href="module-UploadedFileModel-UploadedFileModel.html">UploadedFileModel</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jun 27 2024 12:36:48 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

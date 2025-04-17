@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: AuthController.cs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: AuthController.cs</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>﻿using Backend.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Diagnostics;
+using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
+
+namespace PublicAPI.Controllers {
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
+
+    /**
+    * Authentication controller
+    * @module AuthController
+    */
+    public class AuthController : ControllerBase {
+        private readonly AppOptions _options;
+        private readonly ILogger&lt;AuthController> _logger;
+        private readonly Db _db;
+        private readonly AuthService _authService;
+        private readonly CurrentUserInfo _currentUserInfo;
+        public AuthController(IOptions&lt;AppOptions> options, ILogger&lt;AuthController> logger, Db db, AuthService authService, CurrentUserInfo currentUserInfo) {
+            _options = options.Value;
+            _logger = logger;
+            _db = db;
+            _authService = authService;
+            _currentUserInfo = currentUserInfo;
+        }
+
+        /**
+        * Get routes for the current user
+        * @return {ActionResult} - List of routes
+        */
+        [AllowAnonymous]
+        [HttpGet("GetRoutes")]
+        public async Task&lt;ActionResult> GetRoutes() {
+            var ret = await _db.QueryJsonAsyncCached("meta.get_routes", new { PersonId = _currentUserInfo.PersonId, LangId = _currentUserInfo.LangId }, _options.ConnectionString, "long");
+            return Ok(ret);
+        }
+
+        /**
+        * Get user information
+        * @return {ActionResult} - User information
+        */
+        [AllowAnonymous]
+        [HttpGet("GetUser")]
+        public async Task&lt;IActionResult> GetUser() {
+            try {
+                if (_authService.User != null) {
+                    // get ip address
+                    var ip = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+                    if (string.IsNullOrEmpty(ip)) {
+                        ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+                    }
+
+                    var ret = await _db.QueryJsonAsync("auth.login", new { PersonId = _currentUserInfo.PersonId, IP = ip }, _options.ConnectionString);
+
+                    return Ok(ret);
+                } else
+                    return Ok(null);
+            } catch (Exception ex) {
+                return Ok(Helper.CreateError(_logger, "Error in token creation: " + ex.Message));
+            }
+        }   
+        /**
+        * Google authentication
+        * @param {GoogleAuthRequest} request - Google authentication request
+        * @return {ActionResult} - User information
+        */
+        [AllowAnonymous]
+        [HttpPost("google")]
+        public async Task&lt;IActionResult> GoogleAuth([FromBody] GoogleAuthRequest request) {
+            try {
+
+                if (request == null || request.IdToken == null) {
+                    return BadRequest();
+                }
+
+                var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken);
+
+                if (payload == null || string.IsNullOrEmpty(payload.Email)) {
+                    return BadRequest("Payload is empty or Email is null");
+                }
+
+                var UserId = await _db.QueryScalarAsync("SELECT Id FROM Auth.User WHERE user_name = @Email", new { Email = payload.Email }, _options.ConnectionString, false, System.Data.CommandType.Text);
+                if (UserId == null) {
+                    return Ok(Helper.CreateError(_logger, "User not found"));
+                }
+
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name, payload.Name),
+                    new Claim(ClaimTypes.Email, payload.Email),
+                    new Claim(ClaimTypes.Sid, UserId)
+                    // Add more claims as needed
+                };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)); 
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var expires = DateTime.Now.AddMinutes(1);
+                //var expires = DateTime.Now.AddHours(1); // Set token expiration as needed
+
+                var token = new JwtSecurityToken(
+                    issuer: _options.Issuer,
+                    audience: _options.Audience,
+                    claims: claims,
+                    expires: expires,
+                    signingCredentials: creds
+                );
+
+                var ret = new JwtSecurityTokenHandler().WriteToken(token);
+                // get initials from payload.GivenName and payload.FamilyName, if set
+                var initials = "";
+                if (!string.IsNullOrEmpty(payload.GivenName)) {
+                    initials += payload.GivenName.Substring(0, 1);
+                }
+                if (!string.IsNullOrEmpty(payload.FamilyName)) {
+                    initials += payload.FamilyName.Substring(0, 1);
+                }
+                return Ok(JsonConvert.SerializeObject(new { name = payload.Name, initials = initials,  givenName = payload.GivenName, familyName = payload.FamilyName, userToken = ret }));
+            } catch (Exception ex) {
+                return Ok(Helper.CreateError(_logger, "Error in token creation: " + ex.Message));
+            }
+        }
+    }
+   
+    /**
+    * Google authentication request
+    * @typedef {Object} GoogleAuthRequest
+    * @property {string} IdToken - Google authentication token
+    */
+    public class GoogleAuthRequest {
+        public string IdToken { get; set; }
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="AuthController.html">AuthController</a></li><li><a href="ChatController.html">ChatController</a></li><li><a href="GdalController.html">GdalController</a></li><li><a href="HomeController.html">HomeController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 12 2024 18:20:50 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

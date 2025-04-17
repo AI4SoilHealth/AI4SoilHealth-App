@@ -1,0 +1,80 @@
+stages:
+  - build-backend
+  - build-client
+#  - deploy
+
+before_script:
+
+  - echo "Using token ${GITHUB_TOKEN}"
+#  - git config --global --unset credential.helper || true
+#  - git config --global credential.helper 'store --file=/tmp/git-credentials'
+#  - echo "https://vmornar:${GITHUB_TOKEN}@github.com" > /tmp/git-credentials
+
+#patch 1
+#  - rm -rf AI4SoilHealthBackend/AI4SoilHealth.PublicAPI/Common
+#  - git clone https://vmornar:${GITHUB_TOKEN}@github.com/vmornar/CommonBackend.git AI4SoilHealthBackend/AI4SoilHealth.PublicAPI/Common
+#  - rm -rf AI4SoilHealthClient/src/common
+#  - git clone https://vmornar:${GITHUB_TOKEN}@github.com/vmornar/CommonClient.git AI4SoilHealthClient/src/common
+
+#pach 2
+  - git config --global url."https://${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/" 
+#  - git pull origin main --recurse-submodules
+  - cd AI4SoilHealthBackend/AI4SoilHealth.PublicAPI/Common
+  - git pull
+  - cd ../../..
+  - cd AI4SoilHealthClient/src/common
+  - git pull
+  - cd ../../..
+
+
+ 
+build-backend:
+  stage: build-backend
+#  image: mcr.microsoft.com/dotnet/sdk:8.0
+  image: mcr.microsoft.com/dotnet/sdk:latest
+  script:
+    - cd AI4SoilHealthBackend/AI4SoilHealth.PublicAPI
+    - dotnet restore
+    - dotnet build --configuration Release
+    - rsync -av --delete bin/Release/net9.0/ /var/www/ai4soil/public/
+    - rsync -av --delete docs-backend/ /var/www/ai4soil/docs-backend
+    - cp /var/www/ai4soil/public/runtimes/linux-x64/native/maxrev.gdal.core.libshared/proj.db /var/www/ai4soil/public/
+#    - sudo systemctl restart ai4soil-public
+#    - docker build -t ai4soilhealthbackend .
+
+build-client:
+  stage: build-client
+  image: node:latest
+  variables:
+#    USER: vmornar
+#    MAIL: vedran.mornar@fer.hr
+    VITE_BUILD: $CI_COMMIT_TIMESTAMP
+  script:
+    - cd AI4SoilHealthClient
+    
+    - npm version patch --no-git-tag-version
+    - git config --global user.email $MAIL
+    - git config --global user.name $USER
+    - git remote remove gitlab_origin || true
+    - git remote add gitlab_origin https://$CI_TOKEN@gitlab.opengeohub.org/vmornar/ai4soilhealth-app.git
+    - git commit -a -m "Increment version [skip ci]"
+    - git push --push-option='ci.skip' gitlab_origin HEAD:$CI_COMMIT_REF_NAME
+
+    - npm install
+    - npm run build
+    - rsync -av --delete dist/ /var/www/ai4soil/public/wwwroot
+    - rsync -av --delete docs-app/ /var/www/ai4soil/docs-app
+    - rsync -av --delete docs-db/ /var/www/ai4soil/docs-db
+    - sudo systemctl restart ai4soil-public
+#    - docker build -t ai4soilhealthclient .
+
+
+#deploy:
+#  stage: deploy
+#  script:
+#    - docker stop aic || true
+#    - docker rm aic || true
+#    - docker run -dp 81:80 --name aic ai4soilhealthclient
+#    - docker stop aib || true
+#    - docker rm aib || true
+#    - docker run -dp 5012:5012 --name aib ai4soilhealthbackend

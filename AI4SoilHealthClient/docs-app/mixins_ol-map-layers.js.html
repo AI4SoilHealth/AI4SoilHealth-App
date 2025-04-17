@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mixins/ol-map-layers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mixins/ol-map-layers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @desc A mixin object containing methods related to map layers
+ * @module MapLayersMixin
+ */
+import { OSM, BingMaps } from 'ol/source';
+import { transform } from "ol/proj";
+import { GeoTIFF as GeoTIFFSource } from 'ol/source';
+import { get as getProjection, useGeographic } from 'ol/proj';
+export const MapLayersMixin = {
+    methods: {
+
+        /**
+         * Sets the base layer of the map based on the selectedBaseLayer value.
+         * If selectedBaseLayer is 1, sets the base layer source to OpenStreetMap (OSM).
+         * If selectedBaseLayer is not 1, sets the base layer source to Bing Maps with the specified key and imagerySet.
+         * Updates the map size and forces a component update.
+         * @async
+         * @returns {Promise&lt;void>}
+         */
+        async setBaseLayer() {
+            if (this.selectedBaseLayer.value == 1) {
+                this.baseLayer.setSource(new OSM());
+            } else {
+                this.baseLayer.setSource(new BingMaps({
+                    key: 'AnNHHAjCQ3arTU0FoTUB1zoCdKC2png2M2pstqoV5uFhCHorOx_aUz1Yt8RA6Xly',
+                    imagerySet: 'AerialWithLabels',
+                }));
+            }
+            this.baseLayer.getSource().changed();
+            this.map.updateSize();
+            this.$forceUpdate();
+        },
+
+        /**
+         * Clears the shape source and adds features to it based on the selected shape.
+         * @async
+         * @function setShapeLayer
+         * @memberof module:mixins/ol-map-layers
+         * @returns {Promise&lt;void>} A promise that resolves when the shape layer is set.
+         */
+        async setShapeLayer() {
+            this.shapeSource.clear();
+            if (this.selectedShape) {
+                let ret = await this.get("Common/GetShape", {
+                    Id: this.selectedShape.value,
+                    Srid: this.srid
+                });
+                if (ret &amp;&amp; ret.features) {
+                    let features = this.format.readFeatures(ret);
+                    this.shapeSource.addFeatures(features);
+                    this.animateToExtent(this.shapeSource);
+                }
+            }
+        },
+
+        /**
+         * Creates a point collection feature from the given data.
+         *
+         * @param {Object} data - The data used to create the point collection.
+         * @param {string} projection - The projection used for transforming coordinates.
+         * @returns {Object} - The created point collection feature.
+         */
+        createPointCollection(data, projection) {
+            var featureCollection = {
+                type: 'FeatureCollection',
+                features: data.data.map(function(row) {
+                    return {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: transform([row[0], row[1]], 'EPSG:4326', projection)
+                        },
+                        properties: {
+                            value: row[2],
+                            date: row[3],
+                            color_code: row[4] ?? '#ff0000',
+                            name: row[8] || row[5],
+                            nuts_0: row[6],
+                            description: row[7],
+                            point_id: row[9],
+                            sample: row[10],
+                            has_spectrum: row[11]
+                        },
+                    };
+                })
+            };  
+            return featureCollection;
+        },
+
+        /**
+         * Sets the point layer on the map.
+         * @async
+         * @returns {Promise&lt;void>} A promise that resolves when the point layer is set.
+         */
+        async setPointLayer() {
+            this.pointSource.clear();
+            this.pointFeatures = [];
+            if (!this.showPoints) return;
+            if (!this.selectedIndicator) {
+                return;
+            } else {
+                this.$store.working = true;
+                let data = await this.get("Home/GetIndicatorValues", { indicatorId: this.selectedIndicator.value, dataSourceId: this.selectedDataSource ? this.selectedDataSource.value : null });
+                let pointCollection = this.createPointCollection(data, this.projection);
+                this.pointFeatures = this.format.readFeatures(pointCollection);
+
+                this.pointSource.addFeatures(this.pointFeatures);
+                this.pointLayer.setSource(this.clustered ? this.clusteredSource : this.pointSource);
+                //this.pointLayer.setVisible(true);
+                this.animateToExtent(this.pointSource);
+                this.$store.working = false;
+            }
+        },
+        
+        /**
+         * Sets the tile layer containig GeoTiff sources for the map.
+         * @async
+         * @returns {Promise&lt;void>} A promise that resolves when the tile layer is set.
+         */
+        async setTileLayer() {
+            this.$store.working = true;
+            //useGeographic();
+            // create appropriate source
+            if (this.selectedCatalog) {
+                let source;
+                source = new GeoTIFFSource({
+                    normalize: false,
+                    sources: [{ url: this.selectedCatalog.source },
+                    ],
+                    //nodata: this.selectedTitle.no_data,
+                    projection: getProjection("EPSG:" + this.selectedTitle.srid),
+                });
+                source.on("change", () => {
+                    if (source.getState() === "error") {
+                        this.showError(this.$t("Error loading GeoTIFF") + ": " + source.getError());
+                        return;
+                    }
+                });
+                this.tiffLayer.setSource(source);
+                this.tiffLayer.setStyle({
+                    color: JSON.parse(this.selectedTitle.color_map)
+                });
+                //['interpolate', ['linear'], ['band', 1],
+                //     0, [255, 255, 255, 0], 60, [0, 0, 255], 120, [0, 255, 0]]
+                //color: ['case', ['==', ['band', 1], 0], [0, 0, 255, 0], ['&lt;=', ['band', 1], 50], [255, 0, 0], [0, 0, 255]]
+                //});
+                this.tiffLayer.changed();
+                this.tiffLayer.setVisible(true);
+            } else {
+                this.tiffLayer.setSource(null);
+                this.tiffLayer.setVisible(false);
+                // this.map.getLayers().getArray().find(x => x.get("type") == 'GeoTIFF').setVisible(false);
+            }
+            this.$store.working = false;
+        },
+
+        /**
+         * Sets the boundaries layer on the map based on the selected NUTS level.
+         * If the NUTS level is greater than or equal to 0, it makes an asynchronous request to retrieve the boundaries data.
+         * The retrieved data is then added to the boundaries source of the map.
+         * If the NUTS level is less than 0, the boundaries source is cleared.
+         * @returns {Promise&lt;void>} A promise that resolves when the boundaries layer is set.
+         */
+        async setBoundariesLayer() {
+            if (this.nutsLevel &amp;&amp; this.nutsLevel.value >= 0) {
+                this.$store.working = true;
+                let featureCollection = await this.get("Home/GetBoundaries", {
+                    level: this.nutsLevel.value, srid: this.srid, zoom: Math.round(this.zoom), extent: this.extent.join(","), indicatorId: this.selectedIndicator ? this.selectedIndicator.value : null, dataSourceId: this.selectedDataSource ? this.selectedDataSource.value : null
+                });
+                this.boundariesSource.clear();
+                if (featureCollection.features) {
+                    this.boundariesSource.addFeatures(this.format.readFeatures(featureCollection));
+                }
+                this.$store.working = false;
+            } else {
+                this.boundariesSource.clear();
+            }
+        },
+    },
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="PWAPrompt.html">PWAPrompt</a></li><li><a href="chart-popup.html">chart-popup</a></li><li><a href="chat-toolbar.html">chat-toolbar</a></li><li><a href="file-uploader.html">file-uploader</a></li><li><a href="file-uploader-obsolete.html">file-uploader-obsolete</a></li><li><a href="global-api.html">global-api</a></li><li><a href="global-table.html">global-table</a></li><li><a href="google-auth.html">google-auth</a></li><li><a href="header.html">header</a></li><li><a href="help-button.html">help-button</a></li><li><a href="help-dialog.html">help-dialog</a></li><li><a href="html-editor.html">html-editor</a></li><li><a href="html-input.html">html-input</a></li><li><a href="icon-picker.html">icon-picker</a></li><li><a href="image-viewer.html">image-viewer</a></li><li><a href="indexed-db.html">indexed-db</a></li><li><a href="json-editor.html">json-editor</a></li><li><a href="kc-auth.html">kc-auth</a></li><li><a href="lang-switcher.html">lang-switcher</a></li><li><a href="main.html">main</a></li><li><a href="observation-toolbar.html">observation-toolbar</a></li><li><a href="oedce-toolbar.html">oedce-toolbar</a></li><li><a href="ol-map.html">ol-map</a></li><li><a href="ol-map-chart-obsolete.html">ol-map-chart-obsolete</a></li><li><a href="ol-map-editing.html">ol-map-editing</a></li><li><a href="ol-map-events.html">ol-map-events</a></li><li><a href="ol-map-layers.html">ol-map-layers</a></li><li><a href="ol-map-legend.html">ol-map-legend</a></li><li><a href="ol-map-popup.html">ol-map-popup</a></li><li><a href="ol-map-popup-obsolete.html">ol-map-popup-obsolete</a></li><li><a href="ol-map-props.html">ol-map-props</a></li><li><a href="ol-map-styles.html">ol-map-styles</a></li><li><a href="popup.html">popup</a></li><li><a href="statistics.html">statistics</a></li><li><a href="table.html">table</a></li><li><a href="table-custom.html">table-custom</a></li><li><a href="table-details.html">table-details</a></li><li><a href="table-edit.html">table-edit</a></li><li><a href="table-export.html">table-export</a></li><li><a href="toolbar.html">toolbar</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jun 27 2024 12:04:37 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

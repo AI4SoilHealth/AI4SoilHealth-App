@@ -1,0 +1,3191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: Db</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: Db</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Database related operations</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="CreateConnection"><span class="type-signature">(method) </span>CreateConnection<span class="signature">(connectionString, withContext)</span><span class="type-signature"> &rarr; {IDbConnection}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Create database connection</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Connection string</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withContext</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>With context</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Connection</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">IDbConnection</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="CreateContext"><span class="type-signature">(method) </span>CreateContext<span class="signature">(sender, e)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Create database context with current user and language</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sender</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Sender</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">StateChangeEventArgs</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Event arguments</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line36">line 36</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="ExecuteAsync"><span class="type-signature">(method) </span>ExecuteAsync<span class="signature">(cmd, paramObject, connectionString, withContext, cmdType)</span><span class="type-signature"> &rarr; {Task.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Execute asynchroneously</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Connection string</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withContext</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>With context</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cmdType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CommandType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command type</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line127">line 127</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Result of the operation</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Task.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="NormalizeProcedureName"><span class="type-signature">(method) </span>NormalizeProcedureName<span class="signature">(procName)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Normalize procedure name</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>procName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Procedure name</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Normalized procedure name</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="QueryAsync"><span class="type-signature">(method) </span>QueryAsync<span class="signature">(cmd, paramObject, connectionString, withContext, multiple, camelCase, keys, keyExpr, tableNames, cmdType)</span><span class="type-signature"> &rarr; {Task.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Query asynchroneously</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command returning table</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Connection string</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withContext</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>With context</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>multiple</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Multiple</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>camelCase</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Camel case</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HashSet.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Keys</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyExpr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Key expression</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tableNames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Table names</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cmdType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CommandType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command type</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line152">line 152</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Result of the operation</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Task.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="QueryAsyncCached"><span class="type-signature">(method) </span>QueryAsyncCached<span class="signature">(cmd, paramObject, connectionString, cacheType, withContext, multiple, camelCase, keys, keyExpr, tableNames, cmdType)</span><span class="type-signature"> &rarr; {Task.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Query asynchroneously with caching</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command returning table</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Connection string</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cacheType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Cache type</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withContext</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>With context</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>multiple</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Multiple</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>camelCase</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Camel case</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HashSet.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Keys</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyExpr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Key expression</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tableNames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Table names</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cmdType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CommandType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command type</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line236">line 236</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Result of the operation</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Task.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="QueryAsyncFrugal"><span class="type-signature">(method) </span>QueryAsyncFrugal<span class="signature">(cmd, paramObject, connectionString, withContext, multiple, camelCase, keys, keyExpr, tableNames, cmdType)</span><span class="type-signature"> &rarr; {Task.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Query asynchroneously</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command returning frugal table (optimized for large tables)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Connection string</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withContext</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>With context</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>multiple</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Multiple</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>camelCase</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Camel case</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HashSet.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Keys</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyExpr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Key expression</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tableNames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Table names</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cmdType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CommandType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command type</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line178">line 178</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Result of the operation</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Task.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="QueryAsyncFrugalCached"><span class="type-signature">(method) </span>QueryAsyncFrugalCached<span class="signature">(cmd, paramObject, connectionString, cacheType, withContext, multiple, camelCase, keys, keyExpr, tableNames, cmdType)</span><span class="type-signature"> &rarr; {Task.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Query asynchroneously with caching</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command returning frugal table (optimized for large tables)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Connection string</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cacheType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Cache type</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withContext</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>With context</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>multiple</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Multiple</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>camelCase</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Camel case</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HashSet.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Keys</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>keyExpr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Key expression</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tableNames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;string></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Table names</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cmdType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CommandType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command type</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line205">line 205</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Result of the operation</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Task.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="QueryByteAsync"><span class="type-signature">(method) </span>QueryByteAsync<span class="signature">(cmd, paramObject, connectionString, withContext, cmdType)</span><span class="type-signature"> &rarr; {Task.&lt;Array.&lt;byte>>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Query asynchroneously</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command returning byte array</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Connection string</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withContext</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>With context</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cmdType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CommandType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command type</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line261">line 261</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Result of the operation</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Task.&lt;Array.&lt;byte>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="QueryJsonAsync"><span class="type-signature">(method) </span>QueryJsonAsync<span class="signature">(cmd, paramObject, connectionString, withContext, cmdType)</span><span class="type-signature"> &rarr; {Task.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Query json asynchroneously</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command returning json</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Connection string</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withContext</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>With context</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cmdType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CommandType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command type</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Result of the operation</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Task.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="QueryJsonAsyncCached"><span class="type-signature">(method) </span>QueryJsonAsyncCached<span class="signature">(cmd, paramObject, connectionString, cacheType, withContext, cmdType)</span><span class="type-signature"> &rarr; {Task.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Query json asynchroneously with caching</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cmd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command returning json</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>paramObject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Parameters</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionString</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Connection string</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cacheType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Cache type</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>withContext</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">bool</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>With context</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cmdType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">CommandType</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Command type</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Services_Db.cs.html">Services/Db.cs</a>, <a href="Services_Db.cs.html#line102">line 102</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>Result of the operation</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Task.&lt;string></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="AppOptions.html">AppOptions</a></li><li><a href="AuthController.html">AuthController</a></li><li><a href="AuthFilter.html">AuthFilter</a></li><li><a href="AuthorizationService.html">AuthorizationService</a></li><li><a href="ChatController.html">ChatController</a></li><li><a href="CurrentUserInfo.html">CurrentUserInfo</a></li><li><a href="Db.html">Db</a></li><li><a href="DevController.html">DevController</a></li><li><a href="FrugalModel.html">FrugalModel</a></li><li><a href="GdalController.html">GdalController</a></li><li><a href="GdalService.html">GdalService</a></li><li><a href="HeaderMiddleware.html">HeaderMiddleware</a></li><li><a href="HomeController.html">HomeController</a></li><li><a href="IAuthService.html">IAuthService</a></li><li><a href="Icons.html">Icons</a></li><li><a href="Misc.html">Misc</a></li><li><a href="MiscController.html">MiscController</a></li><li><a href="NewsModel.html">NewsModel</a></li><li><a href="PointModel.html">PointModel</a></li><li><a href="PreprocessService.html">PreprocessService</a></li><li><a href="TableController.html">TableController</a></li><li><a href="TestController.html">TestController</a></li><li><a href="UploadedFileModel.html">UploadedFileModel</a></li><li><a href="UserController.html">UserController</a></li></ul><h3>Classes</h3><ul><li><a href="module-AppOptions-AppOptions.html">AppOptions</a></li><li><a href="module-CurrentUserInfo-CurrentUserInfo.html">CurrentUserInfo</a></li><li><a href="module-FrugalModel-Frugal.html">Frugal</a></li><li><a href="module-HeaderMiddleware-MiddlewareExtensions.html">MiddlewareExtensions</a></li><li><a href="module-NewsModel-News.html">News</a></li><li><a href="module-Point-PointForHistory.html">PointForHistory</a></li><li><a href="module-Point-Source.html">Source</a></li><li><a href="module-UploadedFileModel-UploadedFileModel.html">UploadedFileModel</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jun 27 2024 12:36:48 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

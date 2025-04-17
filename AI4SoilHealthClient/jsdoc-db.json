@@ -1,0 +1,22 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "source": {
+    "include": ["."],
+    "includePattern": "jsdoc-db-(schema|procedures).js$"
+  },
+  "plugins": ["plugins/markdown", "jsdoc-parser-db.cjs"],
+  "opts": {
+    "template": "jsdoc-db-template",
+    "encoding": "utf8",
+    "destination": "docs-db/",
+    "readme": "jsdoc-db.md",
+    "recurse": false,
+    "verbose": true
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  }
+}

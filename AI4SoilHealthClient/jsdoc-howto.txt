@@ -1,0 +1,15 @@
+- temporarily change package.json to commonjs:
+  //"type": "module",
+  "type":"commonjs",
+
+- generate jsdoc comment in the code of a single procedure
+node jsdoc-db-preprocess.mjs schemaName procName
+
+- preprocess for postgres doc generation (and add jsdoc comments in procedures which do not have it yet)
+node jsdoc-db-preprocess.mjs
+
+- generate postgres doc
+jsdoc -c jsdoc-db.json
+
+- generate vue client doc
+jsdoc -c jsdoc-app.json

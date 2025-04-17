@@ -1,0 +1,4412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: jsdoc-pg-procedures.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: jsdoc-pg-procedures.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * @function get_children_boundaries
+ * @memberof general
+ * @description Get children boundaries
+ * @param {integer} OsmId
+ * @param {integer} Srid
+ * @returns {json}
+ */
+function get_children_boundaries() {}
+
+/**
+ * @function get_table_cols
+ * @memberof meta
+ * @description Get table cols
+ * @param {character_varying} SchemaName
+ * @param {character_varying} TableName
+ * @returns {Object}
+ * @property {character_varying} table_schema
+ * @property {character_varying} table_name
+ * @property {character_varying} column_name
+ * @property {character_varying} referenced_schema_name
+ * @property {character_varying} referenced_table_name
+ * @property {character_varying} referenced_column_name
+ * @property {character_varying} data_type
+ * @property {character_varying} data_type_full
+ * @property {integer} ordinal_number
+ * @property {integer} max_length
+ * @property {integer} numeric_precision
+ * @property {integer} numeric_scale
+ * @property {boolean} is_identity
+ * @property {boolean} is_fk
+ * @property {boolean} is_computed
+ * @property {character_varying} default_value
+ * @property {character_varying} referenced_display_column_name
+ * @property {boolean} allow_dbnull
+ * @property {boolean} referenced_column_language_dependent
+ */
+function get_table_cols() {}
+
+/**
+ * @function data_lc_detail_r
+ * @memberof zzglc
+ * @description Data lc detail r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} color_id
+ * @property {character} code
+ * @property {character_varying} color_id_val
+ * @property {character_varying} color_code
+ */
+function data_lc_detail_r() {}
+
+/**
+ * @function route_role_public_history
+ * @memberof auth
+ * @description Route role public history
+ * @returns {trigger}
+ */
+function route_role_public_history() {}
+
+/**
+ * @function meta_table_ref_col_c
+ * @memberof zzglc
+ * @description Meta table ref col c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_table_ref_col_c() {}
+
+/**
+ * @function auth_user_role_c
+ * @memberof zzglc
+ * @description Auth user role c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function auth_user_role_c() {}
+
+/**
+ * @function get_srids
+ * @memberof general
+ * @description Get srids
+ * @returns {json}
+ */
+function get_srids() {}
+
+/**
+ * @function data_nuts_0_l
+ * @memberof zzgll
+ * @description Data nuts 0 l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_nuts_0_l() {}
+
+/**
+ * @function meta_import_master_d
+ * @memberof zzglc
+ * @description Meta import master d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_import_master_d() {}
+
+/**
+ * @function auth_log_c
+ * @memberof zzglc
+ * @description Auth log c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function auth_log_c() {}
+
+/**
+ * @function data_unit_c
+ * @memberof zzglc
+ * @description Data unit c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_unit_c() {}
+
+/**
+ * @function add_timestamp_column
+ * @memberof meta
+ * @description Add timestamp column
+ * @param {character_varying} SchemaName
+ * @param {character_varying} TableName
+ * @returns {void}
+ */
+function add_timestamp_column() {}
+
+/**
+ * @function general_mjesto_l
+ * @memberof zzgll
+ * @description General mjesto l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function general_mjesto_l() {}
+
+/**
+ * @function update_time_modified
+ * @memberof meta
+ * @description Update time modified
+ * @returns {trigger}
+ */
+function update_time_modified() {}
+
+/**
+ * @function general_region_c
+ * @memberof zzglc
+ * @description General region c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_region_c() {}
+
+/**
+ * @function auth_user_role_r
+ * @memberof zzglc
+ * @description Auth user role r
+ * @returns {Object}
+ * @property {uuid} id
+ * @property {uuid} user_id
+ * @property {uuid} role_id
+ * @property {timestamp_without_time_zone} time_modified
+ */
+function auth_user_role_r() {}
+
+/**
+ * @function meta_safe_function_r
+ * @memberof zzglc
+ * @description Meta safe function r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function meta_safe_function_r() {}
+
+/**
+ * @function meta_help_r
+ * @memberof zzglc
+ * @description Meta help r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function meta_help_r() {}
+
+/**
+ * @function add_update_user_and_time_modified_trigger
+ * @memberof meta
+ * @description Add update user and time modified trigger
+ * @param {character_varying} SchemaName
+ * @param {character_varying} TableName
+ * @returns {void}
+ */
+function add_update_user_and_time_modified_trigger() {}
+
+/**
+ * @function data_nuts_1_l
+ * @memberof zzgll
+ * @description Data nuts 1 l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_nuts_1_l() {}
+
+/**
+ * @function data_geometry_type_r
+ * @memberof zzglc
+ * @description Data geometry type r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_geometry_type_r() {}
+
+/**
+ * @function auth_role_public_l
+ * @memberof zzgll
+ * @description Auth role public l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function auth_role_public_l() {}
+
+/**
+ * @function get_indicators_by_nuts
+ * @memberof data
+ * @description Get indicators by nuts
+ * @param {text} Params
+ * @param {integer} PersonId
+ * @param {integer} LangId
+ * @returns {Object}
+ * @property {integer} levl_code
+ * @property {character_varying} country
+ * @property {character_varying} name_latn
+ * @property {character_varying} nuts_id
+ * @property {character_varying} indicator
+ * @property {numeric} average
+ * @property {numeric} min
+ * @property {numeric} max
+ */
+function get_indicators_by_nuts() {}
+
+/**
+ * @function data_lc_main_c
+ * @memberof zzglc
+ * @description Data lc main c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_lc_main_c() {}
+
+/**
+ * @function general_sub_region_c
+ * @memberof zzglc
+ * @description General sub region c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_sub_region_c() {}
+
+/**
+ * @function auth_role_public_d
+ * @memberof zzglc
+ * @description Auth role public d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function auth_role_public_d() {}
+
+/**
+ * @function meta_safe_function_u
+ * @memberof zzglc
+ * @description Meta safe function u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_safe_function_u() {}
+
+/**
+ * @function meta_table_ref_col_u
+ * @memberof zzglc
+ * @description Meta table ref col u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_table_ref_col_u() {}
+
+/**
+ * @function meta_lang_u
+ * @memberof zzglc
+ * @description Meta lang u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_lang_u() {}
+
+/**
+ * @function data_unit_l
+ * @memberof zzgll
+ * @description Data unit l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_unit_l() {}
+
+/**
+ * @function get_boundaries
+ * @memberof general
+ * @description Get boundaries
+ * @param {integer} Level
+ * @param {integer} Srid
+ * @param {integer} Zoom
+ * @param {double_precision} MinX
+ * @param {double_precision} MinY
+ * @param {double_precision} MaxX
+ * @param {double_precision} MaxY
+ * @param {integer} IndicatorId
+ * @returns {json}
+ */
+function get_boundaries() {}
+
+/**
+ * @function update_custom_geometry
+ * @memberof data
+ * @description Update custom geometry
+ * @param {integer} PersonId
+ * @param {integer} Id
+ * @param {integer} FileId
+ * @param {text} Feature
+ * @returns {void}
+ */
+function update_custom_geometry() {}
+
+/**
+ * @function general_country_c
+ * @memberof zzglc
+ * @description General country c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_country_c() {}
+
+/**
+ * @function log_errors_r
+ * @memberof zzglc
+ * @description Log errors r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} message
+ * @property {character_varying} level
+ * @property {timestamp_without_time_zone} time_stamp
+ * @property {character_varying} exception
+ * @property {character_varying} log_event
+ * @property {integer} tenant_id
+ * @property {uuid} user_id
+ * @property {integer} app_id
+ * @property {timestamp_without_time_zone} time_modified
+ */
+function log_errors_r() {}
+
+/**
+ * @function create_context
+ * @memberof auth
+ * @description Create context
+ * @param {uuid} UserId
+ * @param {integer} LangId
+ * @param {integer} AppId
+ * @param {uuid} ImpersonatedUserId
+ * @returns {void}
+ */
+function create_context() {}
+
+/**
+ * @function meta_trace_u
+ * @memberof zzglc
+ * @description Meta trace u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_trace_u() {}
+
+/**
+ * @function role_public_history
+ * @memberof auth
+ * @description Role public history
+ * @returns {trigger}
+ */
+function role_public_history() {}
+
+/**
+ * @function import_lucas2015att
+ * @memberof data
+ * @description Import lucas2015att
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function import_lucas2015att() {}
+
+/**
+ * @function update_preview_href
+ * @memberof data
+ * @description Update preview href
+ * @returns {void}
+ */
+function update_preview_href() {}
+
+/**
+ * @function data_lu_detail_c
+ * @memberof zzglc
+ * @description Data lu detail c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_lu_detail_c() {}
+
+/**
+ * @function get_custom_geometry
+ * @memberof data
+ * @description Get custom geometry
+ * @param {integer} PersonId
+ * @param {integer} Id
+ * @returns {json}
+ */
+function get_custom_geometry() {}
+
+/**
+ * @function meta_i18n_lang_r
+ * @memberof zzglc
+ * @description Meta i18n lang r
+ * @param {integer} LangId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} i18n_id
+ * @property {integer} lang_id
+ * @property {character_varying} value
+ * @property {character_varying} i18n_id_val
+ * @property {character_varying} lang_id_val
+ */
+function meta_i18n_lang_r() {}
+
+/**
+ * @function extract_file_name
+ * @memberof data
+ * @description Extract file name
+ * @param {character_varying} s
+ * @returns {character_varying}
+ */
+function extract_file_name() {}
+
+/**
+ * @function crud
+ * @memberof meta
+ * @description Crud
+ * @param {character_varying} schema_name
+ * @param {character_varying} table_name
+ * @returns {void}
+ */
+function crud() {}
+
+/**
+ * @function data_depth_l
+ * @memberof zzgll
+ * @description Data depth l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_depth_l() {}
+
+/**
+ * @function general_ai_model_d
+ * @memberof zzglc
+ * @description General ai model d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function general_ai_model_d() {}
+
+/**
+ * @function add_user_and_timestamp_column
+ * @memberof meta
+ * @description Add user and timestamp column
+ * @param {character_varying} SchemaName
+ * @param {character_varying} TableName
+ * @returns {void}
+ */
+function add_user_and_timestamp_column() {}
+
+/**
+ * @function meta_help_l
+ * @memberof zzgll
+ * @description Meta help l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function meta_help_l() {}
+
+/**
+ * @function general_partner_c
+ * @memberof zzglc
+ * @description General partner c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_partner_c() {}
+
+/**
+ * @function prepare_import_proc
+ * @memberof meta
+ * @description Prepare import proc
+ * @param {integer} Id
+ * @returns {void}
+ */
+function prepare_import_proc() {}
+
+/**
+ * @function data_date_style_r
+ * @memberof zzglc
+ * @description Data date style r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_date_style_r() {}
+
+/**
+ * @function table_sizes
+ * @memberof utils
+ * @description Table sizes
+ * @returns {Object}
+ * @property {character_varying} schema_name
+ * @property {character_varying} table_name
+ * @property {character_varying} size_pretty
+ * @property {bigint} size
+ * @property {bigint} records
+ */
+function table_sizes() {}
+
+/**
+ * @function data_license_r
+ * @memberof zzglc
+ * @description Data license r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_license_r() {}
+
+/**
+ * @function data_depth_u
+ * @memberof zzglc
+ * @description Data depth u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_depth_u() {}
+
+/**
+ * @function data_geometry_type_property_u
+ * @memberof zzglc
+ * @description Data geometry type property u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_geometry_type_property_u() {}
+
+/**
+ * @function meta_import_detail_c
+ * @memberof zzglc
+ * @description Meta import detail c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_import_detail_c() {}
+
+/**
+ * @function general_sub_region_d
+ * @memberof zzglc
+ * @description General sub region d
+ * @param {smallint} Key
+ * @returns {void}
+ */
+function general_sub_region_d() {}
+
+/**
+ * @function meta_data_type_l
+ * @memberof zzgll
+ * @description Meta data type l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function meta_data_type_l() {}
+
+/**
+ * @function meta_i18n_lang_d
+ * @memberof zzglc
+ * @description Meta i18n lang d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_i18n_lang_d() {}
+
+/**
+ * @function data_custom_geometry_l
+ * @memberof zzgll
+ * @description Data custom geometry l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} geometry_type_id
+ */
+function data_custom_geometry_l() {}
+
+/**
+ * @function data_data_source_d
+ * @memberof zzglc
+ * @description Data data source d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_data_source_d() {}
+
+/**
+ * @function meta_i18n_lang_c
+ * @memberof zzglc
+ * @description Meta i18n lang c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_i18n_lang_c() {}
+
+/**
+ * @function data_property_c
+ * @memberof zzglc
+ * @description Data property c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function data_property_c() {}
+
+/**
+ * @function data_property_type_l
+ * @memberof zzgll
+ * @description Data property type l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_property_type_l() {}
+
+/**
+ * @function data_attribute_description_c
+ * @memberof zzglc
+ * @description Data attribute description c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function data_attribute_description_c() {}
+
+/**
+ * @function add_i18n_keys
+ * @memberof meta
+ * @description Add i18n keys
+ * @param {character_varying} Keys
+ * @returns {void}
+ */
+function add_i18n_keys() {}
+
+/**
+ * @function meta_route_l
+ * @memberof zzgll
+ * @description Meta route l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function meta_route_l() {}
+
+/**
+ * @function data_point_l
+ * @memberof zzgll
+ * @description Data point l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} point_key
+ */
+function data_point_l() {}
+
+/**
+ * @function data_lc_main_l
+ * @memberof zzgll
+ * @description Data lc main l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_lc_main_l() {}
+
+/**
+ * @function data_license_l
+ * @memberof zzgll
+ * @description Data license l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_license_l() {}
+
+/**
+ * @function import_osm_boundaries
+ * @memberof general
+ * @description Import osm boundaries
+ * @returns {void}
+ */
+function import_osm_boundaries() {}
+
+/**
+ * @function data_property_r
+ * @memberof zzglc
+ * @description Data property r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} indicator_id
+ * @property {integer} unit_id
+ * @property {integer} data_type_id
+ * @property {boolean} numerical
+ * @property {character_varying} mask
+ * @property {character_varying} indicator_id_val
+ * @property {character_varying} unit_id_val
+ * @property {character_varying} _data_type_id_val
+ */
+function data_property_r() {}
+
+/**
+ * @function data_geometry_type_u
+ * @memberof zzglc
+ * @description Data geometry type u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_geometry_type_u() {}
+
+/**
+ * @function auth_role_l
+ * @memberof zzgll
+ * @description Auth role l
+ * @param {character_varying} SearchValue
+ * @param {uuid} Key
+ * @returns {Object}
+ * @property {uuid} id
+ * @property {character_varying} name
+ */
+function auth_role_l() {}
+
+/**
+ * @function meta_table_ref_col_r
+ * @memberof zzglc
+ * @description Meta table ref col r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} schema_name
+ * @property {character_varying} table_name
+ * @property {character_varying} ref_col
+ */
+function meta_table_ref_col_r() {}
+
+/**
+ * @function meta_news_l
+ * @memberof zzgll
+ * @description Meta news l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function meta_news_l() {}
+
+/**
+ * @function auth_route_role_public_c
+ * @memberof zzglc
+ * @description Auth route role public c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function auth_route_role_public_c() {}
+
+/**
+ * @function meta_safe_function_d
+ * @memberof zzglc
+ * @description Meta safe function d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_safe_function_d() {}
+
+/**
+ * @function set_custom_geometry_time
+ * @memberof data
+ * @description Set custom geometry time
+ * @param {integer} PersonId
+ * @param {integer} CustomGeometryId
+ * @param {integer} Id
+ * @param {timestamp_with_time_zone} ObservationTime
+ * @param {text} Props
+ * @returns {integer}
+ */
+function set_custom_geometry_time() {}
+
+/**
+ * @function import_lucas2015pm
+ * @memberof data
+ * @description Import lucas2015pm
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function import_lucas2015pm() {}
+
+/**
+ * @function data_measurement_u
+ * @memberof zzglc
+ * @description Data measurement u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_measurement_u() {}
+
+/**
+ * @function is_function_safe
+ * @memberof meta
+ * @description Is function safe
+ * @param {character_varying} Function
+ * @returns {boolean}
+ */
+function is_function_safe() {}
+
+/**
+ * @function get_schema_name
+ * @memberof meta
+ * @description Get schema name
+ * @param {text} TableName
+ * @returns {text}
+ */
+function get_schema_name() {}
+
+/**
+ * @function data_point_c
+ * @memberof zzglc
+ * @description Data point c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_point_c() {}
+
+/**
+ * @function log_errors_u
+ * @memberof zzglc
+ * @description Log errors u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function log_errors_u() {}
+
+/**
+ * @function data_shape_c
+ * @memberof zzglc
+ * @description Data shape c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_shape_c() {}
+
+/**
+ * @function general_nuts_r
+ * @memberof zzglc
+ * @description General nuts r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} nuts_id
+ * @property {integer} levl_code
+ * @property {character} cntr_code
+ * @property {character_varying} name_latn
+ * @property {character_varying} nuts_name
+ * @property {integer} mount_type
+ * @property {integer} urbn_type
+ * @property {integer} coast_type
+ * @property {character_varying} fid
+ */
+function general_nuts_r() {}
+
+/**
+ * @function data_indicator_lang_d
+ * @memberof zzglc
+ * @description Data indicator lang d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_indicator_lang_d() {}
+
+/**
+ * @function get_lucas
+ * @memberof data
+ * @description Get lucas
+ * @param {text} Params
+ * @param {integer} PersonId
+ * @param {integer} LangId
+ * @returns {Object}
+ * @property {character_varying} Point
+ * @property {character_varying} Depth
+ * @property {double_precision} OxAl
+ * @property {double_precision} N
+ * @property {double_precision} P
+ * @property {double_precision} OxFe
+ * @property {double_precision} pH_(CaCl&lt;sub>2&lt;/sub>)
+ * @property {double_precision} EC
+ * @property {double_precision} K
+ * @property {double_precision} OC
+ * @property {double_precision} pH_(H&lt;sub>2&lt;/sub>O)
+ * @property {double_precision} CaCO&lt;sub>3&lt;/sub>
+ * @property {character_varying} Nuts_0
+ * @property {character_varying} Nuts_1
+ * @property {character_varying} Nuts_2
+ * @property {character_varying} Nuts_3
+ * @property {double_precision} Lat
+ * @property {double_precision} Lon
+ * @property {date} Date
+ * @property {integer} Elevation
+ * @property {character_varying} Land_cover
+ * @property {character_varying} Land_usage
+ * @property {character_varying} Main_land_cover
+ * @property {character_varying} Detailed_land_cover
+ * @property {character_varying} Detailed_land_use
+ */
+function get_lucas() {}
+
+/**
+ * @function meta_news_lang_c
+ * @memberof zzglc
+ * @description Meta news lang c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_news_lang_c() {}
+
+/**
+ * @function save_file
+ * @memberof data
+ * @description Save file
+ * @param {integer} PersonId
+ * @param {integer} CustomGeometryId
+ * @param {character_varying} FileName
+ * @param {character_varying} Extension
+ * @param {character_varying} MimeType
+ * @param {integer} Compass
+ * @param {double_precision} Lat
+ * @param {double_precision} Lon
+ * @returns {integer}
+ */
+function save_file() {}
+
+/**
+ * @function auth_route_role_public_d
+ * @memberof zzglc
+ * @description Auth route role public d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function auth_route_role_public_d() {}
+
+/**
+ * @function create_public_context
+ * @memberof auth
+ * @description Create public context
+ * @param {integer} PersonId
+ * @param {integer} LangId
+ * @returns {void}
+ */
+function create_public_context() {}
+
+/**
+ * @function general_partner_r
+ * @memberof zzglc
+ * @description General partner r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} short_name
+ * @property {character_varying} name
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {integer} user_modified
+ * @property {character_varying} user_modified_val
+ */
+function general_partner_r() {}
+
+/**
+ * @function person_role_public_history
+ * @memberof auth
+ * @description Person role public history
+ * @returns {trigger}
+ */
+function person_role_public_history() {}
+
+/**
+ * @function data_asset_import_excel
+ * @memberof data
+ * @description Data asset import excel
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function data_asset_import_excel() {}
+
+/**
+ * @function get_context_user_id_for_data
+ * @memberof auth
+ * @description Get context user id for data
+ * @returns {uuid}
+ */
+function get_context_user_id_for_data() {}
+
+/**
+ * @function general_partner_u
+ * @memberof zzglc
+ * @description General partner u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_partner_u() {}
+
+/**
+ * @function general_person_l
+ * @memberof zzgll
+ * @description General person l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function general_person_l() {}
+
+/**
+ * @function get_geometry_type_properties
+ * @memberof data
+ * @description Get geometry type properties
+ * @param {integer} LangId
+ * @returns {json}
+ */
+function get_geometry_type_properties() {}
+
+/**
+ * @function clean_table
+ * @memberof meta
+ * @description Clean table
+ * @param {text} v_schema_name
+ * @param {text} v_table_name
+ * @returns {void}
+ */
+function clean_table() {}
+
+/**
+ * @function data_oedce_u
+ * @memberof zzglc
+ * @description Data oedce u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_oedce_u() {}
+
+/**
+ * @function meta_import_master_l
+ * @memberof zzgll
+ * @description Meta import master l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} schema_name
+ */
+function meta_import_master_l() {}
+
+/**
+ * @function data_property_d
+ * @memberof zzglc
+ * @description Data property d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_property_d() {}
+
+/**
+ * @function general_message_d
+ * @memberof zzglc
+ * @description General message d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function general_message_d() {}
+
+/**
+ * @function general_nuts_d
+ * @memberof zzglc
+ * @description General nuts d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function general_nuts_d() {}
+
+/**
+ * @function get_tile_layers
+ * @memberof data
+ * @description Get tile layers
+ * @param {integer} Srid
+ * @returns {Object}
+ * @property {integer} fid
+ * @property {character_varying} collection_title
+ * @property {character_varying} href
+ * @property {character_varying} type
+ * @property {text} geom
+ */
+function get_tile_layers() {}
+
+/**
+ * @function data_indicator_lang_r
+ * @memberof zzglc
+ * @description Data indicator lang r
+ * @param {integer} LangId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} indicator_id
+ * @property {integer} lang_id
+ * @property {character_varying} value
+ * @property {character_varying} indicator_id_val
+ * @property {character_varying} lang_id_val
+ */
+function data_indicator_lang_r() {}
+
+/**
+ * @function auth_person_role_public_d
+ * @memberof zzglc
+ * @description Auth person role public d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function auth_person_role_public_d() {}
+
+/**
+ * @function set_children_geometry
+ * @memberof general
+ * @description Set children geometry
+ * @param {text} Properties
+ * @param {text} Geometry
+ * @returns {void}
+ */
+function set_children_geometry() {}
+
+/**
+ * @function get_indicators_for_data_source
+ * @memberof data
+ * @description Get indicators for data source
+ * @param {integer} DataSourceId
+ * @param {integer} LangId
+ * @returns {json}
+ */
+function get_indicators_for_data_source() {}
+
+/**
+ * @function data_file_theme_l
+ * @memberof zzgll
+ * @description Data file theme l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_file_theme_l() {}
+
+/**
+ * @function data_indicator_color_r
+ * @memberof zzglc
+ * @description Data indicator color r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} indicator_id
+ * @property {real} value_to
+ * @property {integer} color_id
+ * @property {character_varying} indicator_id_val
+ * @property {character_varying} color_id_val
+ * @property {character_varying} color_code
+ */
+function data_indicator_color_r() {}
+
+/**
+ * @function delete_custom_geometry_time
+ * @memberof data
+ * @description Delete custom geometry time
+ * @param {integer} PersonId
+ * @param {integer} Id
+ * @returns {void}
+ */
+function delete_custom_geometry_time() {}
+
+/**
+ * @function data_measurement_r
+ * @memberof zzglc
+ * @description Data measurement r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} indicator_id
+ * @property {real} value
+ * @property {integer} point_id
+ * @property {character} lod
+ * @property {date} date
+ * @property {integer} data_source_id
+ * @property {character_varying} indicator_id_val
+ * @property {character_varying} point_id_val
+ * @property {character_varying} data_source_id_val
+ */
+function data_measurement_r() {}
+
+/**
+ * @function data_file_resolution_l
+ * @memberof zzgll
+ * @description Data file resolution l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_file_resolution_l() {}
+
+/**
+ * @function update_user_and_time_modified
+ * @memberof meta
+ * @description Update user and time modified
+ * @returns {trigger}
+ */
+function update_user_and_time_modified() {}
+
+/**
+ * @function general_region_l
+ * @memberof zzgll
+ * @description General region l
+ * @param {character_varying} SearchValue
+ * @param {smallint} Key
+ * @returns {Object}
+ * @property {smallint} id
+ * @property {character_varying} name
+ */
+function general_region_l() {}
+
+/**
+ * @function meta_news_c
+ * @memberof zzglc
+ * @description Meta news c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_news_c() {}
+
+/**
+ * @function get_locations
+ * @memberof data
+ * @description Get locations
+ * @param {text} Params
+ * @param {integer} PersonId
+ * @param {integer} LangId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} type
+ * @property {boolean} public
+ * @property {timestamp_with_time_zone} time_created
+ * @property {timestamp_with_time_zone} time_modified
+ */
+function get_locations() {}
+
+/**
+ * @function data_lc_detail_l
+ * @memberof zzgll
+ * @description Data lc detail l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_lc_detail_l() {}
+
+/**
+ * @function general_country_import_excel
+ * @memberof general
+ * @description General country import excel
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function general_country_import_excel() {}
+
+/**
+ * @function get_news
+ * @memberof meta
+ * @description Get news
+ * @param {integer} LangId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} title
+ * @property {character_varying} text
+ * @property {character_varying} extended_text
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {timestamp_without_time_zone} time_created
+ * @property {character_varying} user_modified
+ */
+function get_news() {}
+
+/**
+ * @function data_asset_theme_u
+ * @memberof zzglc
+ * @description Data asset theme u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_asset_theme_u() {}
+
+/**
+ * @function meta_news_lang_d
+ * @memberof zzglc
+ * @description Meta news lang d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_news_lang_d() {}
+
+/**
+ * @function data_date_unit_d
+ * @memberof zzglc
+ * @description Data date unit d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_date_unit_d() {}
+
+/**
+ * @function import_spain
+ * @memberof data
+ * @description Import spain
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function import_spain() {}
+
+/**
+ * @function data_point_import_excel
+ * @memberof data
+ * @description Data point import excel
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function data_point_import_excel() {}
+
+/**
+ * @function get_locale_options
+ * @memberof meta
+ * @description Get locale options
+ * @returns {json}
+ */
+function get_locale_options() {}
+
+/**
+ * @function set_lon_lat_nuts_for_points
+ * @memberof data
+ * @description Set lon lat nuts for points
+ * @param {integer} srid
+ * @returns {void}
+ */
+function set_lon_lat_nuts_for_points() {}
+
+/**
+ * @function meta_table_ref_col_d
+ * @memberof zzglc
+ * @description Meta table ref col d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_table_ref_col_d() {}
+
+/**
+ * @function data_indicator_color_u
+ * @memberof zzglc
+ * @description Data indicator color u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_indicator_color_u() {}
+
+/**
+ * @function route_itrig_proc
+ * @memberof meta
+ * @description Route itrig proc
+ * @returns {trigger}
+ */
+function route_itrig_proc() {}
+
+/**
+ * @function auth_user_role_u
+ * @memberof zzglc
+ * @description Auth user role u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function auth_user_role_u() {}
+
+/**
+ * @function data_custom_geometry_property_c
+ * @memberof zzglc
+ * @description Data custom geometry property c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function data_custom_geometry_property_c() {}
+
+/**
+ * @function data_lu_detail_r
+ * @memberof zzglc
+ * @description Data lu detail r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} code
+ * @property {integer} color_id
+ * @property {character_varying} color_id_val
+ * @property {character_varying} color_code
+ */
+function data_lu_detail_r() {}
+
+/**
+ * @function data_lc_main_d
+ * @memberof zzglc
+ * @description Data lc main d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_lc_main_d() {}
+
+/**
+ * @function get_titles
+ * @memberof data
+ * @description Get titles
+ * @returns {json}
+ */
+function get_titles() {}
+
+/**
+ * @function add_triggers
+ * @memberof meta
+ * @description Add triggers
+ * @param {character_varying} SchemaName
+ * @param {character_varying} TableName
+ * @returns {void}
+ */
+function add_triggers() {}
+
+/**
+ * @function copy_color_scheme
+ * @memberof data
+ * @description Copy color scheme
+ * @param {integer} IndicatorIdFrom
+ * @param {integer} IndicatorIdTo
+ * @returns {void}
+ */
+function copy_color_scheme() {}
+
+/**
+ * @function save_message
+ * @memberof general
+ * @description Save message
+ * @param {integer} PersonId
+ * @param {text} Message
+ * @param {integer} ParentId
+ * @returns {integer}
+ */
+function save_message() {}
+
+/**
+ * @function general_osoba_import_excel
+ * @memberof general
+ * @description General osoba import excel
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function general_osoba_import_excel() {}
+
+/**
+ * @function import_temp
+ * @memberof data
+ * @description Import temp
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function import_temp() {}
+
+/**
+ * @function data_asset_version_c
+ * @memberof zzglc
+ * @description Data asset version c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_asset_version_c() {}
+
+/**
+ * @function log_errors_c
+ * @memberof zzglc
+ * @description Log errors c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function log_errors_c() {}
+
+/**
+ * @function get_person_id
+ * @memberof auth
+ * @description Get person id
+ * @param {character_varying} Email
+ * @returns {integer}
+ */
+function get_person_id() {}
+
+/**
+ * @function meta_news_lang_r
+ * @memberof zzglc
+ * @description Meta news lang r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} lang_id
+ * @property {character_varying} text
+ * @property {character_varying} extended_text
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {integer} user_modified
+ * @property {timestamp_without_time_zone} time_created
+ * @property {boolean} active
+ * @property {character_varying} title
+ * @property {integer} news_id
+ * @property {character_varying} lang_id_val
+ * @property {character_varying} user_modified_val
+ * @property {character_varying} news_id_val
+ */
+function meta_news_lang_r() {}
+
+/**
+ * @function function_exists
+ * @memberof meta
+ * @description Function exists
+ * @param {character_varying} schema_name
+ * @param {character_varying} func_name
+ * @returns {boolean}
+ */
+function function_exists() {}
+
+/**
+ * @function meta_help_lang_c
+ * @memberof zzglc
+ * @description Meta help lang c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_help_lang_c() {}
+
+/**
+ * @function get_help
+ * @memberof meta
+ * @description Get help
+ * @param {character_varying} Name
+ * @param {integer} LangId
+ * @returns {json}
+ */
+function get_help() {}
+
+/**
+ * @function data_date_style_l
+ * @memberof zzgll
+ * @description Data date style l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_date_style_l() {}
+
+/**
+ * @function meta_help_lang_r
+ * @memberof zzglc
+ * @description Meta help lang r
+ * @param {integer} LangId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} help_id
+ * @property {integer} lang_id
+ * @property {character_varying} value
+ * @property {character_varying} meta_help_id_val
+ * @property {character_varying} meta_lang_id_val
+ */
+function meta_help_lang_r() {}
+
+/**
+ * @function data_date_style_u
+ * @memberof zzglc
+ * @description Data date style u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_date_style_u() {}
+
+/**
+ * @function get_lucas_obsolete
+ * @memberof data
+ * @description Get lucas obsolete
+ * @param {integer} DataSourceId
+ * @param {integer} LangId
+ * @returns {Object}
+ * @property {character_varying} Point
+ * @property {character_varying} Depth
+ * @property {double_precision} OxAl
+ * @property {double_precision} N
+ * @property {double_precision} P
+ * @property {double_precision} OxFe
+ * @property {double_precision} pH_(CaCl&lt;sub>2&lt;/sub>)
+ * @property {double_precision} EC
+ * @property {double_precision} K
+ * @property {double_precision} OC
+ * @property {double_precision} pH_(H&lt;sub>2&lt;/sub>O)
+ * @property {double_precision} CaCO&lt;sub>3&lt;/sub>
+ * @property {character_varying} Nuts_0
+ * @property {character_varying} Nuts_1
+ * @property {character_varying} Nuts_2
+ * @property {character_varying} Nuts_3
+ * @property {double_precision} Lat
+ * @property {double_precision} Lon
+ * @property {date} Date
+ * @property {integer} Elevation
+ * @property {character_varying} Land_cover
+ * @property {character_varying} Land_usage
+ * @property {character_varying} Main_land_cover
+ * @property {character_varying} Detailed_land_cover
+ * @property {character_varying} Detailed_land_use
+ */
+function get_lucas_obsolete() {}
+
+/**
+ * @function get_db_procedures
+ * @memberof meta
+ * @description Get db procedures
+ * @param {character_varying} SchemaName
+ * @param {character_varying} ProcName
+ * @returns {json}
+ */
+function get_db_procedures() {}
+
+/**
+ * @function create_user
+ * @memberof auth
+ * @description Create user
+ * @param {integer} PersonId
+ * @returns {void}
+ */
+function create_user() {}
+
+/**
+ * @function meta_lang_c
+ * @memberof zzglc
+ * @description Meta lang c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function meta_lang_c() {}
+
+/**
+ * @function general_person_c
+ * @memberof zzglc
+ * @description General person c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_person_c() {}
+
+/**
+ * @function data_point_r
+ * @memberof zzglc
+ * @description Data point r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} point_key
+ * @property {double_precision} lat
+ * @property {double_precision} lon
+ * @property {integer} data_source_id
+ * @property {integer} sample
+ * @property {character_varying} notes
+ * @property {integer} l3_id
+ * @property {integer} elev
+ * @property {character_varying} name
+ * @property {double_precision} x
+ * @property {double_precision} y
+ * @property {character_varying} data_source_id_val
+ * @property {character_varying} l3_id_val
+ */
+function data_point_r() {}
+
+/**
+ * @function general_partner_l
+ * @memberof zzgll
+ * @description General partner l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function general_partner_l() {}
+
+/**
+ * @function data_point_d
+ * @memberof zzglc
+ * @description Data point d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_point_d() {}
+
+/**
+ * @function data_oedce_d
+ * @memberof zzglc
+ * @description Data oedce d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_oedce_d() {}
+
+/**
+ * @function data_asset_theme_c
+ * @memberof zzglc
+ * @description Data asset theme c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_asset_theme_c() {}
+
+/**
+ * @function clean_value
+ * @memberof meta
+ * @description Clean value
+ * @param {character_varying} v
+ * @param {character_varying} t
+ * @returns {character_varying}
+ */
+function clean_value() {}
+
+/**
+ * @function data_asset_version_d
+ * @memberof zzglc
+ * @description Data asset version d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_asset_version_d() {}
+
+/**
+ * @function data_unit_d
+ * @memberof zzglc
+ * @description Data unit d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_unit_d() {}
+
+/**
+ * @function data_attribute_description_u
+ * @memberof zzglc
+ * @description Data attribute description u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_attribute_description_u() {}
+
+/**
+ * @function auth_route_role_public_r
+ * @memberof zzglc
+ * @description Auth route role public r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} route_id
+ * @property {integer} role_public_id
+ * @property {character_varying} route_id_val
+ * @property {character_varying} role_public_id_val
+ */
+function auth_route_role_public_r() {}
+
+/**
+ * @function auth_log_u
+ * @memberof zzglc
+ * @description Auth log u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function auth_log_u() {}
+
+/**
+ * @function get_i18n
+ * @memberof meta
+ * @description Get i18n
+ * @param {integer} LangId
+ * @returns {json}
+ */
+function get_i18n() {}
+
+/**
+ * @function data_file_category_l
+ * @memberof zzgll
+ * @description Data file category l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_file_category_l() {}
+
+/**
+ * @function data_geometry_type_property_r
+ * @memberof zzglc
+ * @description Data geometry type property r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} geometry_type_id
+ * @property {integer} order_no
+ * @property {integer} property_id
+ * @property {character_varying} geometry_type_id_val
+ * @property {character_varying} property_id_val
+ */
+function data_geometry_type_property_r() {}
+
+/**
+ * @function get_boundary
+ * @memberof general
+ * @description Get boundary
+ * @param {integer} OsmId
+ * @param {integer} Srid
+ * @returns {json}
+ */
+function get_boundary() {}
+
+/**
+ * @function data_date_unit_r
+ * @memberof zzglc
+ * @description Data date unit r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} format
+ */
+function data_date_unit_r() {}
+/**
+ * @function add_comment_to_procedure
+ * @memberof meta
+ * @description add_comment_to_procedure
+ * @param {character_varying} SchemaName - Name of the schema
+ * @param {character_varying} ProcName - Name of the proc
+ * @returns {json}
+ */
+function add_comment_to_procedure() {}
+
+/**
+ * @function get_indicators_table
+ * @memberof data
+ * @description Get indicators table
+ * @param {text} Params
+ * @param {integer} PersonId
+ * @param {integer} LangId
+ * @returns {json}
+ */
+function get_indicators_table() {}
+
+/**
+ * @function meta_import_detail_d
+ * @memberof zzglc
+ * @description Meta import detail d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_import_detail_d() {}
+
+/**
+ * @function data_lu_detail_l
+ * @memberof zzgll
+ * @description Data lu detail l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_lu_detail_l() {}
+
+/**
+ * @function data_attribute_description_d
+ * @memberof zzglc
+ * @description Data attribute description d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_attribute_description_d() {}
+
+/**
+ * @function general_person_r
+ * @memberof zzglc
+ * @description General person r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} first_name
+ * @property {character_varying} last_name
+ * @property {integer} partner_id
+ * @property {character_varying} email
+ * @property {character_varying} name
+ * @property {character_varying} name1
+ * @property {character_varying} user_email
+ * @property {character_varying} partner_id_val
+ */
+function general_person_r() {}
+
+/**
+ * @function data_asset_c
+ * @memberof zzglc
+ * @description Data asset c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_asset_c() {}
+
+/**
+ * @function data_custom_geometry_property_r
+ * @memberof zzglc
+ * @description Data custom geometry property r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} custom_geometry_id
+ * @property {integer} property_id
+ * @property {character_varying} value
+ * @property {character_varying} custom_geometry_id_val
+ * @property {character_varying} property_id_val
+ */
+function data_custom_geometry_property_r() {}
+
+/**
+ * @function get_shapes_for_data_source
+ * @memberof data
+ * @description Get shapes for data source
+ * @param {integer} DataSourceId
+ * @returns {json}
+ */
+function get_shapes_for_data_source() {}
+
+/**
+ * @function meta_i18n_u
+ * @memberof zzglc
+ * @description Meta i18n u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_i18n_u() {}
+
+/**
+ * @function auth_user_l
+ * @memberof zzgll
+ * @description Auth user l
+ * @param {character_varying} SearchValue
+ * @param {uuid} Key
+ * @returns {Object}
+ * @property {uuid} id
+ * @property {character_varying} name
+ */
+function auth_user_l() {}
+
+/**
+ * @function add_update_time_modified_trigger
+ * @memberof meta
+ * @description Add update time modified trigger
+ * @param {character_varying} SchemaName
+ * @param {character_varying} TableName
+ * @returns {void}
+ */
+function add_update_time_modified_trigger() {}
+
+/**
+ * @function lookup
+ * @memberof meta
+ * @description Lookup
+ * @param {character_varying} schema_name
+ * @param {character_varying} table_name
+ * @param {character_varying} referenced_column_display_name
+ * @param {character_varying} referenced_column_type
+ * @returns {void}
+ */
+function lookup() {}
+
+/**
+ * @function general_person_d
+ * @memberof zzglc
+ * @description General person d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function general_person_d() {}
+
+/**
+ * @function get_messages
+ * @memberof general
+ * @description Get messages
+ * @param {integer} PersonId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} parent_id
+ * @property {text} message
+ * @property {timestamp_without_time_zone} time_modified
+ */
+function get_messages() {}
+
+/**
+ * @function i18n_itrig_proc
+ * @memberof meta
+ * @description I18n itrig proc
+ * @returns {trigger}
+ */
+function i18n_itrig_proc() {}
+
+/**
+ * @function get_ai_models
+ * @memberof general
+ * @description Get ai models
+ * @returns {Object}
+ * @property {integer} value
+ * @property {character_varying} label
+ */
+function get_ai_models() {}
+
+/**
+ * @function data_asset_version_r
+ * @memberof zzglc
+ * @description Data asset version r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} srid
+ */
+function data_asset_version_r() {}
+
+/**
+ * @function data_custom_geometry_c
+ * @memberof zzglc
+ * @description Data custom geometry c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function data_custom_geometry_c() {}
+
+/**
+ * @function data_theme_l
+ * @memberof zzgll
+ * @description Data theme l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_theme_l() {}
+
+/**
+ * @function update_i18n_lang
+ * @memberof meta
+ * @description Update i18n lang
+ * @returns {void}
+ */
+function update_i18n_lang() {}
+
+/**
+ * @function general_message_c
+ * @memberof zzglc
+ * @description General message c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_message_c() {}
+
+/**
+ * @function data_geometry_type_c
+ * @memberof zzglc
+ * @description Data geometry type c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_geometry_type_c() {}
+
+/**
+ * @function general_country_u
+ * @memberof zzglc
+ * @description General country u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_country_u() {}
+
+/**
+ * @function data_attribute_u
+ * @memberof zzglc
+ * @description Data attribute u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_attribute_u() {}
+
+/**
+ * @function meta_import_master_r
+ * @memberof zzglc
+ * @description Meta import master r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} schema_name
+ * @property {character_varying} table_name
+ * @property {character_varying} file_name
+ * @property {character_varying} sheet
+ * @property {character_varying} name
+ * @property {character_varying} import_name
+ * @property {character_varying} data_date
+ * @property {character_varying} constant_value
+ */
+function meta_import_master_r() {}
+
+/**
+ * @function data_license_d
+ * @memberof zzglc
+ * @description Data license d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_license_d() {}
+
+/**
+ * @function general_ai_model_r
+ * @memberof zzglc
+ * @description General ai model r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function general_ai_model_r() {}
+
+/**
+ * @function data_shape_d
+ * @memberof zzglc
+ * @description Data shape d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_shape_d() {}
+
+/**
+ * @function data_custom_geometry_property_u
+ * @memberof zzglc
+ * @description Data custom geometry property u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_custom_geometry_property_u() {}
+
+/**
+ * @function get_all_nuts
+ * @memberof general
+ * @description Get all nuts
+ * @param {integer} Id
+ * @param {integer} Srid
+ * @returns {json}
+ */
+function get_all_nuts() {}
+
+/**
+ * @function meta_import_detail_r
+ * @memberof zzglc
+ * @description Meta import detail r
+ * @param {integer} MasterId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} import_master_id
+ * @property {character_varying} col_name
+ * @property {character_varying} target_schema
+ * @property {character_varying} target_table
+ * @property {character_varying} target_column
+ * @property {character_varying} col_type
+ * @property {boolean} is_key
+ * @property {boolean} is_fk
+ * @property {character_varying} name
+ * @property {boolean} as_row
+ * @property {character_varying} target_column_list
+ * @property {character_varying} source_column_list
+ * @property {character_varying} joins
+ * @property {boolean} split
+ * @property {boolean} ignore
+ * @property {character_varying} name_match
+ * @property {integer} order_no
+ * @property {boolean} ignore_in_master
+ * @property {character_varying} constant_value
+ * @property {character_varying} import_master_id_val
+ */
+function meta_import_detail_r() {}
+
+/**
+ * @function meta_import_master_c
+ * @memberof zzglc
+ * @description Meta import master c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_import_master_c() {}
+
+/**
+ * @function log_errors_d
+ * @memberof zzglc
+ * @description Log errors d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function log_errors_d() {}
+
+/**
+ * @function meta_news_r
+ * @memberof zzglc
+ * @description Meta news r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {boolean} active
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {integer} user_modified
+ * @property {timestamp_without_time_zone} time_created
+ * @property {character_varying} user_modified_val
+ */
+function meta_news_r() {}
+
+/**
+ * @function meta_i18n_l
+ * @memberof zzgll
+ * @description Meta i18n l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} key
+ */
+function meta_i18n_l() {}
+
+/**
+ * @function data_oedce_r
+ * @memberof zzglc
+ * @description Data oedce r
+ * @returns {Object}
+ * @property {integer} fid
+ * @property {character_varying} start_datetime
+ * @property {character_varying} end_datetime
+ * @property {character_varying} gsd
+ * @property {character_varying} instruments
+ * @property {character_varying} datetime
+ * @property {character_varying} item_id
+ * @property {character_varying} item_bbox
+ * @property {character_varying} href
+ * @property {character_varying} type
+ * @property {character_varying} main
+ * @property {character_varying} roles
+ * @property {character_varying} asset_id
+ * @property {character_varying} collection_id
+ * @property {character_varying} collection_title
+ * @property {character_varying} collection_description
+ * @property {character_varying} collection_providers
+ * @property {character_varying} collection_keywords
+ * @property {character_varying} collection_license
+ * @property {character_varying} platform
+ */
+function data_oedce_r() {}
+
+/**
+ * @function calculate_levels
+ * @memberof general
+ * @description Calculate levels
+ * @returns {void}
+ */
+function calculate_levels() {}
+
+/**
+ * @function data_asset_theme_l
+ * @memberof zzgll
+ * @description Data asset theme l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_asset_theme_l() {}
+
+/**
+ * @function data_date_unit_l
+ * @memberof zzgll
+ * @description Data date unit l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_date_unit_l() {}
+
+/**
+ * @function get_custom_geometry_props
+ * @memberof data
+ * @description Get custom geometry props
+ * @param {integer} PersonId
+ * @param {integer} Id
+ * @returns {json}
+ */
+function get_custom_geometry_props() {}
+
+/**
+ * @function data_shape_l
+ * @memberof zzgll
+ * @description Data shape l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} data_source_id
+ */
+function data_shape_l() {}
+
+/**
+ * @function data_asset_catalog_l
+ * @memberof zzgll
+ * @description Data asset catalog l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_asset_catalog_l() {}
+
+/**
+ * @function meta_help_lang_d
+ * @memberof zzglc
+ * @description Meta help lang d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_help_lang_d() {}
+
+/**
+ * @function get_db_schema
+ * @memberof meta
+ * @description Get db schema
+ * @returns {json}
+ */
+function get_db_schema() {}
+
+/**
+ * @function data_catalog_l
+ * @memberof zzgll
+ * @description Data catalog l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_catalog_l() {}
+
+/**
+ * @function data_custom_geometry_property_d
+ * @memberof zzglc
+ * @description Data custom geometry property d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_custom_geometry_property_d() {}
+
+/**
+ * @function data_lu_detail_u
+ * @memberof zzglc
+ * @description Data lu detail u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_lu_detail_u() {}
+
+/**
+ * @function data_license_c
+ * @memberof zzglc
+ * @description Data license c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_license_c() {}
+
+/**
+ * @function meta_lang_d
+ * @memberof zzglc
+ * @description Meta lang d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_lang_d() {}
+
+/**
+ * @function data_attribute_description_l
+ * @memberof zzgll
+ * @description Data attribute description l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @param {integer} IndicatorId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_attribute_description_l() {}
+
+/**
+ * @function data_asset_version_u
+ * @memberof zzglc
+ * @description Data asset version u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_asset_version_u() {}
+
+/**
+ * @function general_boundary_u
+ * @memberof zzglc
+ * @description General boundary u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_boundary_u() {}
+
+/**
+ * @function data_shape_u
+ * @memberof zzglc
+ * @description Data shape u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_shape_u() {}
+
+/**
+ * @function general_boundary_c
+ * @memberof zzglc
+ * @description General boundary c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_boundary_c() {}
+
+/**
+ * @function get_context_user_id
+ * @memberof auth
+ * @description Get context user id
+ * @returns {uuid}
+ */
+function get_context_user_id() {}
+
+/**
+ * @function general_country_l
+ * @memberof zzgll
+ * @description General country l
+ * @param {character_varying} SearchValue
+ * @param {smallint} Key
+ * @returns {Object}
+ * @property {smallint} id
+ * @property {character_varying} name
+ */
+function general_country_l() {}
+
+/**
+ * @function meta_i18n_lang_u
+ * @memberof zzglc
+ * @description Meta i18n lang u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_i18n_lang_u() {}
+
+/**
+ * @function data_lc_main_r
+ * @memberof zzglc
+ * @description Data lc main r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} color_id
+ * @property {character_varying} color_id_val
+ * @property {character_varying} color_code
+ */
+function data_lc_main_r() {}
+
+/**
+ * @function prepare_joins
+ * @memberof meta
+ * @description Prepare joins
+ * @param {integer} Id
+ * @returns {void}
+ */
+function prepare_joins() {}
+
+/**
+ * @function meta_lang_r
+ * @memberof zzglc
+ * @description Meta lang r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} tag
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {character} short_tag
+ */
+function meta_lang_r() {}
+
+/**
+ * @function meta_news_u
+ * @memberof zzglc
+ * @description Meta news u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_news_u() {}
+
+/**
+ * @function general_boundary_r
+ * @memberof zzglc
+ * @description General boundary r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} osm_id
+ * @property {integer} admin_level
+ * @property {character_varying} name
+ * @property {character_varying} local_name
+ */
+function general_boundary_r() {}
+
+/**
+ * @function delete_custom_geometry
+ * @memberof data
+ * @description Delete custom geometry
+ * @param {integer} PersonId
+ * @param {integer} Id
+ * @returns {void}
+ */
+function delete_custom_geometry() {}
+
+/**
+ * @function get_shape
+ * @memberof data
+ * @description Get shape
+ * @param {integer} Id
+ * @param {integer} Srid
+ * @returns {json}
+ */
+function get_shape() {}
+
+/**
+ * @function import_detail_clone
+ * @memberof meta
+ * @description Import detail clone
+ * @param {character_varying} Id
+ * @returns {void}
+ */
+function import_detail_clone() {}
+
+/**
+ * @function delete_file
+ * @memberof data
+ * @description Delete file
+ * @param {integer} PersonId
+ * @param {integer} FileId
+ * @returns {void}
+ */
+function delete_file() {}
+
+/**
+ * @function get_context_person_id
+ * @memberof auth
+ * @description Get context person id
+ * @returns {integer}
+ */
+function get_context_person_id() {}
+
+/**
+ * @function import_croatia246
+ * @memberof data
+ * @description Import croatia246
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function import_croatia246() {}
+
+/**
+ * @function auth_route_role_public_u
+ * @memberof zzglc
+ * @description Auth route role public u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function auth_route_role_public_u() {}
+
+/**
+ * @function data_date_unit_c
+ * @memberof zzglc
+ * @description Data date unit c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_date_unit_c() {}
+
+/**
+ * @function meta_route_c
+ * @memberof zzglc
+ * @description Meta route c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function meta_route_c() {}
+
+/**
+ * @function get_indicator_values
+ * @memberof data
+ * @description Get indicator values
+ * @param {integer} IndicatorId
+ * @param {integer} DataSourceId
+ * @returns {Object}
+ * @property {double_precision} lon
+ * @property {double_precision} lat
+ * @property {real} value
+ * @property {date} date
+ * @property {character_varying} color_code
+ * @property {character_varying} point_key
+ * @property {character} nuts_0
+ * @property {character_varying} description
+ * @property {character_varying} point_name
+ * @property {integer} point_id
+ */
+function get_indicator_values() {}
+
+/**
+ * @function meta_route_r
+ * @memberof zzglc
+ * @description Meta route r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} order_no
+ * @property {character_varying} path
+ * @property {character_varying} component_name
+ * @property {character_varying} icon
+ * @property {character_varying} parent
+ * @property {json} props
+ * @property {boolean} offline
+ * @property {boolean} public
+ * @property {boolean} active
+ */
+function meta_route_r() {}
+
+/**
+ * @function data_asset_u
+ * @memberof zzglc
+ * @description Data asset u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_asset_u() {}
+
+/**
+ * @function general_sub_region_l
+ * @memberof zzgll
+ * @description General sub region l
+ * @param {character_varying} SearchValue
+ * @param {smallint} Key
+ * @returns {Object}
+ * @property {smallint} id
+ * @property {character_varying} name
+ */
+function general_sub_region_l() {}
+
+/**
+ * @function meta_trace_r
+ * @memberof zzglc
+ * @description Meta trace r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} text
+ * @property {timestamp_without_time_zone} time_modified
+ */
+function meta_trace_r() {}
+
+/**
+ * @function get_shape_geometry
+ * @memberof data
+ * @description Get shape geometry
+ * @param {integer} Id
+ * @param {integer} Srid
+ * @returns {json}
+ */
+function get_shape_geometry() {}
+
+/**
+ * @function meta_lang_l
+ * @memberof zzgll
+ * @description Meta lang l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function meta_lang_l() {}
+
+/**
+ * @function data_depth_c
+ * @memberof zzglc
+ * @description Data depth c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_depth_c() {}
+
+/**
+ * @function data_geometry_type_property_l
+ * @memberof zzgll
+ * @description Data geometry type property l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} geometry_type_id
+ */
+function data_geometry_type_property_l() {}
+
+/**
+ * @function data_indicator_lang_u
+ * @memberof zzglc
+ * @description Data indicator lang u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_indicator_lang_u() {}
+
+/**
+ * @function get_assets
+ * @memberof data
+ * @description Get assets
+ * @param {integer} TitleId
+ * @param {character_varying} Depth
+ * @param {integer} Srid
+ * @returns {json}
+ */
+function get_assets() {}
+
+/**
+ * @function get_indicator_legend
+ * @memberof data
+ * @description Get indicator legend
+ * @param {integer} LangId
+ * @param {integer} IndicatorId
+ * @returns {json}
+ */
+function get_indicator_legend() {}
+
+/**
+ * @function data_indicator_lang_c
+ * @memberof zzglc
+ * @description Data indicator lang c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_indicator_lang_c() {}
+
+/**
+ * @function import_proc_from_gl
+ * @memberof meta
+ * @description Import proc from gl
+ * @param {character_varying} SchemaName
+ * @param {character_varying} ProcName
+ * @returns {void}
+ */
+function import_proc_from_gl() {}
+
+/**
+ * @function data_date_style_d
+ * @memberof zzglc
+ * @description Data date style d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_date_style_d() {}
+
+/**
+ * @function general_country_d
+ * @memberof zzglc
+ * @description General country d
+ * @param {smallint} Key
+ * @returns {void}
+ */
+function general_country_d() {}
+
+/**
+ * @function data_depth_r
+ * @memberof zzglc
+ * @description Data depth r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} color_id
+ * @property {character_varying} color_id_val
+ * @property {character_varying} color_code
+ */
+function data_depth_r() {}
+
+/**
+ * @function meta_i18n_d
+ * @memberof zzglc
+ * @description Meta i18n d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_i18n_d() {}
+
+/**
+ * @function set_color_map
+ * @memberof data
+ * @description Set color map
+ * @param {integer} Id
+ * @param {text} ColorMap
+ * @returns {void}
+ */
+function set_color_map() {}
+
+/**
+ * @function data_file_scale_l
+ * @memberof zzgll
+ * @description Data file scale l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_file_scale_l() {}
+
+/**
+ * @function general_region_r
+ * @memberof zzglc
+ * @description General region r
+ * @returns {Object}
+ * @property {smallint} id
+ * @property {character_varying} name
+ */
+function general_region_r() {}
+
+/**
+ * @function meta_trace_d
+ * @memberof zzglc
+ * @description Meta trace d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_trace_d() {}
+
+/**
+ * @function data_indicator_color_c
+ * @memberof zzglc
+ * @description Data indicator color c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_indicator_color_c() {}
+
+/**
+ * @function meta_help_u
+ * @memberof zzglc
+ * @description Meta help u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_help_u() {}
+
+/**
+ * @function analyze_file
+ * @memberof meta
+ * @description Analyze file
+ * @param {integer} Id
+ * @param {text} JsonData
+ * @returns {void}
+ */
+function analyze_file() {}
+
+/**
+ * @function general_region_d
+ * @memberof zzglc
+ * @description General region d
+ * @param {smallint} Key
+ * @returns {void}
+ */
+function general_region_d() {}
+
+/**
+ * @function data_shape_geometry_d
+ * @memberof zzglc
+ * @description Data shape geometry d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_shape_geometry_d() {}
+
+/**
+ * @function data_data_source_u
+ * @memberof zzglc
+ * @description Data data source u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_data_source_u() {}
+
+/**
+ * @function get_lang
+ * @memberof meta
+ * @description Get lang
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} short_tag
+ */
+function get_lang() {}
+
+/**
+ * @function auth_person_role_public_r
+ * @memberof zzglc
+ * @description Auth person role public r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} person_id
+ * @property {integer} role_public_id
+ * @property {character_varying} person_id_val
+ * @property {character_varying} role_public_id_val
+ */
+function auth_person_role_public_r() {}
+
+/**
+ * @function data_indicator_l
+ * @memberof zzgll
+ * @description Data indicator l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_indicator_l() {}
+
+/**
+ * @function get_event_dates
+ * @memberof auth
+ * @description Get event dates
+ * @param {integer} TenantId
+ * @param {integer} PeriodId
+ * @param {integer} AppId
+ * @returns {Object}
+ * @property {uuid} event_id
+ * @property {timestamp_without_time_zone} datetime
+ */
+function get_event_dates() {}
+
+/**
+ * @function general_nuts_c
+ * @memberof zzglc
+ * @description General nuts c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_nuts_c() {}
+
+/**
+ * @function data_depth_d
+ * @memberof zzglc
+ * @description Data depth d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_depth_d() {}
+
+/**
+ * @function data_asset_theme_d
+ * @memberof zzglc
+ * @description Data asset theme d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_asset_theme_d() {}
+
+/**
+ * @function get_all_assets
+ * @memberof data
+ * @description Get all assets
+ * @returns {Object}
+ * @property {character_varying} id
+ * @property {boolean} ignore
+ * @property {integer} asset_catalog_id
+ * @property {character_varying} title
+ * @property {character_varying} description
+ * @property {integer} asset_theme_id
+ * @property {character_varying} keywords_list
+ * @property {integer} asset_version_id
+ * @property {character_varying} doi
+ * @property {integer} unit_id
+ * @property {character_varying} scale_factor
+ * @property {integer} person_id
+ * @property {character_varying} providers_list
+ * @property {integer} license_id
+ * @property {character_varying} constellation_list
+ * @property {character_varying} platform
+ * @property {character_varying} instruments_list
+ * @property {character_varying} gsd
+ * @property {date} start_date
+ * @property {date} end_date
+ * @property {integer} date_step
+ * @property {character_varying} date_offset
+ * @property {integer} date_unit_id
+ * @property {integer} date_style_id
+ * @property {boolean} ignore_29feb
+ * @property {character_varying} depth_list
+ * @property {character_varying} main_sld_url
+ * @property {character_varying} sld_1_url
+ * @property {character_varying} main_qml_url
+ * @property {character_varying} main_url
+ * @property {character_varying} asset_catalog_id_val
+ * @property {character_varying} asset_theme_id_val
+ * @property {character_varying} asset_version_id_val
+ * @property {character_varying} unit_id_val
+ * @property {character_varying} person_id_val
+ * @property {character_varying} license_id_val
+ * @property {character_varying} date_unit_id_val
+ * @property {character_varying} date_style_id_val
+ */
+function get_all_assets() {}
+
+/**
+ * @function import_master_clone
+ * @memberof meta
+ * @description Import master clone
+ * @param {character_varying} Id
+ * @returns {void}
+ */
+function import_master_clone() {}
+
+/**
+ * @function get_nuts
+ * @memberof data
+ * @description Get nuts
+ * @param {integer} Level
+ * @param {integer} Srid
+ * @param {integer} Zoom
+ * @param {double_precision} MinX
+ * @param {double_precision} MinY
+ * @param {double_precision} MaxX
+ * @param {double_precision} MaxY
+ * @param {integer} IndicatorId
+ * @param {integer} DataSourceId
+ * @returns {json}
+ */
+function get_nuts() {}
+
+/**
+ * @function get_observations
+ * @memberof data
+ * @description Get observations
+ * @param {text} Params
+ * @param {integer} PersonId
+ * @param {integer} LangId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} type
+ * @property {boolean} public
+ * @property {timestamp_with_time_zone} time_created
+ * @property {timestamp_with_time_zone} time_modified
+ */
+function get_observations() {}
+
+/**
+ * @function data_lu_l
+ * @memberof zzgll
+ * @description Data lu l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_lu_l() {}
+
+/**
+ * @function get_or_create_person_id
+ * @memberof auth
+ * @description Get or create person id
+ * @param {character_varying} Email
+ * @param {character_varying} FirstName
+ * @param {character_varying} LastName
+ * @returns {integer}
+ */
+function get_or_create_person_id() {}
+
+/**
+ * @function meta_safe_function_c
+ * @memberof zzglc
+ * @description Meta safe function c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_safe_function_c() {}
+
+/**
+ * @function route_reorder
+ * @memberof meta
+ * @description Route reorder
+ * @param {character_varying} SourceId
+ * @param {integer} ToIndex
+ * @returns {void}
+ */
+function route_reorder() {}
+
+/**
+ * @function meta_news_d
+ * @memberof zzglc
+ * @description Meta news d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_news_d() {}
+
+/**
+ * @function meta_i18n_c
+ * @memberof zzglc
+ * @description Meta i18n c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_i18n_c() {}
+
+/**
+ * @function general_partner_d
+ * @memberof zzglc
+ * @description General partner d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function general_partner_d() {}
+
+/**
+ * @function data_measurement_c
+ * @memberof zzglc
+ * @description Data measurement c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_measurement_c() {}
+
+/**
+ * @function data_property_u
+ * @memberof zzglc
+ * @description Data property u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_property_u() {}
+
+/**
+ * @function data_lc_detail_u
+ * @memberof zzglc
+ * @description Data lc detail u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_lc_detail_u() {}
+
+/**
+ * @function general_ai_model_u
+ * @memberof zzglc
+ * @description General ai model u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_ai_model_u() {}
+
+/**
+ * @function get_point_history
+ * @memberof data
+ * @description Get point history
+ * @param {integer} PointId
+ * @param {integer} IndicatorId
+ * @returns {Object}
+ * @property {date} date
+ * @property {character_varying} depth
+ * @property {real} value
+ */
+function get_point_history() {}
+
+/**
+ * @function data_property_l
+ * @memberof zzgll
+ * @description Data property l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_property_l() {}
+
+/**
+ * @function data_license_u
+ * @memberof zzglc
+ * @description Data license u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_license_u() {}
+
+/**
+ * @function data_asset_d
+ * @memberof zzglc
+ * @description Data asset d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_asset_d() {}
+
+/**
+ * @function data_geometry_type_property_c
+ * @memberof zzglc
+ * @description Data geometry type property c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_geometry_type_property_c() {}
+
+/**
+ * @function data_file_type_l
+ * @memberof zzgll
+ * @description Data file type l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_file_type_l() {}
+
+/**
+ * @function data_unit_r
+ * @memberof zzglc
+ * @description Data unit r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_unit_r() {}
+
+/**
+ * @function get_routes
+ * @memberof meta
+ * @description Get routes
+ * @param {integer} PersonId
+ * @param {integer} LangId
+ * @returns {json}
+ */
+function get_routes() {}
+
+/**
+ * @function general_message_u
+ * @memberof zzglc
+ * @description General message u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_message_u() {}
+
+/**
+ * @function meta_import_master_u
+ * @memberof zzglc
+ * @description Meta import master u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_import_master_u() {}
+
+/**
+ * @function data_date_unit_u
+ * @memberof zzglc
+ * @description Data date unit u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_date_unit_u() {}
+
+/**
+ * @function update_parent_distance
+ * @memberof general
+ * @description Update parent distance
+ * @returns {void}
+ */
+function update_parent_distance() {}
+
+/**
+ * @function rmv
+ * @memberof meta
+ * @description Rmv
+ * @returns {void}
+ */
+function rmv() {}
+
+/**
+ * @function data_attribute_description_r
+ * @memberof zzglc
+ * @description Data attribute description r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} indicator_id
+ * @property {integer} description_id
+ * @property {character_varying} name
+ * @property {integer} color_id
+ * @property {character_varying} code
+ * @property {character_varying} indicator_id_val
+ * @property {character_varying} color_id_val
+ */
+function data_attribute_description_r() {}
+
+/**
+ * @function camel_to_snake
+ * @memberof meta
+ * @description Camel to snake
+ * @param {text} input_text
+ * @returns {text}
+ */
+function camel_to_snake() {}
+
+/**
+ * @function data_point_u
+ * @memberof zzglc
+ * @description Data point u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_point_u() {}
+
+/**
+ * @function data_custom_geometry_d
+ * @memberof zzglc
+ * @description Data custom geometry d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_custom_geometry_d() {}
+
+/**
+ * @function data_indicator_c
+ * @memberof zzglc
+ * @description Data indicator c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function data_indicator_c() {}
+
+/**
+ * @function data_attribute_r
+ * @memberof zzglc
+ * @description Data attribute r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} point_id
+ * @property {integer} indicator_id
+ * @property {integer} description_id
+ * @property {integer} data_source_id
+ * @property {date} date
+ * @property {integer} attribute_description_id
+ * @property {character_varying} point_id_val
+ * @property {character_varying} indicator_id_val
+ * @property {character_varying} data_source_id_val
+ * @property {character_varying} attribute_description_id_val
+ */
+function data_attribute_r() {}
+
+/**
+ * @function data_asset_theme_r
+ * @memberof zzglc
+ * @description Data asset theme r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_asset_theme_r() {}
+
+/**
+ * @function data_measurement_d
+ * @memberof zzglc
+ * @description Data measurement d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_measurement_d() {}
+
+/**
+ * @function data_unit_u
+ * @memberof zzglc
+ * @description Data unit u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_unit_u() {}
+
+/**
+ * @function auth_role_public_u
+ * @memberof zzglc
+ * @description Auth role public u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function auth_role_public_u() {}
+
+/**
+ * @function meta_help_lang_u
+ * @memberof zzglc
+ * @description Meta help lang u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_help_lang_u() {}
+
+/**
+ * @function set_custom_geometry
+ * @memberof data
+ * @description Set custom geometry
+ * @param {integer} PersonId
+ * @param {integer} Id
+ * @param {integer} GeometryTypeId
+ * @param {character_varying} Name
+ * @param {boolean} Public
+ * @returns {integer}
+ */
+function set_custom_geometry() {}
+
+/**
+ * @function data_shape_geometry_u
+ * @memberof zzglc
+ * @description Data shape geometry u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_shape_geometry_u() {}
+
+/**
+ * @function auth_log_d
+ * @memberof zzglc
+ * @description Auth log d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function auth_log_d() {}
+
+/**
+ * @function data_indicator_color_d
+ * @memberof zzglc
+ * @description Data indicator color d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_indicator_color_d() {}
+
+/**
+ * @function general_nuts_l
+ * @memberof zzgll
+ * @description General nuts l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} nuts_id
+ */
+function general_nuts_l() {}
+
+/**
+ * @function set_help
+ * @memberof meta
+ * @description Set help
+ * @param {character_varying} Name
+ * @param {integer} LangId
+ * @param {text} Help
+ * @returns {void}
+ */
+function set_help() {}
+
+/**
+ * @function meta_import_detail_u
+ * @memberof zzglc
+ * @description Meta import detail u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_import_detail_u() {}
+
+/**
+ * @function get_context_lang_id
+ * @memberof auth
+ * @description Get context lang id
+ * @returns {integer}
+ */
+function get_context_lang_id() {}
+
+/**
+ * @function meta_news_lang_u
+ * @memberof zzglc
+ * @description Meta news lang u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_news_lang_u() {}
+
+/**
+ * @function data_shape_r
+ * @memberof zzglc
+ * @description Data shape r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} data_source_id
+ * @property {character_varying} name
+ * @property {character_varying} data_source_id_val
+ */
+function data_shape_r() {}
+
+/**
+ * @function general_sub_region_u
+ * @memberof zzglc
+ * @description General sub region u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_sub_region_u() {}
+
+/**
+ * @function general_color_l
+ * @memberof zzgll
+ * @description General color l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} code
+ */
+function general_color_l() {}
+
+/**
+ * @function meta_help_d
+ * @memberof zzglc
+ * @description Meta help d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_help_d() {}
+
+/**
+ * @function data_indicator_d
+ * @memberof zzglc
+ * @description Data indicator d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_indicator_d() {}
+
+/**
+ * @function delete_all_messages
+ * @memberof general
+ * @description Delete all messages
+ * @param {integer} PersonId
+ * @returns {void}
+ */
+function delete_all_messages() {}
+
+/**
+ * @function data_shape_geometry_r
+ * @memberof zzglc
+ * @description Data shape geometry r
+ * @param {integer} ShapeId
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} shape_id
+ * @property {json} properties
+ * @property {character_varying} shape_id_val
+ */
+function data_shape_geometry_r() {}
+
+/**
+ * @function data_custom_geometry_u
+ * @memberof zzglc
+ * @description Data custom geometry u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_custom_geometry_u() {}
+
+/**
+ * @function data_data_source_l
+ * @memberof zzgll
+ * @description Data data source l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_data_source_l() {}
+
+/**
+ * @function data_attribute_d
+ * @memberof zzglc
+ * @description Data attribute d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_attribute_d() {}
+
+/**
+ * @function data_nuts_2_l
+ * @memberof zzgll
+ * @description Data nuts 2 l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_nuts_2_l() {}
+
+/**
+ * @function general_sub_region_r
+ * @memberof zzglc
+ * @description General sub region r
+ * @returns {Object}
+ * @property {smallint} id
+ * @property {character_varying} name
+ */
+function general_sub_region_r() {}
+
+/**
+ * @function data_file_metadata_l
+ * @memberof zzgll
+ * @description Data file metadata l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} orig_id
+ */
+function data_file_metadata_l() {}
+
+/**
+ * @function delete_message
+ * @memberof general
+ * @description Delete message
+ * @param {integer} Id
+ * @returns {void}
+ */
+function delete_message() {}
+
+/**
+ * @function general_message_r
+ * @memberof zzglc
+ * @description General message r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} person_id
+ * @property {text} message
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {integer} parent_id
+ * @property {character_varying} person_id_val
+ */
+function general_message_r() {}
+
+/**
+ * @function data_data_source_c
+ * @memberof zzglc
+ * @description Data data source c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_data_source_c() {}
+
+/**
+ * @function data_lc_detail_d
+ * @memberof zzglc
+ * @description Data lc detail d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_lc_detail_d() {}
+
+/**
+ * @function data_lc_l
+ * @memberof zzgll
+ * @description Data lc l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_lc_l() {}
+
+/**
+ * @function general_person_u
+ * @memberof zzglc
+ * @description General person u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_person_u() {}
+
+/**
+ * @function get_catalogs
+ * @memberof data
+ * @description Get catalogs
+ * @param {integer} LangId
+ * @returns {json}
+ */
+function get_catalogs() {}
+
+/**
+ * @function meta_trace_c
+ * @memberof zzglc
+ * @description Meta trace c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_trace_c() {}
+
+/**
+ * @function get_context_tenant_id
+ * @memberof auth
+ * @description Get context tenant id
+ * @returns {integer}
+ */
+function get_context_tenant_id() {}
+
+/**
+ * @function remove_quotes_from_table
+ * @memberof meta
+ * @description Remove quotes from table
+ * @param {character_varying} TableName
+ * @returns {void}
+ */
+function remove_quotes_from_table() {}
+
+/**
+ * @function data_asset_r
+ * @memberof zzglc
+ * @description Data asset r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} orig_id
+ * @property {boolean} ignore
+ * @property {integer} asset_catalog_id
+ * @property {character_varying} title
+ * @property {character_varying} description
+ * @property {integer} asset_theme_id
+ * @property {character_varying} keywords_list
+ * @property {integer} asset_version_id
+ * @property {character_varying} doi
+ * @property {integer} unit_id
+ * @property {character_varying} scale_factor
+ * @property {integer} person_id
+ * @property {character_varying} providers_list
+ * @property {integer} license_id
+ * @property {character_varying} constellation_list
+ * @property {character_varying} platform
+ * @property {character_varying} instruments_list
+ * @property {character_varying} gsd
+ * @property {date} start_date
+ * @property {date} end_date
+ * @property {integer} date_step
+ * @property {character_varying} date_offset
+ * @property {integer} date_unit_id
+ * @property {integer} date_style_id
+ * @property {boolean} ignore_29feb
+ * @property {character_varying} depth_list
+ * @property {character_varying} main_sld_url
+ * @property {character_varying} sld_1_url
+ * @property {character_varying} main_qml_url
+ * @property {character_varying} main_url
+ * @property {character_varying} color_map
+ * @property {integer} no_data
+ * @property {integer} decimals
+ * @property {integer} indicator_id
+ * @property {character_varying} asset_catalog_id_val
+ * @property {character_varying} asset_theme_id_val
+ * @property {character_varying} asset_version_id_val
+ * @property {character_varying} unit_id_val
+ * @property {character_varying} person_id_val
+ * @property {character_varying} license_id_val
+ * @property {character_varying} date_unit_id_val
+ * @property {character_varying} date_style_id_val
+ * @property {character_varying} indicator_id_val
+ */
+function data_asset_r() {}
+
+/**
+ * @function general_ai_model_c
+ * @memberof zzglc
+ * @description General ai model c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_ai_model_c() {}
+
+/**
+ * @function _navicat_temp_stored_proc
+ * @memberof data
+ * @description  Navicat temp stored proc
+ * @param {integer} PersonId
+ * @param {integer} Id
+ * @param {integer} GeometryTypeId
+ * @param {character_varying} Name
+ * @param {boolean} Public
+ * @returns {integer}
+ */
+function _navicat_temp_stored_proc() {}
+
+/**
+ * @function auth_role_public_c
+ * @memberof zzglc
+ * @description Auth role public c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function auth_role_public_c() {}
+
+/**
+ * @function data_date_style_c
+ * @memberof zzglc
+ * @description Data date style c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_date_style_c() {}
+
+/**
+ * @function general_boundary_d
+ * @memberof zzglc
+ * @description General boundary d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function general_boundary_d() {}
+
+/**
+ * @function auth_user_role_d
+ * @memberof zzglc
+ * @description Auth user role d
+ * @param {uuid} Key
+ * @returns {void}
+ */
+function auth_user_role_d() {}
+
+/**
+ * @function meta_help_c
+ * @memberof zzglc
+ * @description Meta help c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_help_c() {}
+
+/**
+ * @function data_indicator_u
+ * @memberof zzglc
+ * @description Data indicator u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_indicator_u() {}
+
+/**
+ * @function data_file_dataset_l
+ * @memberof zzgll
+ * @description Data file dataset l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_file_dataset_l() {}
+
+/**
+ * @function data_geometry_type_l
+ * @memberof zzgll
+ * @description Data geometry type l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_geometry_type_l() {}
+
+/**
+ * @function data_lc_detail_c
+ * @memberof zzglc
+ * @description Data lc detail c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_lc_detail_c() {}
+
+/**
+ * @function data_file_sd_type_l
+ * @memberof zzgll
+ * @description Data file sd type l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_file_sd_type_l() {}
+
+/**
+ * @function data_nuts_3_l
+ * @memberof zzgll
+ * @description Data nuts 3 l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_nuts_3_l() {}
+
+/**
+ * @function data_data_source_r
+ * @memberof zzglc
+ * @description Data data source r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} srid
+ */
+function data_data_source_r() {}
+
+/**
+ * @function data_asset_version_l
+ * @memberof zzgll
+ * @description Data asset version l
+ * @param {character_varying} SearchValue
+ * @param {integer} Key
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function data_asset_version_l() {}
+
+/**
+ * @function translate
+ * @memberof meta
+ * @description Translate
+ * @param {character_varying} Locale
+ * @param {character_varying} TableName
+ * @param {character_varying} KeyName
+ * @param {character_varying} KeyValue
+ * @param {character_varying} ParentKeyName
+ * @param {character_varying} ParentKeyValue
+ * @param {character_varying} FieldName
+ * @param {character_varying} FieldValue
+ * @returns {void}
+ */
+function translate() {}
+
+/**
+ * @function set_shape_geometry
+ * @memberof data
+ * @description Set shape geometry
+ * @param {integer} ShapeId
+ * @param {integer} Srid
+ * @param {text} Properties
+ * @param {text} Geometry
+ * @returns {void}
+ */
+function set_shape_geometry() {}
+
+/**
+ * @function data_lc_main_u
+ * @memberof zzglc
+ * @description Data lc main u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_lc_main_u() {}
+
+/**
+ * @function login
+ * @memberof auth
+ * @description Login
+ * @param {integer} PersonId
+ * @param {character_varying} IP
+ * @returns {json}
+ */
+function login() {}
+
+/**
+ * @function meta_route_u
+ * @memberof zzglc
+ * @description Meta route u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function meta_route_u() {}
+
+/**
+ * @function auth_role_public_r
+ * @memberof zzglc
+ * @description Auth role public r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ */
+function auth_role_public_r() {}
+
+/**
+ * @function data_oedce_c
+ * @memberof zzglc
+ * @description Data oedce c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_oedce_c() {}
+
+/**
+ * @function data_attribute_c
+ * @memberof zzglc
+ * @description Data attribute c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function data_attribute_c() {}
+
+/**
+ * @function data_custom_geometry_r
+ * @memberof zzglc
+ * @description Data custom geometry r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} geometry_type_id
+ * @property {integer} person_id
+ * @property {character_varying} route_key
+ * @property {character_varying} name
+ * @property {boolean} public
+ * @property {timestamp_with_time_zone} time_modified
+ * @property {timestamp_with_time_zone} time_created
+ * @property {character_varying} geometry_type_id_val
+ * @property {character_varying} person_id_val
+ */
+function data_custom_geometry_r() {}
+
+/**
+ * @function general_nuts_u
+ * @memberof zzglc
+ * @description General nuts u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_nuts_u() {}
+
+/**
+ * @function raise_error
+ * @memberof meta
+ * @description Raise error
+ * @param {integer} Code
+ * @param {character_varying} Explanation
+ * @returns {void}
+ */
+function raise_error() {}
+
+/**
+ * @function data_lu_detail_d
+ * @memberof zzglc
+ * @description Data lu detail d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_lu_detail_d() {}
+
+/**
+ * @function data_indicator_r
+ * @memberof zzglc
+ * @description Data indicator r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} unit_id
+ * @property {character_varying} lod
+ * @property {character_varying} name_match
+ * @property {integer} decimals_for_stats
+ * @property {integer} decimals_for_display
+ * @property {boolean} numerical
+ * @property {real} value_from
+ * @property {real} value_to
+ * @property {character_varying} unit_id_val
+ */
+function data_indicator_r() {}
+
+/**
+ * @function import_lucas2009
+ * @memberof data
+ * @description Import lucas2009
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function import_lucas2009() {}
+
+/**
+ * @function meta_i18n_r
+ * @memberof zzglc
+ * @description Meta i18n r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {character_varying} key
+ */
+function meta_i18n_r() {}
+
+/**
+ * @function get_context_app_id
+ * @memberof auth
+ * @description Get context app id
+ * @returns {integer}
+ */
+function get_context_app_id() {}
+
+/**
+ * @function general_region_u
+ * @memberof zzglc
+ * @description General region u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function general_region_u() {}
+
+/**
+ * @function update_backoffice_routes
+ * @memberof meta
+ * @description Update backoffice routes
+ * @returns {void}
+ */
+function update_backoffice_routes() {}
+
+/**
+ * @function auth_person_role_public_c
+ * @memberof zzglc
+ * @description Auth person role public c
+ * @param {character_varying} Json
+ * @returns {integer}
+ */
+function auth_person_role_public_c() {}
+
+/**
+ * @function set_nuts
+ * @memberof general
+ * @description Set nuts
+ * @param {text} Properties
+ * @param {text} Geometry
+ * @returns {void}
+ */
+function set_nuts() {}
+
+/**
+ * @function data_geometry_type_d
+ * @memberof zzglc
+ * @description Data geometry type d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_geometry_type_d() {}
+
+/**
+ * @function import_croatia
+ * @memberof data
+ * @description Import croatia
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function import_croatia() {}
+
+/**
+ * @function general_country_r
+ * @memberof zzglc
+ * @description General country r
+ * @returns {Object}
+ * @property {smallint} id
+ * @property {character_varying} name
+ * @property {character} code
+ * @property {integer} region_id
+ * @property {integer} sub_region_id
+ * @property {integer} osm_id
+ * @property {character_varying} region_id_val
+ * @property {character_varying} sub_region_id_val
+ * @property {boolean} has_boundary
+ */
+function general_country_r() {}
+
+/**
+ * @function meta_route_d
+ * @memberof zzglc
+ * @description Meta route d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function meta_route_d() {}
+
+/**
+ * @function function_sizes
+ * @memberof utils
+ * @description Function sizes
+ * @returns {Object}
+ * @property {bigint} functions
+ * @property {bigint} total
+ */
+function function_sizes() {}
+
+/**
+ * @function data_file_metadata_import_excel
+ * @memberof data
+ * @description Data file metadata import excel
+ * @param {text} jsonCV
+ * @param {text} jsonData
+ * @returns {void}
+ */
+function data_file_metadata_import_excel() {}
+
+/**
+ * @function auth_person_role_public_u
+ * @memberof zzglc
+ * @description Auth person role public u
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function auth_person_role_public_u() {}
+
+/**
+ * @function data_geometry_type_property_d
+ * @memberof zzglc
+ * @description Data geometry type property d
+ * @param {integer} Key
+ * @returns {void}
+ */
+function data_geometry_type_property_d() {}
+
+/**
+ * @function auth_log_r
+ * @memberof zzglc
+ * @description Auth log r
+ * @returns {Object}
+ * @property {integer} id
+ * @property {integer} person_id
+ * @property {character_varying} ip
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {character_varying} person_id_val
+ */
+function auth_log_r() {}
+
+/**
+ * @function get_data_source_data
+ * @memberof data
+ * @description Get data source data
+ * @param {text} Params
+ * @param {integer} PersonId
+ * @param {integer} LangId
+ * @returns {json}
+ */
+function get_data_source_data() {}
+
+/**
+ * @function data_shape_geometry_c
+ * @memberof zzglc
+ * @description Data shape geometry c
+ * @param {character_varying} Json
+ * @returns {void}
+ */
+function data_shape_geometry_c() {}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Schemas</h3><ul><li><a href="auth.html">auth</a></li><li><a href="data.html">data</a></li><li><a href="general.html">general</a></li><li><a href="log.html">log</a></li><li><a href="meta.html">meta</a></li><li><a href="utils.html">utils</a></li><li><a href="zzglc.html">zzglc</a></li><li><a href="zzgll.html">zzgll</a></li><li><a href="zzhistory.html">zzhistory</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Apr 04 2024 18:53:05 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

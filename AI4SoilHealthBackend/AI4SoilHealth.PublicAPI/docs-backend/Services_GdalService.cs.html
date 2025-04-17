@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Services/GdalService.cs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Services/GdalService.cs</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>﻿using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Distributed;
+using MaxRev.Gdal.Core;
+using OSGeo.GDAL;
+using OSGeo.OGR;
+using PublicAPI.Models;
+using OSGeo.OSR;
+using Microsoft.Extensions.Options;
+using System.Text;
+
+namespace Backend.Services {
+/**
+    * GDAL related operations   
+    @module GdalService
+*/
+    public partial class GdalService {
+
+        private readonly ILogger&lt;GdalService> _logger;
+        private readonly IDistributedCache _cache;
+        private readonly Db _db;
+        private readonly AppOptions _options;
+
+
+#if DEBUG
+        private const string FilesDir = "C:/tiffs/";
+#else
+        private const string FilesDir = "/var/www/html/tiffs/";  
+#endif
+
+        public GdalService(ILogger&lt;GdalService> logger, IDistributedCache cache, Db db, IOptions&lt;AppOptions> options) { 
+            _logger = logger;
+            _cache = cache;
+            _db = db;
+            _options = options.Value;
+        }
+
+        /**
+        * Import shapefile to database
+        * @param {int} shapeId - shape id
+        * @param {string} shapeFile - shape file path
+        * @returns {string} - error message
+        */
+        public async Task&lt;string> ShpToTable(int shapeId, string shapeFile) {
+            string ret = "";
+            try { 
+                GdalInit();
+                //OSGeo.OGR.Ogr.RegisterAll();
+                OSGeo.OGR.Driver drv = Ogr.GetDriverByName("ESRI Shapefile");
+                DataSource ds = drv.Open(shapeFile, 0);
+
+                OSGeo.OGR.Layer layer = ds.GetLayerByIndex(0);
+                OSGeo.OGR.Feature f;
+                layer.ResetReading();
+
+                //determine srid
+                var srid = Int32.Parse(layer.GetSpatialRef().GetAuthorityCode(null));
+
+
+                while ((f = layer.GetNextFeature()) != null) {
+                    //Geometry
+                    var geom = f.GetGeometryRef();
+                    string geometry = null;
+                    if (geom != null) {
+                        geometry = geom.ExportToJson(new string[] { });
+                    }
+
+                    //Properties
+                    string properties = "";
+                    int count = f.GetFieldCount();
+                    if (count != 0) {
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                        sb.Append("{");
+                        for (int i = 0; i &lt; count; i++) {
+                            FieldType type = f.GetFieldType(i);
+                            string key = f.GetFieldDefnRef(i).GetName();
+                            if (type == FieldType.OFTInteger) {
+                                var field = f.GetFieldAsInteger(i);
+                                sb.Append("\"" + key + "\":" + field + ",");
+                            } else if (type == FieldType.OFTReal) {
+                                var field = f.GetFieldAsDouble(i);
+                                sb.Append("\"" + key + "\":" + field + ",");
+                            } else {
+                                var field = f.GetFieldAsString(i);
+                                sb.Append("\"" + key + "\":\"" + field + "\",");
+                            }
+                        }
+                        sb.Length--;
+                        sb.Append("}");
+                        properties = sb.ToString();
+                    } else {
+                        properties = null;
+                    }
+                    var res = await _db.ExecuteAsync("data.set_shape_geometry", 
+                        new { ShapeId = shapeId, Srid = srid, Properties = properties, Geometry = geometry }, _options.ConnectionString);
+                    if (res != "") throw new Exception();
+                }
+                //close dataset                   
+                ds.Dispose();
+            } catch (Exception ex) {
+                ret = Helper.HandleException(_logger, ex);
+            }
+            return ret;
+        }
+
+        /**
+        * Convert shapefile to GeoJSON
+        * @param {string} InputPath - shape file path
+        * @returns {string} - GeoJSON
+        */
+        public async Task&lt;string> ShpToGeoJSON(string InputPath) {
+
+            OSGeo.OGR.Ogr.RegisterAll();
+            OSGeo.OGR.Driver drv = Ogr.GetDriverByName("ESRI Shapefile");
+            DataSource ds = drv.Open(InputPath, 0);
+
+            OSGeo.OGR.Layer layer = ds.GetLayerByIndex(0);
+            OSGeo.OGR.Feature f;
+            layer.ResetReading();
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            sb.AppendLine("{\"type\":\"FeatureCollection\", \"features\":[");
+            while ((f = layer.GetNextFeature()) != null) {
+                //Geometry
+                var geom = f.GetGeometryRef();
+                if (geom != null) {
+                    var geometryJson = geom.ExportToJson(new string[] { });
+                    sb.Append("{\"type\":\"Feature\",\"geometry\":" + geometryJson + ",");
+                }
+
+                //Properties
+                int count = f.GetFieldCount();
+                if (count != 0) {
+                    sb.Append("\"properties\":{");
+                    for (int i = 0; i &lt; count; i++) {
+                        FieldType type = f.GetFieldType(i);
+                        string key = f.GetFieldDefnRef(i).GetName();
+
+                        if (type == FieldType.OFTInteger) {
+                            var field = f.GetFieldAsInteger(i);
+                            sb.Append("\"" + key + "\":" + field + ",");
+                        } else if (type == FieldType.OFTReal) {
+                            var field = f.GetFieldAsDouble(i);
+                            sb.Append("\"" + key + "\":" + field + ",");
+                        } else {
+                            var field = f.GetFieldAsString(i);
+                            sb.Append("\"" + key + "\":\"" + field + "\",");
+                        }
+
+                    }
+                    sb.Length--;
+                    sb.Append("},");
+                }
+
+                //FID
+                long id = f.GetFID();
+                sb.AppendLine("\"id\":" + id + "},");
+            }
+
+            sb.Length -= 3;
+            sb.AppendLine("");
+            sb.Append("]}");
+            var ret = sb.ToString();
+            return ret;
+        }
+
+        /**
+        * Convert Gets history for a given point
+        * @param {PointForHistory} p - point
+        * @returns {string} - history
+        */
+        public async Task&lt;string> GetHistory(PointForHistory p) {
+            string ret = "";
+            if (p.sources.Count == 0) {
+                return Helper.CreateError(_logger, "No sources provided");
+            }
+            try {
+                GdalInit();
+                var originalSpatialRef = new SpatialReference("");
+                originalSpatialRef.ImportFromEPSG(p.srid);
+                var targetSpatialRef = new SpatialReference("");
+                targetSpatialRef.ImportFromEPSG(3035); // TODO
+
+                int swapXY = p.srid == 3035 ? 1 : 0;
+
+                var coordinateTransformation = new CoordinateTransformation(originalSpatialRef, targetSpatialRef);
+                double[] transformedPoint = new double[3] {p.x, p.y, 0};
+                coordinateTransformation.TransformPoint (transformedPoint);
+
+                double scaleFactor;
+                int formulaIndex;
+                findScaleFactorAndFormulaIndex(p.scaleFactor, out scaleFactor, out formulaIndex);
+
+                foreach (var f in p.sources) {
+                    Dataset ds = Gdal.Open("/vsicurl/" + f.file, Access.GA_ReadOnly);
+                    //Dataset ds = Gdal.Open(f.file, Access.GA_ReadOnly);
+                    double[] adfGeoTransform = new double[6];
+                    ds.GetGeoTransform(adfGeoTransform);                   
+                    // transformedPoint[0] = x, transformedPoint[1] = y ??? or vice versa??? seems that examples are inconsistent
+                    int x = (int)((transformedPoint[1 - swapXY] - adfGeoTransform[0]) / adfGeoTransform[1]);
+                    int y = (int)((transformedPoint[0 + swapXY] - adfGeoTransform[3]) / adfGeoTransform[5]);
+                    int bandCount = ds.RasterCount;
+                    var band = ds.GetRasterBand(1);
+                    var dataType = band.DataType;
+                    double value = 0;
+                    if (dataType == DataType.GDT_Byte) {
+                        Byte[] bandValues = new Byte[bandCount];
+                        ds.GetRasterBand(1).ReadRaster(x, y, 1, 1, bandValues, 1, 1, 0, 0);
+                        value = bandValues[0];
+                    } else if (dataType == DataType.GDT_UInt16) {
+                        Byte[] bandValues = new Byte[bandCount];
+                        ds.GetRasterBand(1).ReadRaster(x, y, 1, 1, bandValues, 1, 1, 0, 0);
+                        value = bandValues[0];
+                    } else if (dataType == DataType.GDT_Int32) {
+                        int[] bandValues = new int[bandCount];  
+                        ds.GetRasterBand(1).ReadRaster(x, y, 1, 1, bandValues, 1, 1, 0, 0);
+                        value = bandValues[0];
+                    } else {
+                        throw new Exception("Unknown data type");
+                    }
+
+                    if (formulaIndex >= 0) {
+                        f.value = functions[formulaIndex](value);
+                    } else {
+                        f.value = value * scaleFactor;
+                    }
+                    //f.value = bandValues[0];
+                    ds.Dispose();
+                }
+                ret = JsonConvert.SerializeObject(p.sources);
+                return ret;
+            } catch (Exception e) {
+                return Helper.CreateError(_logger, JsonConvert.SerializeObject(e));
+            }
+        }
+
+        /**
+        * Get metadata for a GeoTIFF file
+        * @param {string} geoTiffPath - path to GeoTIFF file
+        * @returns {Metadata} - metadata
+        */
+        public Metadata GetGeoTiffMetadata(string geoTiffPath) {
+            GdalInit();
+            Dataset ds = Gdal.Open(geoTiffPath, Access.GA_ReadOnly);
+            if (ds == null) {
+                throw new Exception("Failed to open the GeoTIFF file.");
+            }
+
+            double[] adfGeoTransform = new double[6];
+            ds.GetGeoTransform(adfGeoTransform);
+
+            Metadata metadata = new Metadata {
+                MinLongitude = adfGeoTransform[0],
+                MaxLatitude = adfGeoTransform[3],
+                MaxLongitude = adfGeoTransform[0] + adfGeoTransform[1] * ds.RasterXSize,
+                MinLatitude = adfGeoTransform[3] + adfGeoTransform[5] * ds.RasterYSize
+            };
+
+            ds.Dispose();
+
+            return metadata;
+        }
+
+
+        /**
+        * Transform pixel coordinates to geographic coordinates
+        * @param {double[]} GT - GeoTransform
+        * @param {int} xPixel - x pixel
+        * @param {int} yPixel - y pixel
+        * @param {double} xGeo - x coordinate
+        * @param {double} yGeo - y coordinate
+        */
+        void geoFromPixel(double[] GT, int xPixel, int yPixel, out double xGeo, out double yGeo) {
+            xGeo = GT[0] + xPixel * GT[1] + yPixel * GT[2];
+            yGeo = GT[3] + xPixel * GT[4] + yPixel * GT[5];
+        }
+
+        /**
+        * Transform geographic coordinates to pixel coordinates
+        * @param {double[]} GT - GeoTransform
+        * @param {double} xGeo - x coordinate
+        * @param {double} yGeo - y coordinate
+        * @param {int} xPixel - x pixel
+        * @param {int} yPixel - y pixel
+        */
+        void pixelFromGeo(double[] GT, double xGeo, double yGeo, out int xPixel, out int yPixel) {
+            xPixel = (int)Math.Round((xGeo - GT[0]) / GT[1]);
+            yPixel = (int)Math.Round((yGeo - GT[3]) / GT[5]);
+        }
+
+        /**
+        * Get statistics of a geometry
+        * @param {string} file - path to GeoTIFF file
+        * @param {string} geometry - geometry
+        * @param {int} srid - SRID
+        * @param {string} sscaleFactor - scale factor
+        * @param {int} no_data - no data value
+        * @returns {string} - average value
+        */
+        public async Task&lt;string> GetAverageInGeometry(string file, string geometry, int srid, string sscaleFactor, int no_data) {
+            try {
+                GdalInit();
+
+                int formulaIndex;
+                double scaleFactor;
+                findScaleFactorAndFormulaIndex(sscaleFactor, out scaleFactor, out formulaIndex);
+
+                string wkt;
+                // create and transform geometry
+                Geometry g = Ogr.CreateGeometryFromJson(geometry);
+                var gsr = g.GetSpatialReference();
+                var tsr = new SpatialReference("");
+                tsr.ImportFromEPSG(3035);
+                g.TransformTo(tsr);
+                var envelope = new Envelope();
+                g.GetEnvelope(envelope);
+
+                // open raster file
+                Dataset rds = Gdal.Open("/vsicurl/" + file, Access.GA_ReadOnly);
+                var rb = rds.GetRasterBand(1);
+                double[] rGeoTransform = new double[6];
+                rds.GetGeoTransform(rGeoTransform);
+
+                // open geometry
+                var gMemDriver = Ogr.GetDriverByName("Memory");
+                var rMemDriver = Gdal.GetDriverByName("MEM");
+
+                //var gl = Ogr.Open(js, 0).GetLayerByIndex(0);
+                int rasterCellSize = (int) rGeoTransform[1];
+                int x_res = Convert.ToInt32((envelope.MaxX - envelope.MinX) / rasterCellSize);
+                int y_res = Convert.ToInt32((envelope.MaxY - envelope.MinY) / rasterCellSize);
+
+                var gds = gMemDriver.CreateDataSource("", null);
+                var gl = gds.CreateLayer("polygons", tsr, wkbGeometryType.wkbPolygon, null);
+
+                // Create a feature and set the geometry
+                var featureDefn = gl.GetLayerDefn();
+                var feature = new Feature(featureDefn);
+                feature.SetGeometry(g);
+                gl.CreateFeature(feature);
+
+                Dataset outputDataset = rMemDriver.Create("", x_res, y_res, 1, DataType.GDT_Byte, null);
+                outputDataset.SetGeoTransform(new double[] { envelope.MinX, rasterCellSize, 0.0, envelope.MaxY, 0.0, -rasterCellSize });
+
+                tsr.ExportToWkt(out wkt, null);
+                outputDataset.SetProjection(wkt);
+                var gb = outputDataset.GetRasterBand(1);
+                Gdal.RasterizeLayer(outputDataset, 1, new int[] { 1 }, gl, IntPtr.Zero, IntPtr.Zero, 1, new double[] { 1 }, null, null, "Raster conversion");
+
+                int x, y;
+                // todo X, Y or Y,X? 
+                pixelFromGeo(rGeoTransform, envelope.MinY, envelope.MinX, out x, out y);
+
+                rb.GetNoDataValue(out double noDataValue, out int hasNoDataValue);
+
+                var type = rb.DataType;
+                object o;
+                if (type == DataType.GDT_Byte) {
+                    Byte[] ga = new Byte[x_res * y_res];
+                    Byte[] ra = new Byte[x_res * y_res];
+                    gb.ReadRaster(0, 0, x_res, y_res, ga, x_res, y_res, 0, 0);
+                    rb.ReadRaster(x, y, x_res, y_res, ra, x_res, y_res, 0, 0);
+                    o = CreateStatistics&lt;Byte>(ga, ra, (Byte) noDataValue, hasNoDataValue, formulaIndex, scaleFactor);
+                } else if (type == DataType.GDT_Int16) {
+                    Int16[] ga = new Int16[x_res * y_res];
+                    Int16[] ra = new Int16[x_res * y_res];
+                    gb.ReadRaster(0, 0, x_res, y_res, ga, x_res, y_res, 0, 0);
+                    rb.ReadRaster(x, y, x_res, y_res, ra, x_res, y_res, 0, 0);
+                    o = CreateStatistics&lt;Int16>(ga, ra, (Int16)noDataValue, hasNoDataValue, formulaIndex, scaleFactor);
+                } else if (type == DataType.GDT_Int32) {
+                    Int32[] ga = new Int32[x_res * y_res];
+                    Int32[] ra = new Int32[x_res * y_res];
+                    gb.ReadRaster(0, 0, x_res, y_res, ga, x_res, y_res, 0, 0);
+                    rb.ReadRaster(x, y, x_res, y_res, ra, x_res, y_res, 0, 0);
+                    o = CreateStatistics&lt;Int32>(ga, ra, (Int32) noDataValue, hasNoDataValue, formulaIndex, scaleFactor);
+                } else {
+                    throw new Exception("Unknown data type: " + type.ToString());
+                }
+                var ret = JsonConvert.SerializeObject(o);
+                outputDataset.Dispose();
+                rds.Dispose();
+                return ret;
+            } catch (Exception e) {
+                return Helper.CreateError(_logger, JsonConvert.SerializeObject(e));
+            }
+        }
+
+        /**
+        * Generate map file
+        * @param {Metadata} metadata - metadata
+        * @param {string} geoTiffPath - path to GeoTIFF file
+        * @returns {string} - map file
+        */
+        public string GenerateMapFile(Metadata metadata, string geoTiffPath) {
+            return $@"
+MAP
+  NAME ""MyService""
+  STATUS ON
+  SIZE 800 600
+  EXTENT {metadata.MinLongitude} {metadata.MinLatitude} {metadata.MaxLongitude} {metadata.MaxLatitude}
+  UNITS DD
+  SHAPEPATH ""data""
+  IMAGECOLOR 255 255 255
+
+  # Define the raster layer
+  LAYER
+    NAME ""mylayer""
+    TYPE RASTER
+    STATUS ON
+    DATA ""{geoTiffPath}""
+  END
+END";
+        }
+        
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="AppOptions.html">AppOptions</a></li><li><a href="AuthController.html">AuthController</a></li><li><a href="AuthFilter.html">AuthFilter</a></li><li><a href="AuthorizationService.html">AuthorizationService</a></li><li><a href="ChatController.html">ChatController</a></li><li><a href="CurrentUserInfo.html">CurrentUserInfo</a></li><li><a href="Db.html">Db</a></li><li><a href="DevController.html">DevController</a></li><li><a href="FrugalModel.html">FrugalModel</a></li><li><a href="GdalController.html">GdalController</a></li><li><a href="GdalService.html">GdalService</a></li><li><a href="HeaderMiddleware.html">HeaderMiddleware</a></li><li><a href="HomeController.html">HomeController</a></li><li><a href="IAuthService.html">IAuthService</a></li><li><a href="Icons.html">Icons</a></li><li><a href="Misc.html">Misc</a></li><li><a href="MiscController.html">MiscController</a></li><li><a href="NewsModel.html">NewsModel</a></li><li><a href="PointModel.html">PointModel</a></li><li><a href="PreprocessService.html">PreprocessService</a></li><li><a href="TableController.html">TableController</a></li><li><a href="TestController.html">TestController</a></li><li><a href="UploadedFileModel.html">UploadedFileModel</a></li><li><a href="UserController.html">UserController</a></li></ul><h3>Classes</h3><ul><li><a href="module-AppOptions-AppOptions.html">AppOptions</a></li><li><a href="module-CurrentUserInfo-CurrentUserInfo.html">CurrentUserInfo</a></li><li><a href="module-FrugalModel-Frugal.html">Frugal</a></li><li><a href="module-HeaderMiddleware-MiddlewareExtensions.html">MiddlewareExtensions</a></li><li><a href="module-NewsModel-News.html">News</a></li><li><a href="module-Point-PointForHistory.html">PointForHistory</a></li><li><a href="module-Point-Source.html">Source</a></li><li><a href="module-UploadedFileModel-UploadedFileModel.html">UploadedFileModel</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jun 27 2024 12:36:48 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

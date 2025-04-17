@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: global-api.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: global-api.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @desc A global mixin object containing common API calls
+ * @module GlobalApiMixin
+ */
+export const GlobalApiMixin = {
+    methods: {
+
+         /**
+         * Makes an API request using Axios.
+         * @param {AxiosInstance} axios - The Axios instance to use for the request.
+         * @param {string} url - The URL to make the request to.
+         * @param {object} options - The options to pass to the Axios request.
+         * @param {boolean} cache - Indicates whether to cache the response.
+         * @returns {Promise&lt;any>} - A promise that resolves to the response data.
+         */
+        async api(axios, url, options, cache) {
+            this.$store.working = true;
+            let response;
+            if ((!this.$store.isOnline || this.$store.serverDown) &amp;&amp; cache) {
+                response = this.$q.localStorage.getItem(url);
+            } else {
+                response = await axios(url, options);
+                if (cache) {
+                    this.$q.localStorage.set(url, response);
+                }
+            }
+            this.$store.working = false;
+            return response.data;
+        },
+        /**
+         * Fetches data from an API and stores it in the store if it is not already present.
+         * @param {string} name - The name of the store property to store the data.
+         * @param {object} axios - The Axios instance used for making API requests.
+         * @param {string} url - The URL of the API endpoint.
+         * @param {object} options - The options object to be passed to the Axios request.
+         * @param {boolean} cache - Indicates whether the response should be cached.
+         * @returns {Promise&lt;void>} - A Promise that resolves when the API request is complete.
+         */
+        async apiArray(name, axios, url, options, cache) {
+            if (this.$store[name].length == 0) {
+                let r = await this.api(axios, url, options, cache);
+                this.$store[name].push(...r); // to keep references to orig array
+            }
+        },
+        /**
+         * Fetches data from an API and stores it in the store if it doesn't already exist.
+         * @param {string} name - The name of the store property to store the fetched data.
+         * @param {object} axios - The Axios instance used for making API requests.
+         * @param {string} url - The URL of the API endpoint.
+         * @param {string} key - The key to use for mapping the fetched data to an object.
+         * @param {string} value - The value to use for mapping the fetched data to an object.
+         * @param {object} options - Additional options for the API request.
+         * @param {boolean} cache - Indicates whether to cache the fetched data.
+         * @returns {Promise&lt;void>} - A Promise that resolves when the API request is complete.
+         */
+        async apiDict(name, axios, url, key, value, options, cache) {
+            if (Object.keys(this.$store[name]).length == 0) {
+                let r = await this.api(axios, url, options, cache);
+                let o = this.arrayToObject(r, key, value);
+                this.copyObject(o, this.$store[name]);
+            }
+        },
+        /**
+         * Fetches data from an API and populates multiple dictionaries in the store.
+         * @param {Array} names - The names of the dictionaries to populate.
+         * @param {Object} axios - The Axios instance for making API requests.
+         * @param {string} url - The URL of the API endpoint.
+         * @param {string} key - The key to use for mapping objects in the response to the dictionaries.
+         * @param {string} value - The value to use for mapping objects in the response to the dictionaries.
+         * @param {Object} options - Additional options for the API request.
+         * @param {boolean} cache - Indicates whether to cache the API response.
+         * @returns {Promise&lt;void>} - A promise that resolves when the dictionaries are populated.
+         */
+        async apiDictMulti(names, axios, url, key, value, options, cache) {
+            if (Object.keys(this.$store[names[0]]).length > 0) return;
+            let r = await this.api(axios, url, options, cache);
+            if (r) {
+                for (let name of names) {
+                    let o = this.arrayToObject(r[name], key, value);
+                    this.copyObject(o, this.$store[name]);
+                }
+            }
+        },
+        /**
+         * Calls the API using the provided axios instance, URL, options, and cache.
+         * Updates the specified store properties with the response data.
+         * @param {string[]} names - The names of the store properties to update.
+         * @param {object} axios - The axios instance to use for the API call.
+         * @param {string} url - The URL to make the API call to.
+         * @param {object} options - The options to pass to the API call.
+         * @param {boolean} cache - Indicates whether to cache the API response.
+         * @returns {Promise&lt;void>} - A promise that resolves when the API call is complete.
+         */
+        async apiMultiForce(names, axios, url, options, cache) {
+            let r = await this.api(axios, url, options, cache);
+            if (r) {
+                for (let name of names) {
+                    if (r[name]) {
+                        if (Array.isArray(this.$store[name])) {
+                            this.$store[name].length = 0;
+                            this.$store[name].push(...r[name]);
+                        } else {
+                            if (r[name].length > 0) {
+                                this.copyObject(r[name][0], this.$store[name]);
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        /**
+         * Fetches data from an API and updates an array in the store.
+         * @param {string} name - The name of the array in the store.
+         * @param {object} axios - The Axios instance used for making API requests.
+         * @param {string} url - The URL of the API endpoint.
+         * @param {object} options - The options object for the API request.
+         * @param {boolean} cache - Indicates whether the response should be cached.
+         * @returns {Promise&lt;void>} - A promise that resolves when the API request is complete.
+         */
+        async apiArrayForce(name, axios, url, options, cache) {
+            let r = await this.api(axios, url, options, cache);
+            if (r) {
+                this.$store[name].length = 0;
+                this.$store[name].push(...r);
+            }
+        },
+        /**
+         * Fetches the API object from the store if it is not already available.
+         * @param {string} name - The name of the API object.
+         * @param {object} axios - The Axios instance for making HTTP requests.
+         * @param {string} url - The URL for fetching the API object.
+         * @param {object} options - The options for the API request.
+         * @param {boolean} cache - Indicates whether to cache the API response.
+         * @returns {Promise&lt;void>} - A Promise that resolves when the API object is fetched.
+         */
+        async apiObject(name, axios, url, options, cache) {
+            if (Object.keys(this.$store[name]).length == 0) await this.apiObjectForce(name, axios, url, options, cache);
+        },
+        /**
+         * Updates the specified object in the store with the response from an API call.
+         * @param {string} name - The name of the object in the store.
+         * @param {object} axios - The axios instance used for the API call.
+         * @param {string} url - The URL for the API call.
+         * @param {object} options - The options for the API call.
+         * @param {boolean} cache - Indicates whether to cache the API response.
+         * @returns {Promise&lt;void>} - A promise that resolves when the API call is complete.
+         */
+        async apiObjectForce(name, axios, url, options, cache) {
+            let r = await this.api(axios, url, options, cache);
+            if (r) {
+                for (let key of Object.keys(r)) {
+                    this.$set(this.$store[name], key, r[key]);
+                }
+            }
+        },
+        /**
+         * Executes an API request using the provided axios instance.
+         * @param {Object} axios - The axios instance to use for the API request.
+         * @param {string} url - The URL of the API endpoint.
+         * @param {Object} options - The options for the API request.
+         * @param {boolean} cache - Indicates whether to cache the API response.
+         * @returns {Promise} - A promise that resolves to the API response.
+         */
+        async apiExec(axios, url, options, cache) {
+            return await this.api(axios, url, options, cache);
+        },
+        /**
+         * Makes a GET request to the specified URL.
+         * @param {string} url - The URL to make the GET request to.
+         * @param {object} options - The options to be passed as query parameters.
+         * @param {boolean} cache - Indicates whether the response should be cached.
+         * @returns {Promise} - A promise that resolves to the response data.
+         */
+        async get(url, options, cache) {
+            return await this.api(this.axios.API.get, url, { params: options }, cache);
+        },
+        /**
+         * Sends a POST request to the specified URL.
+         * @param {string} url - The URL to send the request to.
+         * @param {object} options - The options for the request.
+         * @param {boolean} cache - Indicates whether to cache the response.
+         * @returns {Promise} - A promise that resolves with the response data.
+         */
+        async post(url, options, cache) {
+            return await this.api(this.axios.API.post, url, options, cache);
+        },
+                /**
+         * Sends a PUT request to the specified URL.
+         * @param {string} url - The URL to send the request to.
+         * @param {object} options - The options for the request.
+         * @returns {Promise} - A promise that resolves with the response data.
+         */
+        async put(url, options) {
+            return await this.api(this.axios.API.put, url, options);
+        },
+        /**
+         * Sends a DELETE request to the specified URL.
+         * @param {string} url - The URL to send the request to.
+         * @param {object} options - The options for the request.
+         * @returns {Promise} - A promise that resolves with the response data.
+         */
+        async delete(url, options) {
+            return await this.api(this.axios.API.delete, url, options);
+        },
+
+        /**
+         * Retrieves an image from the specified URL.
+         * @param {string} url - The URL of the image to retrieve.
+         * @returns {Promise&lt;string|null>} A Promise that resolves to the URL of the retrieved image, or null if the retrieval fails.
+         */
+        async getImage(url) {
+            this.$store.working = true;
+            let response = await this.axios.API.get(url, { responseType: 'blob' });
+            if (response) {            
+                const blob = new Blob([response.data], { type: response.headers['content-type'] });
+                let o = URL.createObjectURL(blob);
+                this.$store.working = false;
+                return o;               
+            }
+            this.$store.working = false;
+            return null;
+        },
+
+        /**
+         * Checks if the response is OK.
+         * @param {Object} response - The response object.
+         * @returns {boolean} - Returns true if the response is OK, otherwise false.
+         */
+        responseOk(response) {
+            return response?.error == undefined;
+        },
+        
+        /**
+         * Activates a route by adding it to the Vue Router if it doesn't exist, and then navigates to the activated route.
+         *
+         * @param {Object} route - The route object containing information about the route.
+         */
+        activateRoute(route) {
+            let routerRoute = this.$router.getRoutes().find((item) => item.name == route.name);
+            if (routerRoute == null) {
+                let importedComponent = () => import(`../components/${route.component_name}.vue`);
+                this.$router.addRoute({
+                    path: route.path,
+                    name: route.name,
+                    component: importedComponent
+                });
+                routerRoute = this.$router.getRoutes().find((item) => item.name == route.name);
+            }
+            // because of https://github.com/vuejs/router/blob/main/packages/router/CHANGELOG.md#414-2022-08-22
+            try {
+                let o = route.props;  //await JSON.parse(route.props > "" ? route.props : "{}");
+                this.$store.props[route.name] = { name: route.name, ...o };
+                let ts = new Date().toISOString();
+                this.$router.push({ name: route.name, query: { timestamp: ts } });
+            } catch (e) {
+               this.showError(this.$t("Error activating component. Are props a valid JSON?"));
+            }
+        },
+        async getRoutes() {
+            this.$store.routes = await this.get("Auth/GetRoutes", null, true);
+        },
+
+        async getIcons() {
+            if (this.$store.icons.length == 0) this.$store.icons = await this.get("User/GetIcons");
+        },
+
+        // async uploadFiles(fileList, url, params) {
+        //     let formData = new FormData();
+        //     for (let i = 0; i &lt; fileList.length; i++) {
+        //         let file = fileList[i];
+        //         formData.append("files", file, file.name);
+        //     }
+        //     formData.append("params", JSON.stringify(params));
+        //     return await this.post(url, formData);
+        // }
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="global-api.html">global-api</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 09 2024 13:55:21 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

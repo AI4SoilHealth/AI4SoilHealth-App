@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: jsdoc-pg.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: jsdoc-pg.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace data
+ */
+/**
+ * @namespace meta
+ */
+/**
+ * @namespace general
+ */
+/**
+ * @namespace auth
+ */
+/**
+ * @namespace log
+ */
+/**
+ * @namespace zzhistory
+ */
+
+/**
+ * @class shape_geometry
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} shape_id foreign key to data.shape.id
+ * @property {json} properties
+ * @property {geometry} geom
+*/
+class shape_geometry {}
+
+/**
+ * @class import_detail
+ * @memberof meta
+ * @property {integer} id
+ * @property {integer} import_master_id foreign key to meta.import_master.id
+ * @property {character_varying} col_name
+ * @property {character_varying} target_schema
+ * @property {character_varying} target_table
+ * @property {character_varying} target_column
+ * @property {character_varying} col_type
+ * @property {boolean} is_key
+ * @property {boolean} is_fk
+ * @property {character_varying} name
+ * @property {boolean} as_row
+ * @property {character_varying} target_column_list
+ * @property {character_varying} source_column_list
+ * @property {character_varying} joins
+ * @property {boolean} split
+ * @property {boolean} ignore
+ * @property {character_varying} name_match
+ * @property {integer} order_no
+ * @property {boolean} ignore_in_master
+ * @property {character_varying} constant_value
+*/
+class import_detail {}
+
+/**
+ * @class indicator_lang
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} indicator_id foreign key to data.indicator.id
+ * @property {integer} lang_id foreign key to meta.lang.id
+ * @property {character_varying} value
+*/
+class indicator_lang {}
+
+/**
+ * @class geometry_type_property
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} geometry_type_id foreign key to data.geometry_type.id
+ * @property {integer} order_no
+ * @property {integer} property_id foreign key to data.property.id
+*/
+class geometry_type_property {}
+
+/**
+ * @class boundary_hierarchy
+ * @memberof general
+ * @property {integer} id
+ * @property {integer} parent_id
+ * @property {integer} child_id
+ * @property {integer} parent_distance
+*/
+class boundary_hierarchy {}
+
+/**
+ * @class news
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {boolean} active
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {integer} user_modified foreign key to general.person.id
+ * @property {timestamp_without_time_zone} time_created
+*/
+class news {}
+
+/**
+ * @class i18n_lang
+ * @memberof meta
+ * @property {integer} id
+ * @property {integer} i18n_id foreign key to meta.i18n.id
+ * @property {integer} lang_id foreign key to meta.lang.id
+ * @property {character_varying} value
+*/
+class i18n_lang {}
+
+/**
+ * @class help_lang
+ * @memberof meta
+ * @property {integer} id
+ * @property {integer} help_id foreign key to meta.help.id
+ * @property {integer} lang_id foreign key to meta.lang.id
+ * @property {character_varying} value
+*/
+class help_lang {}
+
+/**
+ * @class temp
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} point_id
+ * @property {character_varying} revisited_point
+ * @property {character_varying} coarse
+ * @property {character_varying} clay
+ * @property {character_varying} sand
+ * @property {character_varying} silt
+ * @property {character_varying} p_h_ca_cl_2
+ * @property {character_varying} p_h_h2o
+ * @property {character_varying} ec
+ * @property {character_varying} oc
+ * @property {character_varying} ca_co3
+ * @property {character_varying} p
+ * @property {character_varying} n
+ * @property {character_varying} k
+ * @property {character_varying} elevation
+ * @property {character_varying} lc1
+ * @property {character_varying} lu1
+ * @property {character_varying} soil_stones
+ * @property {character_varying} nuts_0
+ * @property {character_varying} nuts_1
+ * @property {character_varying} nuts_2
+ * @property {character_varying} nuts_3
+ * @property {character_varying} lc1_desc
+ * @property {character_varying} lu1_desc
+*/
+class temp {}
+
+/**
+ * @class nuts
+ * @memberof general
+ * @property {integer} id
+ * @property {character_varying} nuts_id
+ * @property {integer} levl_code
+ * @property {character} cntr_code
+ * @property {character_varying} name_latn
+ * @property {character_varying} nuts_name
+ * @property {integer} mount_type
+ * @property {integer} urbn_type
+ * @property {integer} coast_type
+ * @property {character_varying} fid
+ * @property {geometry} geom
+*/
+class nuts {}
+
+/**
+ * @class event
+ * @memberof auth
+ * @property {uuid} id
+ * @property {character_varying} name
+ * @property {character_varying} description
+ * @property {boolean} is_active
+ * @property {integer} tenant_id
+ * @property {integer} app_id
+ * @property {integer} event_type_id
+ * @property {timestamp_without_time_zone} time_modified
+*/
+class event {}
+
+/**
+ * @class license
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class license {}
+
+/**
+ * @class vw_ai4soilhealth_hierarchy
+ * @memberof meta
+ * @property {text} parent
+ * @property {character_varying} child
+ * @property {character_varying} proc
+ * @property {integer} order_no
+*/
+class vw_ai4soilhealth_hierarchy {}
+
+/**
+ * @class user
+ * @memberof auth
+ * @property {uuid} id
+ * @property {character_varying} user_name
+ * @property {character_varying} first_name
+ * @property {character_varying} last_name
+ * @property {character_varying} email
+ * @property {character_varying} phone_number
+ * @property {character_varying} display_name
+ * @property {character_varying} personal_id
+ * @property {character} gender
+ * @property {timestamp_without_time_zone} time_modified
+*/
+class user {}
+
+/**
+ * @class asset_catalog
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class asset_catalog {}
+
+/**
+ * @class vw_asset
+ * @memberof data
+ * @property {integer} title_id
+ * @property {character_varying} orig_id
+ * @property {character_varying} title
+ * @property {text} time_span
+ * @property {text} url
+ * @property {character_varying} main_sld_url
+ * @property {text} depth
+*/
+class vw_asset {}
+
+/**
+ * @class color
+ * @memberof general
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} code
+ * @property {integer} order_no
+*/
+class color {}
+
+/**
+ * @class route_role_public
+ * @memberof auth
+ * @property {integer} id
+ * @property {integer} route_id foreign key to meta.route.id
+ * @property {integer} role_public_id foreign key to auth.role_public.id
+*/
+class route_role_public {}
+
+/**
+ * @class role_public
+ * @memberof auth
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class role_public {}
+
+/**
+ * @class attribute_description
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} indicator_id foreign key to data.indicator.id
+ * @property {integer} description_id
+ * @property {character_varying} name
+ * @property {integer} color_id foreign key to general.country.id
+ * @property {character_varying} code
+*/
+class attribute_description {}
+
+/**
+ * @class inbound_foreign_keys
+ * @memberof meta
+ * @property {name} conname
+ * @property {regclass} t
+ * @property {regclass} ft
+ * @property {text} fkey
+ * @property {text} rkey
+*/
+class inbound_foreign_keys {}
+
+/**
+ * @class date_style
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class date_style {}
+
+/**
+ * @class partner
+ * @memberof general
+ * @property {integer} id
+ * @property {character_varying} short_name
+ * @property {character_varying} name
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {integer} user_modified foreign key to general.person.id
+*/
+class partner {}
+
+/**
+ * @class log
+ * @memberof auth
+ * @property {integer} id
+ * @property {integer} person_id foreign key to general.person.id
+ * @property {character_varying} ip
+ * @property {timestamp_without_time_zone} time_modified
+*/
+class log {}
+
+/**
+ * @class event_date
+ * @memberof auth
+ * @property {uuid} id
+ * @property {integer} period_id
+ * @property {uuid} event_id
+ * @property {timestamp_without_time_zone} datetime
+ * @property {timestamp_without_time_zone} time_modified
+*/
+class event_date {}
+
+/**
+ * @class t1
+ * @memberof data
+ * @property {character_varying} id
+ * @property {character_varying} filename_pattern
+ * @property {character_varying} uncertainty
+ * @property {character_varying} gs_name
+ * @property {character_varying} code
+ * @property {character_varying} title
+ * @property {character_varying} style
+ * @property {character_varying} type
+ * @property {character_varying} category
+ * @property {character_varying} description
+ * @property {character_varying} theme
+ * @property {character_varying} theme_number
+ * @property {character_varying} range
+ * @property {character_varying} range_wasabi
+ * @property {character_varying} fourd_range
+ * @property {character_varying} scale
+ * @property {character_varying} unit
+ * @property {character_varying} has_points
+ * @property {character_varying} sd_type
+ * @property {character_varying} scale_factor
+ * @property {character_varying} gn_url
+ * @property {character_varying} wasabi_link
+ * @property {character_varying} gn_uuid
+ * @property {character_varying} gn_author
+ * @property {character_varying} gn_resolution
+ * @property {character_varying} gn_author_email
+ * @property {character_varying} pub_date
+ * @property {character_varying} dataset_id
+ * @property {character_varying} stac_url
+*/
+class t1 {}
+
+/**
+ * @class errors
+ * @memberof log
+ * @property {integer} id
+ * @property {character_varying} message
+ * @property {character_varying} level
+ * @property {timestamp_without_time_zone} time_stamp
+ * @property {character_varying} exception
+ * @property {character_varying} log_event
+ * @property {integer} tenant_id
+ * @property {uuid} user_id
+ * @property {integer} app_id
+ * @property {timestamp_without_time_zone} time_modified
+*/
+class errors {}
+
+/**
+ * @class role
+ * @memberof auth
+ * @property {uuid} id
+ * @property {character_varying} name
+ * @property {character_varying} description
+ * @property {integer} tenant_id
+ * @property {boolean} sees_all
+ * @property {boolean} is_active
+ * @property {integer} app_specific_type
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {boolean} is_user
+ * @property {boolean} is_admin
+*/
+class role {}
+
+/**
+ * @class measurement
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} indicator_id foreign key to data.indicator.id
+ * @property {real} value
+ * @property {integer} point_id foreign key to data.point.id
+ * @property {character} lod
+ * @property {date} date
+ * @property {integer} data_source_id foreign key to data.data_source.id
+ * @property {integer} depth_id foreign key to data.depth.id
+*/
+class measurement {}
+
+/**
+ * @class property
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} indicator_id foreign key to data.indicator.id
+ * @property {integer} unit_id foreign key to data.unit.id
+ * @property {integer} data_type_id
+*/
+class property {}
+
+/**
+ * @class point
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} point_key
+ * @property {double_precision} lat
+ * @property {double_precision} lon
+ * @property {integer} data_source_id foreign key to data.data_source.id
+ * @property {integer} sample
+ * @property {character_varying} notes
+ * @property {integer} l3_id foreign key to general.nuts.id
+ * @property {integer} elev
+ * @property {character_varying} name
+ * @property {double_precision} x
+ * @property {double_precision} y
+*/
+class point {}
+
+/**
+ * @class indicator_color
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} indicator_id foreign key to data.indicator.id
+ * @property {real} value_to
+ * @property {integer} color_id foreign key to general.color.id
+*/
+class indicator_color {}
+
+/**
+ * @class import_master
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} schema_name
+ * @property {character_varying} table_name
+ * @property {character_varying} file_name
+ * @property {character_varying} sheet
+ * @property {character_varying} name
+ * @property {character_varying} import_name
+ * @property {character_varying} data_date
+ * @property {character_varying} constant_value
+*/
+class import_master {}
+
+/**
+ * @class geometry_type
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class geometry_type {}
+
+/**
+ * @class unit
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class unit {}
+
+/**
+ * @class message
+ * @memberof general
+ * @property {integer} id
+ * @property {integer} person_id foreign key to general.person.id
+ * @property {text} message
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {integer} parent_id
+*/
+class message {}
+
+/**
+ * @class person
+ * @memberof general
+ * @property {integer} id
+ * @property {character_varying} first_name
+ * @property {character_varying} last_name
+ * @property {integer} partner_id foreign key to general.partner.id
+ * @property {character_varying} email
+ * @property {character_varying} name
+ * @property {character_varying} name1
+ * @property {character_varying} user_email
+*/
+class person {}
+
+/**
+ * @class vw_indicator_color
+ * @memberof data
+ * @property {integer} indicator_id
+ * @property {real} value_from
+ * @property {real} value_to
+ * @property {character_varying} color_name
+ * @property {character_varying} color_code
+*/
+class vw_indicator_color {}
+
+/**
+ * @class custom_geometry
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} geometry_type_id foreign key to data.geometry_type.id
+ * @property {integer} person_id foreign key to general.person.id
+ * @property {character_varying} route_key
+ * @property {geometry} geometry
+*/
+class custom_geometry {}
+
+/**
+ * @class asset_version
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} srid
+*/
+class asset_version {}
+
+/**
+ * @class shape
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} data_source_id foreign key to data.data_source.id
+ * @property {character_varying} name
+*/
+class shape {}
+
+/**
+ * @class table_ref_col
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} schema_name
+ * @property {character_varying} table_name
+ * @property {character_varying} ref_col
+*/
+class table_ref_col {}
+
+/**
+ * @class data_type
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} default_width
+ * @property {integer} default_col_editor_id
+ * @property {character_varying} server_data_type
+ * @property {boolean} default_type
+ * @property {character_varying} js_data_type
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {integer} default_format_id
+*/
+class data_type {}
+
+/**
+ * @class depth
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} color_id foreign key to general.color.id
+*/
+class depth {}
+
+/**
+ * @class asset
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} orig_id
+ * @property {boolean} ignore
+ * @property {integer} asset_catalog_id foreign key to data.asset_catalog.id
+ * @property {character_varying} title
+ * @property {character_varying} description
+ * @property {integer} asset_theme_id foreign key to data.asset_theme.id
+ * @property {character_varying} keywords_list
+ * @property {integer} asset_version_id foreign key to data.asset_version.id
+ * @property {character_varying} doi
+ * @property {integer} unit_id foreign key to data.unit.id
+ * @property {character_varying} scale_factor
+ * @property {integer} person_id foreign key to general.person.id
+ * @property {character_varying} providers_list
+ * @property {integer} license_id foreign key to data.license.id
+ * @property {character_varying} constellation_list
+ * @property {character_varying} platform
+ * @property {character_varying} instruments_list
+ * @property {character_varying} gsd
+ * @property {date} start_date
+ * @property {date} end_date
+ * @property {integer} date_step
+ * @property {character_varying} date_offset
+ * @property {integer} date_unit_id foreign key to data.date_unit.id
+ * @property {integer} date_style_id foreign key to data.date_style.id
+ * @property {boolean} ignore_29feb
+ * @property {character_varying} depth_list
+ * @property {character_varying} main_sld_url
+ * @property {character_varying} sld_1_url
+ * @property {character_varying} main_qml_url
+ * @property {character_varying} main_url
+ * @property {character_varying} color_map
+ * @property {integer} no_data
+ * @property {integer} decimals
+ * @property {integer} indicator_id foreign key to data.indicator.id
+*/
+class asset {}
+
+/**
+ * @class sub_region
+ * @memberof general
+ * @property {smallint} id
+ * @property {character_varying} name
+*/
+class sub_region {}
+
+/**
+ * @class data_source
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} srid
+*/
+class data_source {}
+
+/**
+ * @class boundary
+ * @memberof general
+ * @property {integer} id
+ * @property {integer} osm_id
+ * @property {integer} admin_level
+ * @property {character_varying} name
+ * @property {character_varying} local_name
+ * @property {geometry} geom
+ * @property {integer} level
+*/
+class boundary {}
+
+/**
+ * @class indicator
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} unit_id foreign key to data.unit.id
+ * @property {character_varying} lod
+ * @property {character_varying} table_field
+ * @property {character_varying} table_name
+ * @property {character_varying} related_table_name
+ * @property {character_varying} name_match
+ * @property {integer} decimals_for_stats
+ * @property {integer} decimals_for_display
+ * @property {boolean} numerical
+*/
+class indicator {}
+
+/**
+ * @class file_metadata
+ * @memberof general
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class file_metadata {}
+
+/**
+ * @class country
+ * @memberof general
+ * @property {smallint} id
+ * @property {character_varying} name
+ * @property {character} code
+ * @property {integer} region_id foreign key to general.region.id
+ * @property {integer} sub_region_id foreign key to general.sub_region.id
+ * @property {integer} osm_id
+ * @property {character} lucas_code
+*/
+class country {}
+
+/**
+ * @class auth_role_public
+ * @memberof zzhistory
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {uuid} modifieduserid
+ * @property {integer} modifiedpersonid
+ * @property {timestamp_without_time_zone} modifiedtime
+ * @property {character_varying} modifiedlogin
+ * @property {character} modifiedaction
+*/
+class auth_role_public {}
+
+/**
+ * @class news_lang
+ * @memberof meta
+ * @property {integer} id
+ * @property {integer} lang_id foreign key to meta.lang.id
+ * @property {character_varying} text
+ * @property {character_varying} extended_text
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {integer} user_modified foreign key to general.person.id
+ * @property {timestamp_without_time_zone} time_created
+ * @property {boolean} active
+ * @property {character_varying} title
+ * @property {integer} news_id foreign key to meta.news.id
+*/
+class news_lang {}
+
+/**
+ * @class vw_avg_indicator_values_by_nuts
+ * @memberof data
+ * @property {double_precision} value_avg
+ * @property {real} value_min
+ * @property {real} value_max
+ * @property {character_varying} nuts_id
+ * @property {integer} indicator_id
+ * @property {integer} levl_code
+ * @property {integer} data_source_id
+*/
+class vw_avg_indicator_values_by_nuts {}
+
+/**
+ * @class custom_geometry_property
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} custom_geometry_id foreign key to data.custom_geometry.id
+ * @property {integer} property_id foreign key to data.property.id
+ * @property {character_varying} value
+*/
+class custom_geometry_property {}
+
+/**
+ * @class ai_model
+ * @memberof general
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class ai_model {}
+
+/**
+ * @class auth_route_role_public
+ * @memberof zzhistory
+ * @property {integer} id
+ * @property {integer} route_id
+ * @property {integer} role_public_id
+ * @property {uuid} modifieduserid
+ * @property {integer} modifiedpersonid
+ * @property {timestamp_without_time_zone} modifiedtime
+ * @property {character_varying} modifiedlogin
+ * @property {character} modifiedaction
+*/
+class auth_route_role_public {}
+
+/**
+ * @class asset_theme
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class asset_theme {}
+
+/**
+ * @class person_role_public
+ * @memberof auth
+ * @property {integer} id
+ * @property {integer} person_id foreign key to general.person.id
+ * @property {integer} role_public_id foreign key to auth.role_public.id
+*/
+class person_role_public {}
+
+/**
+ * @class help
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class help {}
+
+/**
+ * @class attribute
+ * @memberof data
+ * @property {integer} id
+ * @property {integer} point_id foreign key to data.point.id
+ * @property {integer} indicator_id foreign key to data.indicator.id
+ * @property {integer} description_id
+ * @property {integer} data_source_id foreign key to data.data_source.id
+ * @property {date} date
+ * @property {integer} attribute_description_id foreign key to data.attribute_description.id
+*/
+class attribute {}
+
+/**
+ * @class region
+ * @memberof general
+ * @property {smallint} id
+ * @property {character_varying} name
+*/
+class region {}
+
+/**
+ * @class safe_function
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} name
+*/
+class safe_function {}
+
+/**
+ * @class lang
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} tag
+ * @property {timestamp_without_time_zone} time_modified
+ * @property {character} short_tag
+*/
+class lang {}
+
+/**
+ * @class route
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {integer} order_no
+ * @property {character_varying} path
+ * @property {character_varying} component_name
+ * @property {character_varying} icon
+ * @property {character_varying} parent
+ * @property {character_varying} props
+ * @property {boolean} offline
+ * @property {boolean} public
+ * @property {boolean} active
+ * @property {character_varying} crud
+*/
+class route {}
+
+/**
+ * @class auth_person_role_public
+ * @memberof zzhistory
+ * @property {integer} id
+ * @property {integer} person_id
+ * @property {integer} role_public_id
+ * @property {uuid} modifieduserid
+ * @property {integer} modifiedpersonid
+ * @property {timestamp_without_time_zone} modifiedtime
+ * @property {character_varying} modifiedlogin
+ * @property {character} modifiedaction
+*/
+class auth_person_role_public {}
+
+/**
+ * @class vw_data_source_indicator
+ * @memberof data
+ * @property {integer} data_source_id
+ * @property {integer} indicator_id
+*/
+class vw_data_source_indicator {}
+
+/**
+ * @class i18n
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} key
+*/
+class i18n {}
+
+/**
+ * @class user_role
+ * @memberof auth
+ * @property {uuid} id
+ * @property {uuid} user_id
+ * @property {uuid} role_id
+ * @property {timestamp_without_time_zone} time_modified
+*/
+class user_role {}
+
+/**
+ * @class error
+ * @memberof meta
+ * @property {uuid} id
+ * @property {integer} lang_id
+ * @property {integer} code
+ * @property {character_varying} message
+ * @property {timestamp_without_time_zone} time_modified
+*/
+class error {}
+
+/**
+ * @class trace
+ * @memberof meta
+ * @property {integer} id
+ * @property {character_varying} text
+ * @property {timestamp_without_time_zone} time_modified
+*/
+class trace {}
+
+/**
+ * @class date_unit
+ * @memberof data
+ * @property {integer} id
+ * @property {character_varying} name
+ * @property {character_varying} format
+*/
+class date_unit {}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Schemas</h3><ul><li><a href="auth.html">auth</a></li><li><a href="data.html">data</a></li><li><a href="general.html">general</a></li><li><a href="log.html">log</a></li><li><a href="meta.html">meta</a></li><li><a href="zzhistory.html">zzhistory</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Feb 13 2024 18:35:20 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

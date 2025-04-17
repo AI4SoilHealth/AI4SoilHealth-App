@@ -1,0 +1,64 @@
+﻿using Dapper;
+using JWT.Algorithms;
+using JWT.Builder;
+using JWT.Exceptions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Options;
+using System.Data;
+using System.Diagnostics.Eventing.Reader;
+using System.Security.Claims;
+
+namespace AI4SoilHealth.Services {
+/**
+    * Authentication service
+    @module AuthService
+*/
+    public class AuthService : IAuthService {
+		private readonly IConfiguration _configuration;
+		private readonly ILogger<AuthService> _logger;
+		private readonly AppOptions _options;
+        private readonly Db _db;
+        private readonly CurrentUserInfo _currentUserInfo;
+
+        public ClaimsPrincipal User;
+        public Guid UserId { get { return Guid.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value); } }        
+        public string FirstName { get { return this.User.FindFirst(ClaimTypes.GivenName)?.Value; } }
+        public string LastName { get { return this.User.FindFirst(ClaimTypes.Surname)?.Value; } }
+        public string Email { get { return this.User.FindFirst(ClaimTypes.Email)?.Value; } }      
+
+        public AuthService(IConfiguration configuration, ILogger<AuthService> logger, Db db, IOptions<AppOptions> options, CurrentUserInfo currentUserInfo) {		
+			_configuration = configuration;
+			_logger = logger;
+            _options = options.Value;
+            _db = db;
+            _currentUserInfo = currentUserInfo;
+		}
+
+/**
+    * Set user
+    * @param {ClaimsPrincipal} User - User
+    * @return {Task<bool>} - Result of the operation    
+*/
+		public async Task<bool> SetUser(ClaimsPrincipal User) {
+			 this.User = User;
+            var r = await _db.QueryScalarAsyncCached("auth.get_or_create_person_id", new { Email = this.Email, FirstName = this.FirstName, LastName = this.LastName }, _options.ConnectionString, "long");
+            int result;
+             if (Int32.TryParse(r, out result)) {
+                _currentUserInfo.PersonId = result;
+                return true;
+            } else {
+                _currentUserInfo.PersonId = null;
+                return false;
+            }
+        }
+
+/**
+    * Set current language
+    * @param {int} LangId - Language id
+    * @return {void}
+*/
+        public void SetCurrentLang(int LangId) {
+            _currentUserInfo.LangId = LangId;
+        }
+	}
+}

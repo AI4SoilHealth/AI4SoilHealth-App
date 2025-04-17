@@ -1,0 +1,22 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "source": {
+    "include": ["./src"],
+    "includePattern": "\\.(vue|js)$"
+    //"includePattern": "\\global-api.js$"
+  },
+  "plugins": ["plugins/markdown", "jsdoc-parser-app.cjs"],
+  "opts": {
+    "encoding": "utf8",
+    "destination": "docs-app/",
+    "readme": "jsdoc-app.md",
+    "recurse": true,
+    "verbose": true
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  }
+}

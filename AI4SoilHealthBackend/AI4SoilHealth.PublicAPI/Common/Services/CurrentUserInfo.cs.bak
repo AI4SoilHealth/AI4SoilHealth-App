@@ -1,0 +1,16 @@
+﻿using System;
+
+namespace AI4SoilHealth.Services;
+
+/**
+    * Current user info
+    @module CurrentUserInfo
+*/  
+/**
+    * Current user info
+    @class CurrentUserInfo
+*/
+public class CurrentUserInfo {
+    public int LangId { get; set; }
+    public int? PersonId { get; set; } 
+}

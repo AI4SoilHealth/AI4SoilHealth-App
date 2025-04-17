@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/ol-map-chart.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/ol-map-chart.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+    &lt;q-dialog @keydown.esc="show = false" v-model="show" full-width full-height>
+        &lt;q-card class="dialog">
+            &lt;q-btn class="close" icon="close" flat round dense v-close-popup>&lt;/q-btn>
+            &lt;chart :chartData="chartData" :chartOptions="chartOptions" :type="chartType" />
+        &lt;/q-card>
+    &lt;/q-dialog>
+&lt;/template>
+
+&lt;script>
+/**
+ * Chart component for the map.
+ * 
+ * @component
+ * @name OlMapChart
+ * @example
+ * &lt;OlMapChart />
+ */
+
+import Chart from "./chart.vue";
+import { StatisticsMixin } from "../mixins/statistics";
+
+export default {
+    name: "OlMapChart",
+    mixins: [StatisticsMixin],
+    components: {
+        Chart
+    },
+    props: {
+        caption: null,
+        data: {},
+    },
+    data: () => ({
+        show: false,
+        options: {},
+        chartType: "bar",
+        chartData: {},
+        chartOptions: {},
+        chartColors: [
+            '#1abc9c', // Turquoise
+            '#2ecc71', // Emerald
+            '#3498db', // Peter River
+            '#9b59b6', // Amethyst
+            '#34495e', // Wet Asphalt
+            '#16a085', // Green Sea
+            '#27ae60', // Nephritis
+            '#2980b9', // Belize Hole
+            '#8e44ad', // Wisteria
+            '#2c3e50', // Midnight Blue
+            '#f39c12', // Orange
+            '#e74c3c', // Pomegranate
+            '#ecf0f1', // Clouds
+            '#95a5a6', // Concrete
+            '#d35400', // Pumpkin
+            '#c0392b', // Alizarin
+            '#bdc3c7', // Silver
+            '#7f8c8d', // Asbestos
+        ]
+    }),
+    mounted() {
+        this.options = this.data;
+    },
+    methods: {
+        /**
+         * Displays a time chart based on the provided parameters.
+         *
+         * @param {string} type - The type of the chart.
+         * @param {object} ds - The data source for the chart.
+         * @param {string} timeField - The field representing the time in the data source.
+         * @param {string} valueField - The field representing the value in the data source.
+         * @param {string} seriesField - The field representing the series in the data source.
+         * @param {string} title - The title of the chart.
+         * @param {string} unit - The unit of measurement for the chart.
+         */
+        showTimeChart(type, ds, timeField, valueField, seriesField, title, unit) {
+            this.chartData = {};
+            this.chartOptions = {};
+            let unitSuffix = this.unitText(unit);
+            let series = {};
+            let stat = {};
+            if (seriesField) {
+                for (let item of ds) {
+                    let s = item[seriesField];
+                    if (!series[s]) series[s] = [];
+                    series[s].push({ x: item[timeField], y: item[valueField] });
+                }
+            } else {
+                series["Data"] = ds.map(f => ({ x: this.parseTime(f[timeField], false), y: f[valueField] }));
+            }
+            // this.chartData.labels = ds.map(f => f[timeField]);
+            let v = ds.map(f => f[valueField]).sort();
+            stat = this.statistics(v);
+            let tl = this.trendLine(ds, timeField, valueField);
+            this.chartData.datasets = [];
+            let i = 0;
+            for (let s of Object.keys(series).sort()) {
+                this.chartData.datasets.push({
+                    label: s,
+                    data: series[s],
+                    pointRadius: series[s].length > 1 ? 2 : 5,
+                    backgroundColor: this.chartColors[i % this.chartColors.length],
+                    borderColor: this.chartColors[i++ % this.chartColors.length],
+                    lineTension: 0
+                });
+            }
+            if (tl != null) {
+                this.chartData.datasets.push({
+                    label: this.$t('Trendline'),
+                    data: tl.trendline,
+                    type: 'line',
+                    borderColor: 'red',
+                    backgroundColor: 'red',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    pointHitRadius: 5,
+                    showLine: true,
+                    lineTension: 0,
+                    borderDash: [5, 5],
+                });
+            }
+
+            this.chartOptions = {
+                title: title + unitSuffix,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day',
+                            displayFormats: {
+                                day: 'YYYY-MM-DD'
+                            }
+                        },
+                    },
+                    // y: {
+                    //     min: stat.min - span, //Math.min(stat.min, stat.min - stat.stdev),
+                    //     max: stat.max + span //Math.max(stat.max, stat.max + stat.stdev),
+                    // }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            filter: item => item.text != "none" &amp;&amp; item.text != "null"
+                        }
+                    }
+                },
+            };
+            if (tl != null) {
+                this.chartOptions.annotations = [
+                    {
+                        axis: 'y',
+                        label: {
+                            text: this.$t('Average') + ': ' + stat.avg.toFixed(2) + unitSuffix,
+                            color: 'red',
+                        },
+                        color: 'red',
+                        value: stat.avg,
+                    },
+                    {
+                        axis: 'y',
+                        label: {
+                            text: this.$t('Median') + ': ' + stat.median.toFixed(2) + unitSuffix,
+                            color: 'green',
+                        },
+                        value: stat.median,
+                        color: 'green',
+                        offset: 200,
+                    },
+                    {
+                        axis: 'y',
+                        label: {
+                            text: "-σ" + ': ' + (stat.avg - stat.stdev).toFixed(2) + unitSuffix,
+                            color: 'gray',
+                        },
+                        value: stat.avg - stat.stdev,
+                        color: 'gray',
+                        lineDash: [5, 5]
+                    },
+                    {
+                        axis: 'y',
+                        label: {
+                            text: "+σ" + ': ' + (stat.avg + stat.stdev).toFixed(2) + unitSuffix,
+                            color: 'gray',
+                        },
+                        value: stat.avg + stat.stdev,
+                        color: 'gray',
+                        lineDash: [5, 5]
+                    }
+                ];
+            }
+            this.chartType = type;
+            this.show = true;
+        },
+
+        /**
+         * Displays a frequency chart.
+         *
+         * @param {string} type - The type of the chart.
+         * @param {Array} data - The data to be displayed in the chart.
+         * @param {string} title - The title of the chart.
+         * @param {string} feature - The feature to be analyzed.
+         * @param {boolean} numerical - Indicates whether the feature is numerical or categorical.
+         * @param {string} unit - The unit of measurement for the feature (if applicable).
+         */
+        showFeatureFrequencyChart(type, data, title, feature, numerical, unit) {
+            this.chartData = {};
+            this.chartOptions = {};
+            let unitSuffix = this.unitText(unit);
+            if (numerical) {
+                title = title + unitSuffix;
+            }
+            let stat = data.stat;
+            this.chartData.labels = data.x;
+            this.chartData.datasets = [{
+                data: data.y
+            }];
+            this.chartOptions = {
+                title: title,
+                scales: {
+                    x: {
+                        type: 'category',
+                    },
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            filter: item => item.text
+                        }
+                    }
+                },
+            };
+            if (!numerical) {
+                this.chartOptions.annotations = [];
+            } else {
+                this.chartOptions.annotations = [
+                    {
+                        axis: 'x',
+                        label: {
+                            text: this.$t('Average') + ': ' + stat.avg.toFixed(2) + unitSuffix,
+                            color: 'red',
+                        },
+                        color: 'red',
+                        value: stat.avg,
+                    },
+                    {
+                        axis: 'x',
+                        label: {
+                            text: this.$t('Median') + ': ' + stat.median.toFixed(2) + unitSuffix,
+                            color: 'green',
+                        },
+                        value: stat.median,
+                        color: 'green',
+                        offset: 30,
+                    },
+                    {
+                        axis: 'x',
+                        label: {
+                            text: "-σ" + ': ' + (stat.avg - stat.stdev).toFixed(2) + unitSuffix,
+                            color: 'gray',
+                        },
+                        value: stat.avg - stat.stdev,
+                        color: 'gray',
+                        lineDash: [5, 5],
+                        offset: 80,
+                    },
+                    {
+                        axis: 'x',
+                        label: {
+                            text: "+σ" + ': ' + (stat.avg + stat.stdev).toFixed(2) + unitSuffix,
+                            color: 'gray',
+                        },
+                        value: stat.avg + stat.stdev,
+                        color: 'gray',
+                        lineDash: [5, 5],
+                        offset: 80,
+                    }];
+
+                if (feature) {
+
+                    let value = feature.get("value_avg");
+                    if (!value) value = feature.get("value");
+
+                    if (value) {
+                        let name = feature.get("name") ?? feature.get("Name");
+                        this.chartOptions.annotations.push({
+                            axis: 'x',
+                            label: {
+                                text: name + ': ' + value.toFixed(2) + unitSuffix,
+                                color: 'blue',
+                            },
+                            value: value,
+                            color: 'blue',
+                            offset: 50,
+                        });
+                    }
+                };
+            }
+            this.chartType = type;
+            this.show = true;
+        },
+    },
+}
+&lt;/script>
+&lt;style scoped>
+.dialog {
+    width: 600px;
+    height: 600px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.close {
+    position: absolute;
+    right: 5px;
+}
+&lt;/style>
+```</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="PWAPrompt.html">PWAPrompt</a></li><li><a href="chat-toolbar.html">chat-toolbar</a></li><li><a href="file-uploader.html">file-uploader</a></li><li><a href="global.html">global</a></li><li><a href="global-api.html">global-api</a></li><li><a href="global-table.html">global-table</a></li><li><a href="google-auth.html">google-auth</a></li><li><a href="header.html">header</a></li><li><a href="help-button.html">help-button</a></li><li><a href="help-dialog.html">help-dialog</a></li><li><a href="html-editor.html">html-editor</a></li><li><a href="html-input.html">html-input</a></li><li><a href="icon-picker.html">icon-picker</a></li><li><a href="image-viewer.html">image-viewer</a></li><li><a href="json-editor.html">json-editor</a></li><li><a href="kc-auth.html">kc-auth</a></li><li><a href="lang-switcher.html">lang-switcher</a></li><li><a href="main.html">main</a></li><li><a href="observation-toolbar.html">observation-toolbar</a></li><li><a href="oedce-toolbar.html">oedce-toolbar</a></li><li><a href="ol-map.html">ol-map</a></li><li><a href="ol-map-chart.html">ol-map-chart</a></li><li><a href="ol-map-editing.html">ol-map-editing</a></li><li><a href="ol-map-events.html">ol-map-events</a></li><li><a href="ol-map-layers.html">ol-map-layers</a></li><li><a href="ol-map-legend.html">ol-map-legend</a></li><li><a href="ol-map-popup.html">ol-map-popup</a></li><li><a href="ol-map-props.html">ol-map-props</a></li><li><a href="ol-map-styles.html">ol-map-styles</a></li><li><a href="popup.html">popup</a></li><li><a href="statistics.html">statistics</a></li><li><a href="table.html">table</a></li><li><a href="table-custom.html">table-custom</a></li><li><a href="table-details.html">table-details</a></li><li><a href="table-edit.html">table-edit</a></li><li><a href="toolbar.html">toolbar</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Apr 09 2024 13:58:32 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

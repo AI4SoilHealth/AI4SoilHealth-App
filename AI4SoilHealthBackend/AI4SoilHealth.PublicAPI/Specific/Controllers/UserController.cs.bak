@@ -1,0 +1,295 @@
+﻿using PublicAPI.Models;
+using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Serilog;
+using System.Management;
+namespace PublicAPI.Controllers {
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
+
+/**
+    * User controller (methods for getting data related to current user)   
+    @module UserController
+*/
+    public class UserController : Controller {
+        private readonly AppOptions _options;
+        private readonly Db _db;
+        private readonly IDistributedCache _cache;
+        private readonly ILogger<HomeController> _logger;
+        private readonly CurrentUserInfo _currentUserInfo;
+#if DEBUG
+        const string imageDir = "C:/AI4ASoilHealth/uploads/";
+#else
+        const string imageDir = "/uploads/"; 
+#endif
+
+/**
+ * Constructor
+ */
+        public UserController(IOptions<AppOptions> options, Db db, IDistributedCache cache, ILogger<HomeController> logger, CurrentUserInfo currentUserInfo) {
+            this._options = options.Value;
+            this._db = db;
+            this._cache = cache;
+            this._logger = logger;
+            this._currentUserInfo = currentUserInfo;
+        }
+
+        [HttpGet("GetSpectrum")]
+        public async Task<ActionResult> GetSpectrum(int point_id, int data_source_id) {
+            var ret = await _db.QueryJsonAsync("data.get_spectrum", new { PointId = point_id, DataSourceId = data_source_id }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+        [HttpGet("GetSpectrumTable")]
+        public async Task<ActionResult> GetSpectrumTable(int data_source_id) {
+            int? point_id = null;
+            var ret = await _db.QueryJsonAsync("data.get_spectrum", new { PointId = point_id, DataSourceId = data_source_id }, _options.ConnectionString);
+            PreprocessService.Preprocess("spectraTable", ref ret);
+            return Ok(ret);
+        }
+
+        [HttpPost("ImportExcel")]
+        public async Task<ActionResult> ImportExcel() {
+            try {
+                var ms = new MemoryStream();
+                var file = Request.Form.Files[0];
+                var fileName = file.FileName;
+                file.CopyTo(ms);
+                var pars = JsonConvert.DeserializeObject<Dictionary<string, string>>(Request.Form["params"]);
+                var ret = await _db.ImportExcel(fileName, pars["sheet"], pars["preprocess"], ms, pars["proc_name"], Request.Form["params"], _options.ConnectionString);
+                if (ret != null && ret.Contains("error")) {
+                    return BadRequest(ret);
+                } else {
+                    return Ok(ret);
+                }
+            } catch (Exception e) {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("GetFile/{custom_geometry_id}/{id}/{extension}")]
+        public async Task<ActionResult> GetFile(int custom_geometry_id, int id, string extension) {
+            try { 
+                var fileName = id.ToString() + extension;
+                var path = imageDir + _currentUserInfo.PersonId + "/" + custom_geometry_id + "/" + fileName;
+                byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(path);     
+                var type = MimeTypes.GetMimeType(fileName);
+                Response.Headers.Add("Content-Type", type);
+                return File(fileBytes, type);
+            } catch (Exception e) {
+                return Ok(Helper.CreateError(_logger, e.Message));
+            }
+        }
+
+        [HttpPost("UploadFiles/{custom_geometry_id}")]
+        public async Task<ActionResult> UploadFile(int custom_geometry_id, IFormFile file) {
+            List<UploadedFileModel> files = new List<UploadedFileModel>();
+            for (var i = 0; i < Request.Form.Files.Count; i++) {
+                var f = Request.Form.Files[i];
+                var extension = Path.GetExtension(f.FileName).ToLower();
+                var mimeType = MimeTypes.GetMimeType(f.FileName);
+                JObject o = JObject.Parse(Request.Form[f.FileName]);
+                int? compass = (int?)o["compass"];
+                double? lat = (double?)o["lat"];
+                double? lon = (double?)o["lon"];
+                var ret = await _db.QueryScalarAsync("data.save_file",
+                    new
+                    {
+                        PersonId = _currentUserInfo.PersonId,
+                        Id = (int?)null,
+                        CustomGeometryId = custom_geometry_id,
+                        FileName = f.FileName,
+                        Extension = extension,
+                        MimeType = mimeType,
+                        Compass = compass,
+                        Lat = lat,
+                        Lon = lon,
+                    }, _options.ConnectionString);
+                if (Helper.IsError(ret)) {
+                    return Ok(ret);
+                }
+                try {
+                    // save file to disk
+                    Directory.CreateDirectory(imageDir + _currentUserInfo.PersonId + "/" + custom_geometry_id);
+                    var path = imageDir + _currentUserInfo.PersonId + "/" + custom_geometry_id + "/" + ret.ToString() + Path.GetExtension(f.FileName);
+                    using (var stream = new FileStream(path, FileMode.Create)) {
+                        await f.CopyToAsync(stream);
+                    }
+                } catch (Exception e) {
+                    return Ok(Helper.CreateError(_logger, e.Message));
+                }
+                files.Add(new UploadedFileModel { id = Int32.Parse(ret), custom_geometry_id = custom_geometry_id, 
+                    name = f.FileName, mime_type = mimeType, extension = extension, compass = compass, lat = lat, lon = lon });
+
+            }
+            return Ok(files);
+        }
+
+        [HttpDelete("DeleteFile/{custom_geometry_id}/{id}")]
+        public async Task<ActionResult> DeleteFile(int custom_geometry_id, int id, IFormFile file) {
+            var ret = await _db.QueryScalarAsync("data.delete_file", new { PersonId = _currentUserInfo.PersonId, FileId = id }, _options.ConnectionString);
+            if (Helper.IsError(ret)) {
+                return Ok(ret);
+            }
+            // delete file from disk
+            try { 
+                var path = imageDir + _currentUserInfo.PersonId + "/" + custom_geometry_id + "/" + id.ToString() + ".*";
+                if (System.IO.File.Exists(path)) {
+                    System.IO.File.Delete(path);
+                }
+            } catch (Exception e) {
+                return Ok(Helper.CreateError(_logger, e.Message));
+            }
+            return Ok(ret);
+        }
+
+        [HttpPut("UpdateFile")]
+        public async Task<ActionResult> UpdateFile([FromBody] UploadedFileModel f) {
+            var ret = await _db.QueryScalarAsync("data.save_file", new {
+                PersonId = _currentUserInfo.PersonId,
+                Id = f.id,
+                CustomGeometryId = f.custom_geometry_id,
+                FileName = f.name,
+                Extension = f.extension,
+                MimeType = f.mime_type,
+                Compass = f.compass,
+                Lat = f.lat,
+                Lon = f.lon,
+            }, _options.ConnectionString);
+
+            if (Helper.IsError(ret)) {
+                return Ok(ret);
+            }
+            return Ok(ret);
+        }
+
+        /**
+            * Get custom geometry created by the user, as FeatureCollection
+            * @param {string} route_key - Route key
+            * @return {ActionResult} - Custom geometry
+*/
+        [HttpGet("GetCustomGeometry")]
+        public async Task<ActionResult> GetCustomGeometry(int id) {
+            var ret = await _db.QueryJsonAsync("data.get_custom_geometry", new { PersonId = _currentUserInfo.PersonId, Id = id}, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+        /**
+            * Get properties of custom geometry
+            * @param {int} id - Id of the custom geometry
+*/
+        [HttpGet("GetCustomGeometryProps")]
+        public async Task<ActionResult> GetCustomGeometryProps(int id) {
+            var ret = await _db.QueryJsonAsync("data.get_custom_geometry_props", new { PersonId = _currentUserInfo.PersonId, Id = id }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+/**
+    * Delete custom geometry
+    * @param {int} d - Id of the custom geometry
+    * @return {ActionResult} - Result of the operation
+*/
+        [HttpDelete("DeleteCustomGeometry/{id}")]
+        public async Task<ActionResult> DeleteCustomGeometry(int id) {
+            var ret = await _db.QueryAsync("data.delete_custom_geometry", new { PersonId = _currentUserInfo.PersonId, Id = id }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+       
+        [HttpPut("SetHelp/{name}")]
+        public async Task<ActionResult> SetHelp(string name, [FromBody] Dictionary<string, string> d) {
+            var help = d["help"];
+            var ret = await _db.QueryAsync("meta.set_help", new { Name = name, LangId = _currentUserInfo.LangId, Help = help, }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+
+        /**
+            * Set custom geometry
+            * @param {Dictionary<string, string>} d - Route key, id and feature
+            * @return {ActionResult} - Result of the operation
+        */
+        [HttpPost("SetCustomGeometry")]
+        public async Task<ActionResult> SetCustomGeometry([FromBody] Dictionary<string, string> d) {
+            string id = null;
+            d.TryGetValue("id", out id);
+            var ret = await _db.QueryScalarAsync("data.set_custom_geometry", new { PersonId = _currentUserInfo.PersonId, Id = (id != null ? Int32.Parse(id) : (int?)null),
+                   GeometryTypeId = Int32.Parse(d["geometry_type_id"]), Name = d["name"], Public = Boolean.Parse(d["public"]) }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+        /**
+            * Set custom geometry
+            * @param {Dictionary<string, string>} d - Route key, id, file_id and feature
+            * @return {ActionResult} - Result of the operation
+        */
+        [HttpPost("UpdateCustomGeometry")]
+        public async Task<ActionResult> UpdateCustomGeometry([FromBody] Dictionary<string, string> d) {
+            string id = null;
+            string file_id = null;
+            d.TryGetValue("id", out id);
+            d.TryGetValue("file_id", out file_id);
+            var ret = await _db.QueryScalarAsync("data.update_custom_geometry", 
+                new { 
+                    PersonId = _currentUserInfo.PersonId, 
+                    Id = (id != null ? Int32.Parse(id) : (int?) null), 
+                    FileId = (file_id != null ? Int32.Parse(file_id) : (int?) null),
+                    Feature = d["feature"] 
+                }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+
+        /**
+            * Set observation time
+            * @param {Dictionary<string, string>} d - Custom geometry id, id, observation time and properties
+            * @return {ActionResult} - Result of the operation
+        */
+        [HttpPost("SetCustomGeometryTime")]
+        public async Task<ActionResult> SetCustomGeometryTime([FromBody] Dictionary<string, string> d) {
+            string id = null;
+            d.TryGetValue("id", out id);
+            var ret = await _db.QueryScalarAsync("data.set_custom_geometry_time", new
+            {
+                PersonId = _currentUserInfo.PersonId,
+                CustomGeometryId = Int32.Parse(d["custom_geometry_id"]),
+                Id = (id != null ? Int32.Parse(id) : (int?)null),
+                ObservationTime = DateTime.Parse(d["observation_time"]),
+                Props = d["props"]
+            }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+        [HttpDelete("DeleteCustomGeometryTime/{id}")]
+        public async Task<ActionResult> DeleteCustomGeometryTime(int id) {
+            var ret = await _db.QueryAsync("data.delete_custom_geometry_time", new { PersonId = _currentUserInfo.PersonId, Id = id }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+        [HttpPut("UpdateCompass/{id}/{value}")]
+        public async Task<ActionResult> DeleteCustomGeometryTime(int id, int value) {
+            var ret = await _db.QueryAsync("data.update_compass", new { PersonId = _currentUserInfo.PersonId, Id = id, Value = value }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+        [HttpGet("GetIcons")]
+        public async Task<ActionResult> GetIcons() {
+            var ret = await Icons.GetIcons();
+            return Ok(ret);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("RefreshIcons")]
+        public async Task<ActionResult> RefreshIcons() {
+            await Icons.RefreshIcons();
+            return Ok();
+        }
+
+    }
+}

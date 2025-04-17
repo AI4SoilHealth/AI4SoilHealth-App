@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ChatController.cs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ChatController.cs</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>﻿using Backend.Services;
+using PublicAPI.Models;
+using Dapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using Backend.Extensions;
+using System.Data;
+using System.Xml.Linq;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Collections;
+using System.Text;
+using Newtonsoft.Json;
+using System.Collections.Specialized;
+
+namespace PublicAPI.Controllers {
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
+/**
+    * Chat controller
+    @module ChatController
+*/
+    public class ChatController : Controller {
+        private readonly AppOptions _options;
+        private readonly Db _db;
+        private readonly IDistributedCache _cache;
+        private readonly ILogger&lt;HomeController> _logger;
+        private readonly CurrentUserInfo _currentUserInfo;
+
+
+        public ChatController(IOptions&lt;AppOptions> options, Db db, IDistributedCache cache, ILogger&lt;HomeController> logger, CurrentUserInfo currentUserInfo) {
+            this._options = options.Value;
+            this._db = db;
+            this._cache = cache;
+            this._logger = logger;
+            _currentUserInfo = currentUserInfo;
+        }
+
+        /**
+            * Delete a message
+            * @param {Dictionary&lt;string, string>} d - Message id
+            * @return {ActionResult} - Result of the operation
+        */
+        [HttpPost("DeleteMessage")]
+        public async Task&lt;ActionResult> DeleteMessage(Dictionary&lt;string, string> d) {
+            var ret = await _db.ExecuteAsync("general.delete_message", new { Id = Int32.Parse(d["id"]) }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+        /**
+            * Delete all messages
+            * @return {ActionResult} - Result of the operation
+        */
+        [HttpPost("DeleteAllMessages")]
+        public async Task&lt;ActionResult> DeleteAllMessages() {
+            var ret = await _db.ExecuteAsync("general.delete_all_messages", new { PersonId = _currentUserInfo.PersonId }, _options.ConnectionString);
+            return Ok(ret);
+        }
+        /**
+            * Get messages
+            * @return {ActionResult} - List of messages
+        */
+        [HttpGet("GetMessages")]
+        public async Task&lt;ActionResult> GetMessages() {
+            //int personId = await _authService.GetPersonId();
+            var ret = await _db.QueryAsync("general.get_messages", new { PersonId = _currentUserInfo.PersonId }, _options.ConnectionString);
+            return Ok(ret);
+        }
+
+        /**
+            * Send a message
+            * @param {Dictionary&lt;string, string>} d - Message
+            * @return {ActionResult} - Result of the operation
+        */
+        [HttpPost("SendMessage")]
+        public async Task&lt;ActionResult> SendMessage(Dictionary&lt;string, string> d) {
+            try {
+                string IdPrompt="0", IdResponse="0";
+                if (d["saveMessages"] == "true") {
+                    IdPrompt = await _db.QueryScalarAsync("general.save_message", new { PersonId = _currentUserInfo.PersonId, Message = d["message"], ParentId = (int?) null }, _options.ConnectionString);
+                    if (IdPrompt.Contains("error")) return Ok(Helper.CreateError(_logger, IdPrompt));
+                }
+                HttpClient client = new HttpClient();
+                var user = "llama";
+                var password = "Prosinac31!";
+                var auth = Encoding.ASCII.GetBytes($"{user}:{password}");
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(auth));
+                //var payload = $@"{{
+                //    ""model"": ""{d["model"]}"",
+                //    ""messages"": [{{
+                //        ""role"": ""user"", ""content"": ""{d["message"]}""
+                //      }}
+                //    ],
+                //    ""stream"": false
+                //}}";
+                var payload = $@"{{
+                    ""prompt"": ""{d["message"]}"",
+                    ""n_predict"": 128,
+                    ""temperature"": 0
+                }}";
+                HttpContent content = new StringContent(payload, Encoding.UTF8, "application/json");
+               // var response = await client.PostAsync("http://161.53.133.250/api/chat", content);
+                var response = await client.PostAsync("http://161.53.133.250:8080/completion", content);
+
+                if (response.IsSuccessStatusCode) {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    //var contentObject = JsonConvert.DeserializeAnonymousType(jsonResponse, new { message = new { content = "" } });
+                    //string contentValue = contentObject.message.content;
+                    var contentObject = JsonConvert.DeserializeAnonymousType(jsonResponse, new { content = "" } );
+                    string contentValue = contentObject.content;
+                    contentValue = contentValue.Replace("\"", "\\\"");
+                    contentValue = contentValue.Replace("\n", "&lt;br>");
+
+                    if (d["saveMessages"] == "true") {
+                        IdResponse = await _db.QueryScalarAsync("general.save_message", new { PersonId = _currentUserInfo.PersonId, Message = contentValue, ParentId = Int32.Parse(IdPrompt) }, _options.ConnectionString);
+                        if (IdResponse.Contains("error")) return Ok(Helper.CreateError(_logger, IdResponse));
+                    }
+
+                    var res = $@"{{
+                    ""id_prompt"": {IdPrompt},
+                    ""id_response"": {IdResponse},
+                    ""content"": ""{contentValue}"" 
+                    }}";
+
+                    return Ok(res);
+                } else {
+                    // Handle the error
+                    return Ok(Helper.CreateError(_logger, $"{response.StatusCode} - {response.ReasonPhrase}"));
+                }
+            } catch (Exception e) {
+                return Ok(Helper.CreateError(_logger, e.Message));
+            }
+        }
+
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="AuthController.html">AuthController</a></li><li><a href="ChatController.html">ChatController</a></li><li><a href="GdalController.html">GdalController</a></li><li><a href="HomeController.html">HomeController</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 12 2024 18:20:50 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

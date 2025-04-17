@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mixins/ol-map.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mixins/ol-map.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @desc A mixin object containing common map methods
+ * @module MapMixin
+ */
+
+import { View } from "ol";
+import { Circle, Style, Stroke, Fill, Icon, Text } from "ol/style";
+import Feature from "ol/Feature";
+import { transform } from "ol/proj";
+import { get as getProjection } from 'ol/proj';
+//import * as Extent from 'ol/extent';
+import { getCenter } from "ol/extent";
+import { StatisticsMixin } from "./statistics"; 
+
+export const MapMixin = {
+    mixins: [StatisticsMixin],
+    data() { 
+        return {
+            styleCache: {},
+        }
+    },
+    methods: {
+
+        /**
+         * Returns the coordinates of the map based on the client coordinates.
+         * @returns {Array&lt;number>} The coordinates of the map.
+         */
+        coordinates() {
+            return this.map.getCoordinateFromPixel([this.$store.clientCoordinates[0]/this.pixelRatio, this.$store.clientCoordinates[1]/this.pixelRatio]);
+        },
+            
+        /**
+         * Reprojects the given features from the old projection to the new projection.
+         * @param {ol.Feature[]} features - The features to be reprojected.
+         * @param {ol.proj.ProjectionLike} oldProjection - The old projection of the features.
+         * @param {ol.proj.ProjectionLike} newProjection - The new projection to reproject the features to.
+         */
+        reprojectFeatures(features, oldProjection, newProjection) {
+            this.$store.working = true;
+            for (let feature of features) {
+                feature.getGeometry().transform(oldProjection, newProjection);
+            }
+            this.$store.working = false;
+        },
+
+        /**
+         * Sets the SRID (Spatial Reference System Identifier) for the map.
+         * @param {number} val - The SRID value to set.
+         */
+        setSrid(val) {
+            const currentView = this.map.getView();
+            const currentCenter = currentView.getCenter();
+            const newProjection = getProjection("EPSG:" + val);
+            const newCenter = transform(currentCenter, this.projection, newProjection);
+            const newView = new View({
+                projection: newProjection,
+                center: newCenter,
+                zoom: this.zoom,
+            });
+            this.map.setView(newView);
+            this.geolocation.setProjection(newProjection);
+            this.reprojectFeatures(this.boundariesSource.getFeatures(), this.projection, newProjection);
+            // this.reprojectFeatures(this.clusteredSource.getFeatures(), this.projection, newProjection);          
+            this.reprojectFeatures(this.pointSource.getFeatures(), this.projection, newProjection);           
+            this.reprojectFeatures(this.editableSource.getFeatures(), this.projection, newProjection);
+           //this.positionFeature.getGeometry().setCoordinates(this.geolocation.getPosition());
+            this.projection = newProjection;
+        },
+
+        /**
+         * Show history of selected feature
+         * @param {*} options 
+         */
+        async showHistory(options) {
+            if (!this.selectedFeature) {
+                // no features selected, show history for clicked point on map
+                //let coords = this.coordinates();
+                let coords = this.cursorXY;
+                let o = {
+                    x: coords[0],
+                    y: coords[1],
+                    srid: this.srid,
+                    scaleFactor: this.selectedTitle.scale_factor,
+                    sources: this.sources.map(x => ({ file: x.source, label: x.label, value: null })).sort((a, b) => a.label.localeCompare(b.label))
+                };
+                let res = await this.post("Gdal/GetHistory", o);
+                if (res) {
+                    console.log(res);
+                    this.$store.chart.props = {
+                        chartType: "line",
+                        data: res,
+                        seriesName: this.$t("Value"),
+                        labelField: "label",
+                        valueField: "value",
+                        title: this.selectedTitle.label,
+                        unit: "",
+                        xScale: 'time',
+                        trendLine: true
+                    };
+                    this.$store.chart.show = true;
+                    // this.$refs.chart.showChart("line", res, "label", "value", null, this.selectedTitle.label, "", true, true)
+                }
+            } else {
+                // show history for selected point
+                let f = this.selectedFeature;
+                if (f.getGeometry().getType() == "Point") {
+                    let res = await this.get("Home/GetPointHistory", { pointId: f.get("point_id"), indicatorId : this.selectedIndicator.value });
+                    if (res) {
+                         this.$store.chart.props = {
+                            chartType: "line",
+                            data: res,
+                            labelField: "date",
+                                valueField: "value",
+                            seriesField: "depth",
+                            title: this.selectedIndicator.label + " - " + f.get("name"),
+                            unit: this.selectedIndicator.unit,
+                            xScale: 'time',
+                            trendLine: true
+                        };
+                        this.$store.chart.show = true;
+                    //     this.$refs.chart.showChart("line", res, "date", "value", "depth", this.selectedIndicator.label + " - " + f.get("name"), this.selectedIndicator.unit, true, true);
+                    }
+                }
+            }
+        },
+
+        /**
+         * Show properties of selected feature in a popup
+         * @param {*} options 
+         */
+        async showProps(options) {
+            this.$store.popup.component = "ol-map-popup";
+            this.$store.popup.props = {
+                title: this.selectedFeature.get("name") ?? "Feature",
+                parent: this,
+            };
+            this.$store.popup.show = true;
+        },
+
+        /**
+         * Prepares a frequency chart based on the given points.
+         *
+         * @param {Array} points - The array of points.
+         * @param {boolean} numerical - Indicates whether the points are numerical or not.
+         * @param {number} decimalsForStats - The number of decimals to round the statistics to.
+         * @returns {Object} - The prepared frequency chart object.
+         */
+        prepareFrequencyChart(points, numerical, decimalsForStats) {
+            let v;
+            if (numerical) {
+                v = points.map(p => this.roundTo(p.get("value"), decimalsForStats)); //.toFixed(1));
+            } else {
+                v = points.map(p => p.get("description"));
+            }
+            let f = {};
+            let stat = {};
+            v.forEach(v => {
+                f[v] = (f[v] || 0) + 1;
+            });
+            if (numerical) {
+                stat = this.statistics(v);
+            }
+            let fs = Object.keys(f).map(k => ({ label: k, value: f[k] }));
+            fs.sort((a, b) => a.label - b.label);
+            return {
+                stat: stat,
+                x: fs.map(f => f.label),
+                y: fs.map(f => f.value)
+            };
+        },
+
+        /**
+         * Displays the frequencies of the selected indicator.
+         *
+         * @param {Object} options - The options for displaying the frequencies.
+         * @returns {Promise&lt;void>} - A promise that resolves when the frequencies are displayed.
+         */
+        async showFrequencies(options) {
+            if (this.selectedIndicator) {
+                let data = this.prepareFrequencyChart(this.pointFeatures, this.selectedIndicator.numerical, this.selectedIndicator.decimals_for_stats);
+                this.$store.chart.props = {
+                    chartType: "bar",
+                    data: data,
+                    stat: data.stat,
+                    title: this.$t("Frequency") + " - " + this.selectedIndicator.label,
+                    xyChart: true,
+                    annotationAxis: "x",
+                    xScale: "category",
+                    feature: this.selectedFeature,
+                    numerical: this.selectedIndicator.numerical,
+                    unit: this.selectedIndicator.unit
+                };
+                this.$store.chart.show = true;
+            }
+        },
+
+        /**
+         * Retrieves feature statistics based on the selected feature.
+         * @param {Object} options - The options for retrieving feature statistics.
+         * @returns {Promise&lt;void>} - A promise that resolves when the feature statistics are retrieved.
+         */
+        async showFeatureStats(options) {
+            this.$store.working = true; 
+            let gj = this.format.writeGeometry(this.selectedFeature.getGeometry());
+            gj = JSON.parse(gj);
+            gj.crs = {
+                type: "name",
+                properties: {
+                    name: "EPSG:" + this.srid.toString()
+                }
+            };
+            let data = await this.post("Gdal/GetAverageInGeometry", {
+                file: this.selectedCatalog.source,
+                geometry: JSON.stringify(gj),
+                srid: this.srid.toString(),
+                scale_factor: this.selectedTitle.scale_factor,
+                no_data: this.selectedTitle.no_data.toString(),
+            });
+            this.$store.working = true;
+            if (data) {
+                let name = this.selectedFeature.get("name");
+                if (!name &amp;&amp; this.selectedFeature.get("props")) {
+                    let nameProp = this.selectedFeature.get("props").find(p => p.name == "Name");
+                    if (nameProp) name = nameProp.value;
+                }
+                this.$store.chart.props = {
+                    chartType: "bar",
+                    data: data,
+                    stat: data.stat,
+                    title: this.selectedTitle.label + " " + (name ?? "") + " (" + data.stat.n + " " + this.$t("points") + ")",
+                    xyChart: true,
+                    annotationAxis: "x",
+                    xScale: "category",
+                    feature: this.selectedFeature,
+                    numerical: true,
+                    unit: this.selectedTitle.unit
+                };
+                this.$store.chart.show = true;
+            }
+            this.$store.working = false;
+        },
+
+        /**
+         * Shows the spectrum for the selected feature.
+         * @async
+         * @function showSpectrum
+         * @returns {Promise&lt;void>}
+         */
+        async showSpectrum() {
+            let data = await this.get("User/GetSpectrum", {
+                point_id: this.selectedFeature.get("point_id"),
+                data_source_id: this.selectedDataSource.value
+            });
+            let ds = []; 
+            for (let row of data) {
+                for (let i = 0; i &lt; row.wavelengths.length; i++) {
+                    ds.push({ date: row.date, wavelength: row.wavelengths[i], value: row.values[i] });
+                }
+            }
+            this.$store.chart.props = {
+                chartType: "line",
+                data: ds,
+                labelField: "wavelength",
+                valueField: "value",
+                seriesField: "date",
+                title: this.selectedIndicator.label + " - " + this.selectedFeature.get("name"),
+                unit: "nm"
+            };
+            this.$store.chart.show = true;
+            
+            // this.$refs.chart.showChart("line", ds, "wavelength", "value", "date", this.selectedIndicator.label + " - " + this.selectedFeature.get("name"), 'nm', false, false);
+        },
+
+        /**
+         * Rescales the given value based on the selected title's scale factor.
+         * If the scale factor is a number, the value is multiplied by the scale factor.
+         * If the scale factor is a formula, it is evaluated and applied to the value.
+         * If the formula fails to evaluate, the original value is returned.
+         * 
+         * @param {number} value - The value to be rescaled.
+         * @returns {number} The rescaled value.
+         */
+        rescale(value) {
+            if (this.selectedTitle.scale_factor.indexOf('x') == -1) {
+                value = (value * this.selectedTitle.scale_factor);
+            } else {
+                // this is a formula, so apply it to the value
+                try {
+                    let x = value;
+                    value = eval(this.selectedTitle.scale_factor);
+                } catch (e) {
+                    // if the formula fails, just return the value
+                }
+            }
+            return value;
+        },
+
+        /**
+         * Creates a legend based on the provided color map.
+         * @param {string} color_map - The color map in JSON format.
+         */
+        createLegend(color_map) {
+            let a = JSON.parse(color_map);
+            this.legend = [];
+            for (let i = 5; i &lt; a.length; i = i + 2) {
+                a[i] = this.rescale(a[i]).toFixed(1);
+            }
+            for (let i = 5; i &lt; a.length; i = i + 2) {
+                let text, from, to;
+                if (i == 5) {
+                    text = "&lt; " + a[i];
+                    from = 0;
+                    to = a[i];
+                } else {
+                    text = a[i - 2] + " - " + a[i];
+                    from = +a[i - 2];
+                    to = +a[i];
+                }
+                this.legend.push({ color_code : this.rgbaToHex(a[i+1]), text : text, from :from, to : to });
+            }
+        },
+
+        /**
+         * Animates the map view to the extent of a given source.
+         *
+         * @param {Source} source - The source to animate to.
+         */
+        animateToExtent(source) {
+            let view = this.map.getView();
+            let extent = source.getExtent();
+            view.animate({
+                zoom: view.getZoomForResolution(
+                    view.getResolutionForExtent(extent, this.map.getSize()) * 1.20),
+                center: getCenter(extent),
+                duration: 1000,
+            });
+        },
+    },
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="PWAPrompt.html">PWAPrompt</a></li><li><a href="chart-popup.html">chart-popup</a></li><li><a href="chat-toolbar.html">chat-toolbar</a></li><li><a href="file-uploader.html">file-uploader</a></li><li><a href="file-uploader-obsolete.html">file-uploader-obsolete</a></li><li><a href="global-api.html">global-api</a></li><li><a href="global-table.html">global-table</a></li><li><a href="google-auth.html">google-auth</a></li><li><a href="header.html">header</a></li><li><a href="help-button.html">help-button</a></li><li><a href="help-dialog.html">help-dialog</a></li><li><a href="html-editor.html">html-editor</a></li><li><a href="html-input.html">html-input</a></li><li><a href="icon-picker.html">icon-picker</a></li><li><a href="image-viewer.html">image-viewer</a></li><li><a href="indexed-db.html">indexed-db</a></li><li><a href="json-editor.html">json-editor</a></li><li><a href="kc-auth.html">kc-auth</a></li><li><a href="lang-switcher.html">lang-switcher</a></li><li><a href="main.html">main</a></li><li><a href="observation-toolbar.html">observation-toolbar</a></li><li><a href="oedce-toolbar.html">oedce-toolbar</a></li><li><a href="ol-map.html">ol-map</a></li><li><a href="ol-map-chart-obsolete.html">ol-map-chart-obsolete</a></li><li><a href="ol-map-editing.html">ol-map-editing</a></li><li><a href="ol-map-events.html">ol-map-events</a></li><li><a href="ol-map-layers.html">ol-map-layers</a></li><li><a href="ol-map-legend.html">ol-map-legend</a></li><li><a href="ol-map-popup.html">ol-map-popup</a></li><li><a href="ol-map-popup-obsolete.html">ol-map-popup-obsolete</a></li><li><a href="ol-map-props.html">ol-map-props</a></li><li><a href="ol-map-styles.html">ol-map-styles</a></li><li><a href="popup.html">popup</a></li><li><a href="statistics.html">statistics</a></li><li><a href="table.html">table</a></li><li><a href="table-custom.html">table-custom</a></li><li><a href="table-details.html">table-details</a></li><li><a href="table-edit.html">table-edit</a></li><li><a href="table-export.html">table-export</a></li><li><a href="toolbar.html">toolbar</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Jun 27 2024 12:04:37 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

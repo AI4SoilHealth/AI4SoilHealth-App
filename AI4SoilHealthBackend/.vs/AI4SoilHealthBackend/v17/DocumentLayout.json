@@ -1,0 +1,412 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\appsettings.json.template||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\appsettings.json.template||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\common\\services\\misc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\common\\services\\misc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\common\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\common\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\specific\\services\\gdalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\specific\\services\\gdalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\docs-backend\\services_gdalservice.cs.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\docs-backend\\services_gdalservice.cs.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\specific\\controllers\\gdalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\specific\\controllers\\gdalcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\specific\\services\\gdalservicelib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\specific\\services\\gdalservicelib.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\common\\controllers\\tablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\common\\controllers\\tablecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\common\\services\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\common\\services\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\common\\services\\helper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\common\\services\\helper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\common\\services\\pivothelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\common\\services\\pivothelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\specific\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\specific\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\specific\\controllers\\shapecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\specific\\controllers\\shapecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\common\\websockethandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\common\\websockethandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\common\\services\\pivothelper.cs.bak||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\common\\services\\pivothelper.cs.bak||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\specific\\controllers\\filecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\specific\\controllers\\filecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\specific\\services\\cleanerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\specific\\services\\cleanerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\specific\\controllers\\usercontroller.cs.bak||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\specific\\controllers\\usercontroller.cs.bak||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\docs-backend\\controllers_usercontroller.cs.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\docs-backend\\controllers_usercontroller.cs.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|c:\\users\\vedran\\source\\repos\\ai4soilhealth-app\\ai4soilhealthbackend\\ai4soilhealth.publicapi\\specific\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00A279E6-18E3-4958-A11C-10AE5EFABC7F}|AI4SoilHealth.PublicAPI\\PublicAPI.csproj|solutionrelative:ai4soilhealth.publicapi\\specific\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json.template",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\appsettings.json.template",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\appsettings.json.template",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\appsettings.json.template",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\appsettings.json.template",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAAAG4AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-04-17T16:01:13.283Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{5c82a791-7c9f-441e-952b-8848655dd85e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Misc.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\Misc.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Common\\Services\\Misc.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\Misc.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Common\\Services\\Misc.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAADwv1oAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-17T15:48:40.199Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Helper.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\Helper.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Common\\Services\\Helper.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\Helper.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Common\\Services\\Helper.cs",
+              "ViewState": "AgIAAMMBAAAAAAAAAIAywNEBAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T12:12:03.201Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TableController.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Controllers\\TableController.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Common\\Controllers\\TableController.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Controllers\\TableController.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Common\\Controllers\\TableController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T11:56:33.732Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Program.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Common\\Program.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Program.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Common\\Program.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAIwEsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-24T11:02:39.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\appsettings.json",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\appsettings.json",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-18T09:27:48.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-15T11:03:05.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "PivotHelper.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\PivotHelper.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Common\\Services\\PivotHelper.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\PivotHelper.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Common\\Services\\PivotHelper.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAswIAAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T12:09:19.932Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Services_GdalService.cs.html",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\docs-backend\\Services_GdalService.cs.html",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\docs-backend\\Services_GdalService.cs.html",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\docs-backend\\Services_GdalService.cs.html",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\docs-backend\\Services_GdalService.cs.html",
+              "ViewState": "AgIAABwAAAAAAAAAAIAwwDYAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-04-10T17:08:15.03Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GdalService.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Services\\GdalService.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Specific\\Services\\GdalService.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Services\\GdalService.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Specific\\Services\\GdalService.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-18T15:00:03.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Db.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\Db.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Common\\Services\\Db.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\Db.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Common\\Services\\Db.cs",
+              "ViewState": "AgIAAAIBAAAAAAAAAIA0wB4BAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T17:48:55.034Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "WebSocketHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\WebSocketHandler.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Common\\WebSocketHandler.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\WebSocketHandler.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Common\\WebSocketHandler.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAuwBMAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T18:18:23.732Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\UserController.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAAQBAAAAAAAAAAAUwB4BAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T10:14:00.584Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GdalController.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\GdalController.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\GdalController.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\GdalController.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\GdalController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAA+wFQAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T16:23:33.377Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Microsoft.Common.CurrentVersion.targets",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ViewState": "AgIAAMUOAAAAAAAAAAAAAMUOAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-03-25T16:27:55.272Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GdalServiceLib.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Services\\GdalServiceLib.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Specific\\Services\\GdalServiceLib.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Services\\GdalServiceLib.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Specific\\Services\\GdalServiceLib.cs",
+              "ViewState": "AgIAAOsAAAAAAAAAAAAqwJgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T17:11:33.116Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ShapeController.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\ShapeController.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\ShapeController.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\ShapeController.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\ShapeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-18T15:30:50.117Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "PivotHelper.cs.bak",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\PivotHelper.cs.bak",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Common\\Services\\PivotHelper.cs.bak",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Common\\Services\\PivotHelper.cs.bak",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Common\\Services\\PivotHelper.cs.bak",
+              "ViewState": "AgIAALkAAAAAAAAAAAAAALkAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-03-25T17:48:57.669Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "FileController.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\FileController.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\FileController.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\FileController.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\FileController.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAiwF0AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T15:51:08.842Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "CleanerService.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Services\\CleanerService.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Specific\\Services\\CleanerService.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Services\\CleanerService.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Specific\\Services\\CleanerService.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAwwB0AAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T09:59:26.129Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "UserController.cs.bak",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\UserController.cs.bak",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\UserController.cs.bak",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\UserController.cs.bak",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\UserController.cs.bak",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAQwJkAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-03-14T09:43:19.515Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Controllers_UserController.cs.html",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\docs-backend\\Controllers_UserController.cs.html",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\docs-backend\\Controllers_UserController.cs.html",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\docs-backend\\Controllers_UserController.cs.html",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\docs-backend\\Controllers_UserController.cs.html",
+              "ViewState": "AgIAAKYAAAAAAAAAAAAQwLUAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-03-14T09:43:13.892Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ChatController.cs",
+              "DocumentMoniker": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\ChatController.cs",
+              "RelativeDocumentMoniker": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\ChatController.cs",
+              "ToolTip": "C:\\Users\\Vedran\\source\\repos\\ai4soilhealth-app\\AI4SoilHealthBackend\\AI4SoilHealth.PublicAPI\\Specific\\Controllers\\ChatController.cs",
+              "RelativeToolTip": "AI4SoilHealth.PublicAPI\\Specific\\Controllers\\ChatController.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAAAGEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-14T09:40:39.815Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
